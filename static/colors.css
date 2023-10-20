@@ -1,0 +1,87 @@
+[data-theme=light] {
+  --about-background: #ffffff;
+  --about-item-background: rgba(201, 167, 136, 0.22);
+  --about-item-icon: linear-gradient(97.6deg, #DBC1AB 0%, #C9A788 100%);
+  --case-background: #FFFFFF;
+  --case-image: rgba(0, 0, 0, 0.02);
+  --case-border: 1px solid #DCDCDC;
+  --button-background: linear-gradient(97.6deg, #DBC1AB 0%, #C9A788 100%);
+  --button-color: #ffffff;
+  --header-background: rgba(255, 255, 255, 0.7);
+  --header-border: 1px solid rgba(0, 0, 0, 0.08);
+  --header-color: #000000;
+  --header-cash-background: rgba(0, 0, 0, 0.05);
+  --header-cash-color: #000000;
+  --theme-background: rgba(0, 0, 0, 0.05);
+  --theme-active-background: linear-gradient(97.6deg, #DBC1AB 0%, #C9A788 100%);
+  --review-background: #ffffff;
+  --review-border: 1px solid rgba(0, 0, 0, 0.08);
+  --review-like: #E4F4E0;
+  --review-dislike: #F9E6E6;
+  --review-body: #1B1B1B;
+  --review-source: rgba(0, 0, 0, 0.4);
+  --reviews-background: #ffffff;
+  --reviews-border: 1px solid rgba(0, 0, 0, 0.08);
+  --reviews-text: #000000;
+  --drop-background: #FFFFFF;
+  --drop-border: 1px solid #EDE6E0;
+  --drop-shadow: linear-gradient(270deg, #FFFFFF 10%, rgba(255, 255, 255, 0) 100%);
+  --profile-background: #ffffff;
+  --profile-border: 1px solid rgba(0, 0, 0, 0.08);
+  --profile-name: #000000;
+  --profile-h2: #BB9C7F;
+  --profile-tab-background: rgba(0, 0, 0, 0.05);
+  --profile-tab-inactive: #959595;
+  --title-color: #000000;
+  --title-info: #F5F5F5;
+  --title-text: #BBBBBB;
+  --modal-background: #ffffff;
+  --modal-text: #000000;
+  --modal-input: #F9F9F9;
+  --modal-input-border: 1px solid #DFDFDF;
+}
+
+[data-theme=dark] {
+  --about-background: #000000;
+  --about-item-background: rgba(255, 255, 255, 0.1);
+  --about-item-icon: #2C2C2C;
+  --case-background: #000000;
+  --case-image: rgba(255, 255, 255, 0.06);
+  --case-border: 1px solid #333333;
+  --button-background: #ffffff;
+  --button-color: #000000;
+  --header-background: rgba(0, 0, 0, 0.55);
+  --header-border: 1px solid rgba(255, 255, 255, 0.08);
+  --header-color: #ffffff;
+  --header-cash-background: rgba(255, 255, 255, 0.15);
+  --header-cash-color: #ffffff;
+  --theme-background: rgba(255, 255, 255, 0.15);
+  --theme-active-background: #ffffff;
+  --review-background: #000000;
+  --review-border: 1px solid rgba(255, 255, 255, 0.08);
+  --review-like: #1D251B;
+  --review-dislike: #291A1A;
+  --review-body: #E2E2E2;
+  --review-source: rgba(255, 255, 255, 0.4);
+  --reviews-background: #000000;
+  --reviews-border: 1px solid rgba(255, 255, 255, 0.08);
+  --reviews-text: #ffffff;
+  --drop-background: #000000;
+  --drop-border: 1px solid #1D1D1D;
+  --drop-shadow: linear-gradient(270deg, #131212 20%, rgba(19, 18, 18, 0) 100%);
+  --profile-background: #000000;
+  --profile-border: 1px solid rgba(255, 255, 255, 0.08);
+  --profile-name: #ffffff;
+  --profile-h2: #ffffff;
+  --profile-tab-background: rgba(255, 255, 255, 0.11);
+  --profile-tab-inactive: #959595;
+  --title-color: #ffffff;
+  --title-info: #191919;
+  --title-text: #585858;
+  --modal-background: #000000;
+  --modal-text: #ffffff;
+  --modal-input: #151515;
+  --modal-input-border: 1px solid #313131;
+}
+
+/*# sourceMappingURL=colors.css.map */
