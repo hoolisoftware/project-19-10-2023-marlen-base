@@ -1,0 +1,10 @@
+.nuxt-icon {
+  display: block;
+
+  &>svg {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    margin-bottom: 0 !important;
+  }
+}

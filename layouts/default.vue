@@ -1,16 +1,16 @@
 <template>
-    <NuxtErrorBoundary>
-        <div class="wrapper" :data-theme="theme">
-            <modal/>
-            <website-header/>
-            <main>
-                <livedrop/>
-                <slot />
-                <about/>
-            </main>
-            <website-footer/>
-        </div>
-    </NuxtErrorBoundary>
+  <NuxtErrorBoundary>
+    <div class="wrapper" :data-theme="theme">
+      <modal />
+      <website-header />
+      <main>
+        <livedrop />
+        <slot />
+        <about />
+      </main>
+      <website-footer />
+    </div>
+  </NuxtErrorBoundary>
 </template>
 <script>
 import websiteHeader from "@/components/layout/website-header.vue";
@@ -23,53 +23,57 @@ import Game from "@/pages/profile.vue";
 import { themeStore } from '@/store/theme';
 
 export default {
-    components: {Game, About, websiteHeader, websiteFooter, card, livedrop, modal},
+  components: { Game, About, websiteHeader, websiteFooter, card, livedrop, modal },
 
-    computed: {
-        theme() {
-            return this.store.isDarkTheme ? 'dark':'light';
-        }
-    },
-    data() {
-        return {
-            store: themeStore()
-        };
+  computed: {
+    theme() {
+      return this.store.isDarkTheme ? 'dark' : 'light';
     }
+  },
+  data() {
+    return {
+      store: themeStore()
+    };
+  }
 }
 </script>
 
 <style lang="scss">
-
 @font-face {
   font-family: 'Gilroy';
   src: url("/fonts/Gilroy-Regular.woff") format("woff");
   font-weight: 400;
   font-display: swap
 }
+
 @font-face {
   font-family: 'Gilroy';
   src: url("/fonts/Gilroy-Medium.woff") format("woff");
   font-weight: 500;
   font-display: swap
 }
+
 @font-face {
   font-family: 'Gilroy';
   src: url("/fonts/Gilroy-Semibold.woff") format("woff");
   font-weight: 600;
   font-display: swap
 }
+
 @font-face {
   font-family: 'Gilroy';
   src: url("/fonts/Gilroy-Bold.woff") format("woff");
   font-weight: 700;
   font-display: swap
 }
+
 @font-face {
   font-family: 'Gilroy';
   src: url("/fonts/Gilroy-Extrabold.woff") format("woff");
   font-weight: 800;
   font-display: swap
 }
+
 @font-face {
   font-family: 'Gilroy';
   src: url("/fonts/Gilroy-Black.woff") format("woff");
@@ -112,12 +116,11 @@ main {
   box-sizing: border-box;
   padding: 80px 40px 40px 40px;
 
-  @media(max-width: 1100px)
-  {
+  @media(max-width: 1100px) {
     padding: 80px 15px 15px 15px;
   }
 }
+
 a {
   text-decoration: none;
-}
-</style>
+}</style>

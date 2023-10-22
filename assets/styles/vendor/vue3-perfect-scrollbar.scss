@@ -1,0 +1,80 @@
+/*
+ * Container style
+ */
+.ps {
+  overflow: hidden !important;
+  overflow-anchor: none;
+  -ms-overflow-style: none;
+  touch-action: auto;
+  -ms-touch-action: auto;
+}
+/*
+ * Scrollbar rail styles
+ */
+.ps__rail-x {
+  opacity: 1;
+  background-color: var(--color-scrollbar-bg);
+  height: 3px;
+  bottom: 0px;
+  position: absolute;
+}
+.ps__rail-y {
+  opacity: 1;
+  background-color: var(--color-scrollbar-bg);
+  width: 3px;
+  right: 0;
+  position: absolute;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  background-color: var(--color-scrollbar-bg);
+  border-radius: 6px;
+}
+/*
+ * Scrollbar thumb styles
+ */
+.ps__thumb-x {
+  background-color: var(--color-scrollbar-runner);
+  height: 3px;
+  bottom: 0;
+  position: absolute;
+}
+.ps__thumb-y {
+  background-color: var(--color-scrollbar-runner);
+  border-radius: 6px;
+  transition: background-color .2s linear, width .2s ease-in-out;
+  width: 3px;
+  right: 0;
+  position: absolute;
+}
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-x.ps--clicking .ps__thumb-x {
+  background-color: var(--color-scrollbar-runner);
+  height: 3px;
+}
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  background-color: var(--color-scrollbar-runner);
+  width: 3px;
+}
+/* MS supports */
+@supports (-ms-overflow-style: none) {
+  .ps {
+    overflow: auto !important;
+  }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps {
+    overflow: auto !important;
+  }
+}
+.ps {
+  position: relative;
+}

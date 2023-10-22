@@ -132,7 +132,7 @@ export default {
     },
     created() {
       if (process.client) {
-        if ((!localStorage.getItem("KWT")) || (localStorage.getItem("KWT") == 'null')) this.$router.push('/');
+        // if ((!localStorage.getItem("KWT")) || (localStorage.getItem("KWT") == 'null')) this.$router.push('/');
       }
     },
 }

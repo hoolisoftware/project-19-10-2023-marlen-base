@@ -1,0 +1,151 @@
+.dark-mode {
+  // Common
+  --color-bg: #0C0C0C;
+  --color-bg2: #000;
+  --color-text: #fff;
+  // Header
+  --color-header-bg: rgba(0, 0, 0, .07);
+  --color-header-border: rgba(255, 255, 255, .08);
+  --color-header-color: #fff;
+  --color-header-link-active: #fff;
+  --color-header-link-line: #fff;
+  --color-header-coins-bg: rgba(255, 255, 255, .15);
+  // Theme switcher
+  --color-theme-switcher-bg: rgba(255, 255, 255, .15);
+  --color-theme-switcher-runner: #fff;
+  --color-theme-switcher-moon: #000;
+  --color-theme-switcher-sun: rgba(255, 255, 255, .15);
+  // Button
+  --color-button-gold-bg: #fff;
+  --color-button-gold: #000;
+  // Slider
+  --color-slider-border: #1D1D1D;
+  --color-slider-names: #525252;
+  --color-slider-title: #8F8F8F;
+  // About
+  --color-about-bg: #000;
+  --color-about-border: #1D1D1D;
+  // About item
+  --color-about-item-bg: rgba(255, 255, 255, 0.1);
+  --color-about-item-icon-box: #2C2C2C;
+  --color-about-item-icon: #979797;
+  --color-about-item-value: #fff;
+  --color-about-item-text: #968B88;
+  // Panel
+  --color-panel-border: rgba(255, 255, 255, 0.08);
+  // Counter
+  --color-counter-circle: #783D02;
+  --color-counter-text: #FFAB08;
+  // Scrollbar
+  --color-scrollbar-bg: #2B2B2B;
+  --color-scrollbar-runner: #fff;
+  // Prize
+  --color-prize-border: #525252;
+  --color-prize-active-bg: #000;
+  --color-prize-selected-bg: #000;
+  --color-prize-checked-bg: #201C18;
+  // Page Results
+  --color-page-results-border: rgba(255, 255, 255, 0.08);
+  --color-page-results-border2: rgba(255, 255, 255, 0.1);
+  // Page Auction
+  --color-page-auction-input-bg: #171717;
+  --color-page-auction-input-border: rgba(255, 255, 255, 0.1);
+  // Page Lottery
+  --color-page-lottery-tabs-bg: #000;
+  --color-page-lottery-tabs-active-bg: #fff;
+  --color-page-lottery-tabs-active: #000;
+  --color-page-lottery-input-border: rgba(255, 255, 255, 0.1);
+  --color-page-lottery-input-bg: #171717;
+  // Page Alchemy
+  --color-page-alchemy-big-circle-border: #606060;
+  --color-page-alchemy-medium-circle-bg: #302922;
+  --color-page-alchemy-medium-circle-box-shadow: 0 0 100px rgba(198, 109, 29, 0.5);
+  --color-page-alchemy-small-circle-bg: #783D02;
+  --color-page-alchemy-small-circle-border: #572e02;
+  --color-page-alchemy-panel-border: #606060;
+  --color-page-alchemy-panel-text: #fff;
+  // Page Purchase
+  --color-page-purchase-border: #3C3C3C;
+  --color-page-purchase-panel-mobile-bg: #000;
+  --color-page-purchase-selected-method-border: #4DB864;
+  --color-page-purchase-more-btn-color: #fff;
+  --color-page-purchase-user-panel-bg: #1B1B1B;
+  --color-page-purchase-user-input-bg: #171717;
+  --color-page-purchase-user-input-border: #3C3C3C;
+}
+
+.light-mode {
+  // Common
+  --color-bg: #fff;
+  --color-bg2: #fff;
+  --color-text: #000;
+  // Header
+  --color-header-bg: rgba(255, 255, 255, .08);
+  --color-header-border: rgba(0, 0, 0, .08);
+  --color-header-color: #000;
+  --color-header-link-active: #AF9175;
+  --color-header-link-line: linear-gradient(98deg, #DBC1AB 0%, #C9A788 100%);
+  --color-header-coins-bg: rgba(0, 0, 0, .05);
+  // Theme switcher
+  --color-theme-switcher-bg: rgba(0, 0, 0, .05);
+  --color-theme-switcher-runner: linear-gradient(98deg, #DBC1AB 0%, #C9A788 100%);
+  --color-theme-switcher-moon: rgba(0, 0, 0, .25);
+  --color-theme-switcher-sun: #fff;
+  // Button
+  --color-button-gold-bg: linear-gradient(98deg, #DBC1AB 0%, #C9A788 100%);
+  --color-button-gold: #fff;
+  // Slider
+  --color-slider-border: #EDE6E0;
+  --color-slider-names: #A8A8A8;
+  --color-slider-title: #838383;
+  // About
+  --color-about-bg: #fff;
+  --color-about-border: rgba(0, 0, 0, .04);
+  // About item
+  --color-about-item-bg: rgba(201, 167, 136, 0.22);
+  --color-about-item-icon-box: linear-gradient(98deg, #DBC1AB 0%, #C9A788 100%);
+  --color-about-item-icon: #F5E7DB;
+  --color-about-item-value: #3B180E;
+  --color-about-item-text: #968B88;
+  // Panel
+  --color-panel-border: #EDE6E0;
+  // Counter
+  --color-counter-circle: #EFC197;
+  --color-counter-text: #D29C6B;
+  // Scrollbar
+  --color-scrollbar-bg: #EDE6E0;
+  --color-scrollbar-runner: #C9A788;
+  // Prize
+  --color-prize-border: #E3CFC0;
+  --color-prize-active-bg: #FFF9F4;
+  --color-prize-selected-bg: #E3CFC0;
+  --color-prize-checked-bg: #fff;
+  // Page Results
+  --color-page-results-border: #EDE6E0;
+  --color-page-results-border2: #E3CFC0;
+  // Page Auction
+  --color-page-auction-input-bg: #F9F9F9;
+  --color-page-auction-input-border: #DFDFDF;
+  // Page Lottery
+  --color-page-lottery-tabs-bg: rgba(0, 0, 0, 0.1);
+  --color-page-lottery-tabs-active-bg: linear-gradient(98deg, #DBC1AB 0%, #C9A788 100%);
+  --color-page-lottery-tabs-active: #FFF;
+  --color-page-lottery-input-border: #DFDFDF;
+  --color-page-lottery-input-bg: #F9F9F9;
+  // Page Alchemy
+  --color-page-alchemy-big-circle-border: rgba(0, 0, 0, 0.2);
+  --color-page-alchemy-medium-circle-bg: #EBDCCF;
+  --color-page-alchemy-medium-circle-box-shadow: none;
+  --color-page-alchemy-small-circle-bg: #C4A485;
+  --color-page-alchemy-small-circle-border: #E6B17C;
+  --color-page-alchemy-panel-border: #fff;
+  --color-page-alchemy-panel-text: #767676;
+  // Page Purchase
+  --color-page-purchase-border: #EDE6E0;
+  --color-page-purchase-panel-mobile-bg: #f7f4f4;
+  --color-page-purchase-selected-method-border: #C9A788;
+  --color-page-purchase-more-btn-color: #C9A788;
+  --color-page-purchase-user-panel-bg: #F9F9F9;
+  --color-page-purchase-user-input-bg: #F9F9F9;
+  --color-page-purchase-user-input-border: #DFDFDF;
+}

@@ -1,0 +1,802 @@
+{
+	"info": {
+		"_postman_id": "d0393b0e-568a-4d48-b7be-3143cfd2d25b",
+		"name": "TestBackend",
+		"description": "A collection of api requests of a backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30662884"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "telegram_login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "KWT token1",
+										"description": "(Optional) Users token, format is \"KWT {token}\"",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/user/auth/telegram_login/?refferer=<string>",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"auth",
+										"telegram_login",
+										""
+									],
+									"query": [
+										{
+											"key": "refferer",
+											"value": "<string>",
+											"description": "(Optional) Refferal code"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "vk_login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "KWT token2",
+										"description": "(Optional) Users token, format is \"KWT {token}\"",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "userId",
+											"value": "<int>",
+											"description": "(Required) VK user id",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/user/auth/vk_login/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"auth",
+										"vk_login",
+										""
+									],
+									"query": [
+										{
+											"key": "refferer",
+											"value": "<string>",
+											"description": "(optional) Refferal code",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Requests related to authentication"
+				},
+				{
+					"name": "get_user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user/details/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"details",
+								""
+							]
+						},
+						"description": "Requests user data using user token. Example of output:\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"user\": {\n            \"id\": 1,\n            \"unique_id\": \"fe261a5f-8bd5-471c-90f8-4c9fdd69de03\",\n            \"first_name\": \"Example\",\n            \"last_name\": null,\n            \"last_login\": \"2020-02-21T21:30:38.924113+03:00\",\n            \"date_joined\": \"2020-02-21T15:40:14.560335+03:00\",\n            \"telegram_id\": 1234567890,\n            \"vk_id\": 1234567890,\n            \"vk_access_token\": \"\",\n            \"genshin_uid\": 1234567890,\n            \"photo_url\": \"https://vk.com/images/camera_100.png\",\n            \"is_verified\": true,\n            \"is_banned\": false,\n            \"is_frozen\": false,\n            \"balance\": 3,\n            \"registration_ip\": \"111.11.11.11\",\n            \"current_ip\": \"111.11.11.11\",\n            \"used_ips\": \"\",\n            \"password\": \"password123\",\n            \"token\": \"SKALNDJLnajlnLFNLfnlNLN\",\n            \"referrer\": null\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "get_inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user/inventory/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"inventory",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/user/stats/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"stats",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to operations with users"
+		},
+		{
+			"name": "case",
+			"item": [
+				{
+					"name": "get_all_cases",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/case/all/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"case",
+								"all",
+								""
+							]
+						},
+						"description": "Returns all cases. Example of output:\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"cases\": [\n            {\n                \"id\": 1,\n                \"items\": [\n                    {\n                        \"id\": 1,\n                        \"name\": \"Test item\",\n                        \"photo_url\": \"/media/items/item.png\",\n                        \"type\": \"money\",\n                        \"crystals\": 123,\n                        \"price\": 1337,\n                        \"sgd_price\": 228,\n                        \"cashback\": 42\n                    }\n                ],\n                \"name\": \"Test case\",\n                \"category\": \"mondstadt\",\n                \"photo_url\": \"/media/cases/case.png\",\n                \"price\": 123\n            }\n        ]\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "get_case",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/case/details/<int>/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"case",
+								"details",
+								"<int>",
+								""
+							]
+						},
+						"description": "Returns a specific case, were < int > in a link being id of a case. Example of output with a request of [http://server.com/api/case/details/1/](http://server.com/api/case/details/1/):\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"case\": {\n            \"id\": 1,\n            \"items\": [\n                {\n                    \"id\": 1,\n                    \"name\": \"Test item\",\n                    \"photo_url\": \"/media/items/item.png\",\n                    \"type\": \"money\",\n                    \"crystals\": 123,\n                    \"price\": 1337,\n                    \"sgd_price\": 228,\n                    \"cashback\": 42\n                }\n            ],\n            \"name\": \"Test case\",\n            \"category\": \"mondstadt\",\n            \"photo_url\": \"/media/cases/case.png\",\n            \"price\": 123\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "open_case",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/case/open/<int>/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"case",
+								"open",
+								"<int>",
+								""
+							]
+						},
+						"description": "Opens a case, where in link < int > is a case id, and adds a recieved item to an inventory. Example of output with a request of [http://server.com/api/case/open/1/](http://server.com/api/case/open/1/):\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"item\": {\n            \"id\": 1,\n            \"name\": \"Test item\",\n            \"photo_url\": \"/media/items/item.png\",\n            \"type\": \"money\",\n            \"crystals\": 123,\n            \"price\": 1337,\n            \"sgd_price\": 228,\n            \"cashback\": 42\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to cases"
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "create_order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "genshin_uid",
+									"value": "<int>",
+									"description": "(Required) UID of the reciever",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "<int>",
+									"description": "(Required) Item id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders/new/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"new",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel_order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "<int>",
+									"description": "(Required) Order id",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/orders/cancel/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"cancel",
+								""
+							]
+						},
+						"description": "Cancels an order."
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to orders of items"
+		},
+		{
+			"name": "reviews",
+			"item": [
+				{
+					"name": "get_reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/reviews/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reviews",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "<int>",
+									"description": "(Optional) The reviews page",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Gets all reviews. Example of output:\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"reviews\": [\n            {\n                \"id\": 2,\n                \"is_positive\": true,\n                \"text\": \"Great site!\",\n                \"author\": 2,\n                \"created_at\": \"2020-02-21T19:53:38.634045+03:00\"\n            },\n            {\n                \"id\": 1,\n                \"is_positive\": false,\n                \"text\": \"Awful site.\",\n                \"author\": 1,\n                \"created_at\": \"2020-02-21T19:47:49.236776+03:00\"\n            }\n        ]\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "create_review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "is_positive",
+									"value": "<bool>",
+									"description": "(Required) Is the review positive",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "<string>",
+									"description": "(Required) Text of the review",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reviews/create/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reviews",
+								"create",
+								""
+							]
+						},
+						"description": "Creates a review."
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to reviews"
+		},
+		{
+			"name": "history",
+			"item": [
+				{
+					"name": "get_live_history",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/history/live/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"history",
+								"live",
+								""
+							]
+						},
+						"description": "Returns live history of items. Example of output:\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"items\": [\n            {\n                \"id\": 1,\n                \"item\": {\n                    \"id\": 1,\n                    \"is_sold\": false,\n                    \"is_ordered\": true,\n                    \"from_shop\": false,\n                    \"item\": 1,\n                    \"owner\": 1\n                },\n                \"opened_at\": \"2020-02-21T22:21:04.488263+03:00\",\n                \"case\": 1,\n                \"user\": 1\n            }\n        ]\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "get_personal_history",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/history/personal/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"history",
+								"personal",
+								""
+							]
+						},
+						"description": "Returns a personal history of a user. Example of output:\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"history\": [\n            {\n                \"id\": 1,\n                \"is_sold\": false,\n                \"is_ordered\": true,\n                \"from_shop\": false,\n                \"item\": 1,\n                \"owner\": 1\n            }\n        ]\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "create_history",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) Item id to add to history",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/history/sell/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"history",
+								"sell",
+								""
+							]
+						},
+						"description": "Post a recieved item to history"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to history of recieved items from cases."
+		},
+		{
+			"name": "giveaway",
+			"item": [
+				{
+					"name": "get_giveaway",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/giveaway/detail/<int>/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"giveaway",
+								"detail",
+								"<int>",
+								""
+							]
+						},
+						"description": "Returns a giveaway, where < int > in link is a giveaway id. Example of output with a request of :\n\n```\n{\n    \"success\": true,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"data\": {\n        \"giveaway\": {\n            \"id\": 1,\n            \"participants\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"Example\",\n                    \"last_name\": null,\n                    \"photo_url\": \"https://vk.com/images/camera_100.png\"\n                }\n            ],\n            \"items\": [\n                {\n                    \"item\": {\n                        \"id\": 1,\n                        \"name\": \"Test item\",\n                        \"photo_url\": \"/media/items/item.png\",\n                        \"type\": \"money\",\n                        \"crystals\": 123,\n                        \"price\": 1337,\n                        \"sgd_price\": 228,\n                        \"cashback\": 42\n                    },\n                    \"count\": 1,\n                    \"winners\": []\n                }\n            ],\n            \"type\": \"normal\",\n            \"title\": \"Test giveaway\",\n            \"start_time\": \"2020-02-21T22:39:37.075754+03:00\",\n            \"end_time\": \"2020-02-22T23:38:22+03:00\",\n            \"is_active\": true,\n            \"price\": 1,\n            \"joined\": false,\n            \"participants_count\": 1\n        }\n    }\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "participate_in_a_giveaway",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/giveaway/participate/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"giveaway",
+								"participate",
+								""
+							]
+						},
+						"description": "Joins a user to a currently active giveaway"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to giveaways"
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "add_balance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "amount",
+									"value": "<int>",
+									"description": "(Required) The amount of the added coins balance ",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "<str>",
+									"description": "(Optional) Entered promocode",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/payments/balance/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"payments",
+								"balance",
+								""
+							]
+						},
+						"description": "Adds an amount of coins to balance"
+					},
+					"response": []
+				},
+				{
+					"name": "verify_code",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/payments/verify/<str>/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"payments",
+								"verify",
+								"<str>",
+								""
+							]
+						},
+						"description": "Verifies a promocode, where < str > in link is a promocode. Example of an output:\n\n```\n{\n    \"success\": false,\n    \"heading\": \"\",\n    \"message\": \"\",\n    \"errors\": [\n        \"invalid_promo_or_bonus_code\"\n    ]\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "buy_item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "KWT token1",
+								"description": "(Required) Users token, format is \"KWT {token}\"",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "<int>",
+									"description": "(Required) Item id to buy",
+									"type": "text"
+								},
+								{
+									"key": "genshin_uid",
+									"value": "<int>",
+									"description": "(Required) UID of the reciever",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/payments/buy/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"payments",
+								"buy",
+								""
+							]
+						},
+						"description": "Purchases an item"
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to balance and payments"
+		},
+		{
+			"name": "media",
+			"item": [
+				{
+					"name": "get_case",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/media/cases/<str>",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"cases",
+								"<str>"
+							]
+						},
+						"description": "Returns a case image, where < str > in link is image filename."
+					},
+					"response": []
+				},
+				{
+					"name": "get_item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/media/items/<str>",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"items",
+								"<str>"
+							]
+						},
+						"description": "Returns an item image, where < str > in link is image filename."
+					},
+					"response": []
+				},
+				{
+					"name": "get_image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/media/images/<str>",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"media",
+								"images",
+								"<str>"
+							]
+						},
+						"description": "Returns an image, where < str > in link is image filename."
+					},
+					"response": []
+				}
+			],
+			"description": "Requests related to all images and other media."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://135.181.103.193:8000",
+			"type": "string"
+		}
+	]
+}
