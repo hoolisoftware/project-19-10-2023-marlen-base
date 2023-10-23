@@ -4,7 +4,7 @@
       :class="{'prize--checked':isChecked,'prize--selected':isSelected}"
   >
     <img
-      src="/img/prize1.png"
+      src=""
       class="lottery-prize__img"
     />
     <nuxt-icon v-if="isChecked" name="check" class="prize__check-icon"/>

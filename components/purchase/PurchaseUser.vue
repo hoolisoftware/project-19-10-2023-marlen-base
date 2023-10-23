@@ -6,7 +6,7 @@
     <input type="text" class="purchase-user__input" v-model="code" required>
     <div class="purchase-user__box">
       <img
-          src="user1.jpg"
+          src=""
           format="avif,webp"
           densities="x1 x2"
           class="purchase-user__avatar"

@@ -2,7 +2,7 @@
   <div class="purchase-item">
     <div class="purchase-item__img-box">
       <img
-          src="purchase-item.png"
+          src=""
           format="avif,webp"
           densities="x1 x2"
           class="purchase-item__img"

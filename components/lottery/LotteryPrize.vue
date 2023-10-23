@@ -1,7 +1,8 @@
 <template>
   <div class="prize">
     <img
-        :src="img"
+        src=""
+        alt="prize"
         format="avif,webp"
         densities="x1 x2"
         class="prize__img"

@@ -50,7 +50,7 @@
             </text>
           </svg>
           <img
-              src="/img/lot.png"
+              src=""
               format="avif,webp"
               densities="x1 x2"
               class="circle__img"
