@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <NuxtImg
+    <img
         :src="avatar"
         format="avif,webp"
         densities="x1 x2"

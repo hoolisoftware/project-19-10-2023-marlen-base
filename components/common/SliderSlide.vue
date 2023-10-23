@@ -4,7 +4,7 @@
       <p class="slide__names">{{ names }}</p>
       <p class="slide__title">{{ title }}</p>
     </div>
-    <NuxtImg
+    <img
         :src="img"
         format="avif,webp"
         densities="x1 x2"

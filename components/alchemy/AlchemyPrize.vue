@@ -3,13 +3,9 @@
       class="prize"
       :class="{'prize--checked':isChecked,'prize--selected':isSelected}"
   >
-    <NuxtImg
-        :src="img"
-        format="avif,webp"
-        densities="x1 x2"
-        class="lottery-prize__img"
-        width="84"
-        height="84"
+    <img
+      src="/img/prize1.png"
+      class="lottery-prize__img"
     />
     <nuxt-icon v-if="isChecked" name="check" class="prize__check-icon"/>
   </div>

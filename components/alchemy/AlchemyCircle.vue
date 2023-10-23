@@ -10,8 +10,8 @@
           <nuxt-icon name="plus" class="circle__panel-plus"/>
           <span class="circle__panel-text">Положите предмет</span>
           <div class="circle__panel-img-box">
-            <NuxtImg
-                src="prize2.png"
+            <nuxt-img
+                src="/img/prize2.png"
                 format="avif,webp"
                 densities="x1 x2"
                 width="84"
@@ -49,13 +49,11 @@
               {{ percent }}%
             </text>
           </svg>
-          <NuxtImg
-              src="lot.png"
+          <img
+              src="/img/lot.png"
               format="avif,webp"
               densities="x1 x2"
               class="circle__img"
-              width="175"
-              height="175"
           />
         </div>
       </div>

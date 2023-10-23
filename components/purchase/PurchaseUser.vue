@@ -5,7 +5,7 @@
     <h3 class="purchase-user__title">Введите UID</h3>
     <input type="text" class="purchase-user__input" v-model="code" required>
     <div class="purchase-user__box">
-      <NuxtImg
+      <img
           src="user1.jpg"
           format="avif,webp"
           densities="x1 x2"

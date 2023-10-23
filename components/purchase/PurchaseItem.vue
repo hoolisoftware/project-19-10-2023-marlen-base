@@ -1,7 +1,7 @@
 <template>
   <div class="purchase-item">
     <div class="purchase-item__img-box">
-      <NuxtImg
+      <img
           src="purchase-item.png"
           format="avif,webp"
           densities="x1 x2"

@@ -2,7 +2,7 @@
   <div class="about">
     <h2 class="about__title">О нас в цифрах</h2>
     <div class="about__wrapper">
-      <NuxtImg
+      <img
           src="girl.png"
           format="avif,webp"
           densities="x1 x2"
@@ -22,7 +22,7 @@
         <div class="about__text-box">
           <p class="about__text">
             А ты всё еще не с нами?
-            <NuxtImg
+            <img
                 src="emoji.png"
                 format="avif,webp"
                 densities="x1 x2"

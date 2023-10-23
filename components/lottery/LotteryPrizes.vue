@@ -66,7 +66,7 @@
 
 <script>
 import {PerfectScrollbar} from 'vue3-perfect-scrollbar'
-import Panel from "../../components/common/Panel.vue";
+import Panel from "@/components/common/Panel.vue";
 import LotteryPrize from "../../components/lottery/LotteryPrize.vue";
 
 export default {

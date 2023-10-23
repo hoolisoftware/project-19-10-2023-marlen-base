@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <NuxtImg
+    <img
         :src="avatar"
         format="avif,webp"
         densities="x1 x2"
@@ -16,7 +16,7 @@
       </p>
     </div>
     <div class="user__prize-box">
-      <NuxtImg
+      <img
           :src="prize"
           format="avif,webp"
           densities="x1 x2"

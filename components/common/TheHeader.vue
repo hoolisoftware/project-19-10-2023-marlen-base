@@ -51,7 +51,7 @@
           <ThemeSwitcher/>
         </div>
         <div class="header__coin-box">
-          <NuxtImg
+          <img
               src="/coin.png"
               format="avif,webp"
               densities="x1 x2"
@@ -60,7 +60,7 @@
           342
         </div>
         <NuxtLink to="/" class="header__profile-link">
-          <NuxtImg
+          <img
               src="/avatar.jpg"
               format="avif,webp"
               densities="x1 x2"

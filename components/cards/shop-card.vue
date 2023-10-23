@@ -12,7 +12,9 @@
           <span>{{cost}}</span>
         </div>
       </div>
-      <medium-button text="Купить"/>
+      <NuxtLink to="/purchase">
+        <medium-button text="Купить"/>
+      </NuxtLink>
     </div>
   </div>
 </template>

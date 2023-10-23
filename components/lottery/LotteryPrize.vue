@@ -1,6 +1,6 @@
 <template>
   <div class="prize">
-    <NuxtImg
+    <img
         :src="img"
         format="avif,webp"
         densities="x1 x2"
