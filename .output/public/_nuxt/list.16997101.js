@@ -1,0 +1,1 @@
+import{_ as s,d as t,e as a,s as o,b as c}from"./entry.6850a65d.js";const n={},r={class:"page"};function l(e,_){return c(),t("div",r,[a("main",null,[o(e.$slots,"default")])])}const f=s(n,[["render",l]]);export{f as default};

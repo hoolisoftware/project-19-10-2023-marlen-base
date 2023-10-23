@@ -7,8 +7,8 @@
         <h2 class="heading2 auction__lot-title">Лот</h2>
         <div class="auction__lot-grid">
           <div class="auction__lot-img-box">
-            <NuxtImg
-                src="lot.png"
+            <img
+                src=""
                 format="avif,webp"
                 densities="x1 x2"
                 class="auction__lot-img"

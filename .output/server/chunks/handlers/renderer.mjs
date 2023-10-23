@@ -1,5 +1,5 @@
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'vue-bundle-renderer/runtime';
-import { e as eventHandler, s as setResponseHeader, a as send, g as getResponseStatus, b as setResponseStatus, c as setResponseHeaders, u as useNitroApp, j as joinURL, f as useRuntimeConfig, h as getQuery, i as createError, k as getRouteRules, l as getResponseStatusText } from '../nitro/node-server.mjs';
+import { e as eventHandler, s as setResponseHeader, a as send, g as getResponseStatus, b as setResponseStatus, c as setResponseHeaders, u as useNitroApp, j as joinURL, d as useRuntimeConfig, f as getQuery, h as createError, i as getRouteRules, k as getResponseStatusText } from '../nitro/node-server.mjs';
 import { stringify, uneval } from 'devalue';
 import { renderToString } from 'vue/server-renderer';
 import { renderSSRHead } from '@unhead/ssr';
@@ -11,11 +11,10 @@ function defineRenderHandler(handler) {
   return eventHandler(async (event) => {
     if (event.path.endsWith("/favicon.ico")) {
       setResponseHeader(event, "Content-Type", "image/x-icon");
-      send(
+      return send(
         event,
         "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
       );
-      return;
     }
     const response = await handler(event);
     if (!response) {
@@ -34,7 +33,7 @@ function defineRenderHandler(handler) {
     if (response.statusCode || response.statusMessage) {
       setResponseStatus(event, response.statusCode, response.statusMessage);
     }
-    return typeof response.body === "string" ? response.body : JSON.stringify(response.body);
+    return response.body;
   });
 }
 
@@ -205,7 +204,7 @@ const renderer = defineRenderHandler(async (event) => {
     url,
     event,
     runtimeConfig: useRuntimeConfig(),
-    noSSR: event.context.nuxt?.noSSR || routeOptions.ssr === false || (false),
+    noSSR: event.context.nuxt?.noSSR || routeOptions.ssr === false && !islandContext || (false),
     head,
     error: !!ssrError,
     nuxt: void 0,
@@ -245,11 +244,11 @@ const renderer = defineRenderHandler(async (event) => {
   const inlinedStyles = await renderInlineStyles(ssrContext.modules ?? ssrContext._registeredComponents ?? []) ;
   const NO_SCRIPTS = routeOptions.experimentalNoScripts;
   const { styles, scripts } = getRequestDependencies(ssrContext, renderer.rendererContext);
+  head.push({ style: inlinedStyles });
   head.push({
     link: Object.values(styles).map(
       (resource) => ({ rel: "stylesheet", href: renderer.rendererContext.buildAssetsURL(resource.file) })
-    ),
-    style: inlinedStyles
+    )
   }, headEntryOptions);
   if (!NO_SCRIPTS) {
     head.push({

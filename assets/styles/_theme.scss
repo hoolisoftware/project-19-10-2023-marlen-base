@@ -1,4 +1,4 @@
-.dark-mode {
+[data-theme='dark'] {
   // Common
   --color-bg: #0C0C0C;
   --color-bg2: #000;
@@ -74,7 +74,7 @@
   --color-page-purchase-user-input-border: #3C3C3C;
 }
 
-.light-mode {
+[data-theme='light'] {
   // Common
   --color-bg: #fff;
   --color-bg2: #fff;
