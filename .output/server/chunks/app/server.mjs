@@ -1,8 +1,9 @@
-import { version, defineAsyncComponent, defineComponent, ref, onErrorCaptured, computed, h, unref, watchEffect, watch, getCurrentInstance, resolveComponent, hasInjectionContext, inject, useSSRContext, mergeProps, createApp, effectScope, reactive, isRef, isReactive, toRaw, getCurrentScope, onScopeDispose, nextTick, provide, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, shallowRef, shallowReactive, isReadonly, toRefs, markRaw, isShallow, withCtx, openBlock, createBlock, toDisplayString, createCommentVNode, Suspense, Transition } from 'vue';
+import { version, hasInjectionContext, inject, defineAsyncComponent, defineComponent, ref, onErrorCaptured, computed, h, getCurrentInstance, unref, watchEffect, watch, resolveComponent, useSSRContext, mergeProps, createApp, effectScope, reactive, isRef, isReactive, toRaw, getCurrentScope, onScopeDispose, nextTick, provide, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, shallowRef, shallowReactive, isReadonly, toRefs, markRaw, isShallow, withCtx, openBlock, createBlock, toDisplayString, createCommentVNode, Suspense, Transition } from 'vue';
 import { d as useRuntimeConfig$1, h as createError$1, $ as $fetch, l as hasProtocol, p as parseURL, m as parseQuery, n as encodeParam, o as createHooks, w as withTrailingSlash, q as withoutTrailingSlash, r as withLeadingSlash, j as joinURL, t as defu, v as withQuery, x as isScriptProtocol, y as sanitizeStatusCode, z as encodePath } from '../nitro/node-server.mjs';
 import { getActiveHead } from 'unhead';
 import { defineHeadPlugin, composableNames } from '@unhead/shared';
 import { createMemoryHistory, createRouter, START_LOCATION, useRoute as useRoute$1, RouterView } from 'vue-router';
+import { QueryClient, VueQueryPlugin, dehydrate } from '@tanstack/vue-query';
 import { ssrRenderAttrs, ssrInterpolate, ssrRenderSuspense, ssrRenderComponent, ssrRenderVNode } from 'vue/server-renderer';
 import 'node:http';
 import 'node:https';
@@ -462,6 +463,32 @@ const appLayoutTransition = false;
 const appPageTransition = false;
 const appKeepalive = false;
 const nuxtLinkDefaults = { "componentName": "NuxtLink" };
+const useStateKeyPrefix = "$s";
+function useState(...args) {
+  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
+  if (typeof args[0] !== "string") {
+    args.unshift(autoKey);
+  }
+  const [_key, init] = args;
+  if (!_key || typeof _key !== "string") {
+    throw new TypeError("[nuxt] [useState] key must be a string: " + _key);
+  }
+  if (init !== void 0 && typeof init !== "function") {
+    throw new Error("[nuxt] [useState] init must be a function: " + init);
+  }
+  const key = useStateKeyPrefix + _key;
+  const nuxt = /* @__PURE__ */ useNuxtApp();
+  const state = toRef(nuxt.payload.state, key);
+  if (state.value === void 0 && init) {
+    const initialValue = init();
+    if (isRef(initialValue)) {
+      nuxt.payload.state[key] = initialValue;
+      return initialValue;
+    }
+    state.value = initialValue;
+  }
+  return state;
+}
 function definePayloadReducer(name, reduce) {
   {
     (/* @__PURE__ */ useNuxtApp()).ssrContext._payloadReducers[name] = reduce;
@@ -796,7 +823,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/alchemy-382a75cb.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/alchemy-678c996d.mjs').then((m) => m.default || m)
   },
   {
     name: "auction",
@@ -804,15 +831,15 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/auction-4825e62d.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/auction-2b928a3b.mjs').then((m) => m.default || m)
   },
   {
-    name: "case",
-    path: "/case",
+    name: "case-id",
+    path: "/case/:id()",
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/case-7cefc4d6.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/_id_-0fed3055.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -820,7 +847,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/index-ecfd4e4c.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index-bb276c1c.mjs').then((m) => m.default || m)
   },
   {
     name: "lottery",
@@ -828,7 +855,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/lottery-d9d3fb47.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/lottery-8e316908.mjs').then((m) => m.default || m)
   },
   {
     name: "profile",
@@ -846,7 +873,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/purchase-37655656.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/purchase-b9427c6c.mjs').then((m) => m.default || m)
   },
   {
     name: "results",
@@ -854,7 +881,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/results-56d6c4ce.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/results-0dbff928.mjs').then((m) => m.default || m)
   },
   {
     name: "reviews",
@@ -862,7 +889,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/reviews-0acb57c5.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/reviews-1c82ff7f.mjs').then((m) => m.default || m)
   },
   {
     name: "shop",
@@ -870,7 +897,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/shop-442b82a1.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/shop-ce928928.mjs').then((m) => m.default || m)
   }
 ];
 const routerOptions0 = {
@@ -1494,12 +1521,33 @@ const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
     }
   }
 });
+const configKey = "vueQuery";
+function getVueQueryOptions(config) {
+  return config.public[configKey];
+}
+function pluginHook() {
+  return { pluginReturn: null, vueQueryPluginOptions: null };
+}
+const plugin_jg3TSEXw60 = /* @__PURE__ */ defineNuxtPlugin((nuxt) => {
+  const { stateKey, queryClientOptions, vueQueryPluginOptions } = getVueQueryOptions(/* @__PURE__ */ useRuntimeConfig());
+  const vueQueryState = useState(stateKey, "$Mpf88Krk7N");
+  const queryClient = new QueryClient(queryClientOptions);
+  const { pluginReturn, vueQueryPluginOptions: hookOptions } = pluginHook();
+  nuxt.vueApp.use(VueQueryPlugin, { queryClient, ...vueQueryPluginOptions, ...hookOptions });
+  {
+    nuxt.hooks.hook("app:rendered", () => {
+      vueQueryState.value = dehydrate(queryClient);
+    });
+  }
+  return pluginReturn;
+});
 const plugins = [
   unhead_KgADcZ0jPj,
   plugin$1,
   plugin,
   revive_payload_server_eJ33V7gbc6,
-  components_plugin_KR1HBZs4kY
+  components_plugin_KR1HBZs4kY,
+  plugin_jg3TSEXw60
 ];
 const __nuxt_component_0$2 = /* @__PURE__ */ defineComponent({
   emits: {
@@ -1528,8 +1576,8 @@ const _wrapIf = (component, props, slots) => {
   } };
 };
 const layouts = {
-  default: () => import('./_nuxt/default-18a70ad5.mjs').then((m) => m.default || m),
-  list: () => import('./_nuxt/list-f54eae95.mjs').then((m) => m.default || m)
+  default: () => import('./_nuxt/default-f2d4d268.mjs').then((m) => m.default || m),
+  list: () => import('./_nuxt/list-6f534658.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = /* @__PURE__ */ defineComponent({
   name: "LayoutLoader",
@@ -2473,7 +2521,7 @@ const _sfc_main = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
   setup(__props) {
-    const IslandRenderer = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/island-renderer-bd965dcb.mjs').then((r) => r.default || r));
+    const IslandRenderer = /* @__PURE__ */ defineAsyncComponent(() => import('./_nuxt/island-renderer-97eceb4d.mjs').then((r) => r.default || r));
     const nuxtApp = /* @__PURE__ */ useNuxtApp();
     nuxtApp.deferHydration();
     nuxtApp.ssrContext.url;
@@ -2540,5 +2588,5 @@ let entry;
 }
 const entry$1 = (ctx) => entry(ctx);
 
-export { MediumButton as M, _export_sfc as _, __nuxt_component_0 as a, __nuxt_component_0$3 as b, createError as c, defineStore as d, entry$1 as default, __nuxt_component_0$2 as e, themeStore as t };
+export { MediumButton as M, _export_sfc as _, __nuxt_component_0 as a, __nuxt_component_0$3 as b, createError as c, defineStore as d, entry$1 as default, __nuxt_component_0$2 as e, themeStore as t, useRoute as u };
 //# sourceMappingURL=server.mjs.map

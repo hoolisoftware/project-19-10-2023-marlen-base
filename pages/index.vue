@@ -1,121 +1,40 @@
+<script setup lang="ts">
+
+import { AxiosError } from 'axios';
+import { useCases } from '@/hooks/use-query/case'
+import { SERVER_URL } from '~/config';
+const { isLoading, data, error } = useCases()
+
+const categories = [
+  ['Инадзума', 'inadzuma'],
+  ['Монштадт', 'mondstadt'],
+  ['Ли ЮЭ', 'liyue'],
+  ['Сумеру', 'sumeru']
+]
+
+</script>
+
 <template>
-  <div class="page">
-    <title-section text="Инадзума" info="4 кейса" icon="inadzuma"/>
-    <div class="case-list">
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_9.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_10.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_3.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_4.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_5.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_6.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_7.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_8.png" :cost="200"/>
-      </nuxt-link>
+  <div v-if="isLoading">
+    Loading...
+  </div>
+  <div v-else-if="error">
+    {{ (error instanceof AxiosError) && error.message }}
+  </div>
+  <div v-else-if="data?.data.cases">
+    <div class="page">
+      <div v-for='_category in categories'>
+        <title-section :text='_category[0]'
+          :info='data.data.cases.filter(item => item.category === _category[1]).length + " кейса"' icon="inadzuma" />
+        <div v-for="{ id, name, price, photo_url } in data.data.cases.filter((item: any) => item.category === _category[1])">
+          <div class="case-list">
+            <nuxt-link :to='`/case/${id}`'>
+              <card :title='name' :image='`${SERVER_URL}${photo_url}`' :cost='price' />
+            </nuxt-link>
+          </div>
+        </div>
+      </div>
     </div>
-
-
-    <title-section text="Монштадт" info="4 кейса" icon="monshtadt"/>
-    <div class="case-list">
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_1.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_2.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_3.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_4.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_5.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_6.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_7.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_8.png" :cost="200"/>
-      </nuxt-link>
-    </div>
-
-
-    <title-section text="Ли ЮЭ" info="4 кейса" icon="liue"/>
-    <div class="case-list">
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_1.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_2.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_3.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_4.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_5.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_6.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_7.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_8.png" :cost="200"/>
-      </nuxt-link>
-    </div>
-
-
-    <title-section text="Сумеру" info="4 кейса" icon="sumeru"/>
-    <div class="case-list">
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_1.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_2.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_3.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_4.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_5.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_6.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_7.png" :cost="200"/>
-      </nuxt-link>
-      <nuxt-link to="/case">
-        <card title="Кейс Кли" image="/img/cases/case_8.png" :cost="200"/>
-      </nuxt-link>
-    </div>
-
-
   </div>
 </template>
 <style scoped>
@@ -134,7 +53,8 @@
   margin-bottom: 75px;
 }
 </style>
-<script>
+<script lang="ts">
+
 import card from "@/components/cards/case-card.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 
@@ -142,6 +62,7 @@ export default {
   head: {
     title: 'Kleewish | Кейсы'
   },
-  components: {card, titleSection}
+  components: { card, titleSection }
 }
+
 </script>

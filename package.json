@@ -19,9 +19,11 @@
     "sass-loader": "^13.2.2"
   },
   "dependencies": {
+    "@hebilicious/vue-query-nuxt": "^0.2.1",
     "@nuxt/image": "^1.0.0",
     "@pinia/nuxt": "^0.4.11",
-    "axios": "^1.4.0",
+    "@tanstack/vue-query": "^4.37.1",
+    "axios": "^1.6.0",
     "bezier-easing": "^2.1.0",
     "jsonp": "^0.2.1",
     "nuxt-icons": "^3.2.1",

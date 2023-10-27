@@ -1,0 +1,1 @@
+import{a4 as s}from"./entry.daac6d1e.js";const t=s({id:"modalStore",state:()=>({modals:{signIn:!1,deposit:!1,review:!1,caseOpen:!1}}),actions:{showModal(e){this.setModal({name:e,value:!0})},hideModal(e){this.setModal({name:e,value:!1})},setModal({name:e,value:a}){this.modals[e]=a}},getters:{isModalShown:e=>a=>e.modals[a]||!1}});export{t as m};

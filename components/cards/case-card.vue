@@ -1,7 +1,7 @@
 <template>
   <div :class="'case' + (!showBorder ? ' case-wb':'')" :data-theme="theme">
     <div :class="'case-image' + (!showBorder ? ' case-image_wb':'')">
-      <nuxt-img format="webp" :quality="showBorder ? 90:100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300" :src="image" alt="Кейс"/>
+      <img format="webp" :quality="showBorder ? 90:100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300" :src="image" alt="Кейс"/>
     </div>
     <div class="case-title">{{title}}</div>
     <div class="case-bottom">

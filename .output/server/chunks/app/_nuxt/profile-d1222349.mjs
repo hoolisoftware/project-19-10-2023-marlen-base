@@ -19,6 +19,7 @@ import '@unhead/ssr';
 import 'unhead';
 import '@unhead/shared';
 import 'vue-router';
+import '@tanstack/vue-query';
 
 const _sfc_main$1 = {
   name: "inventory-item"

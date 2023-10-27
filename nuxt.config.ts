@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@pinia/nuxt', '@nuxt/image-edge', '@nuxt/image', 'nuxt-icons'],
+  modules: ['@pinia/nuxt', '@nuxt/image-edge', '@nuxt/image', 'nuxt-icons', '@hebilicious/vue-query-nuxt'],
   vite: {
     server: {
       hmr: {
