@@ -1,27 +1,28 @@
 <script setup lang="ts">
-import { useUserProfile } from "~/hooks/use-query/profile";
+import { useUserProfile, useUserStats } from "~/hooks/use-query/profile";
 import { SERVER_URL } from "~/config";
 
 const { id } = useRoute().params
-const {data, isLoading, isError} = useUserProfile(String(id))
+const {data: profileData, isLoading: profileIsLoading, isError: profileIsError} = useUserProfile(String(id))
+const {data: statsData, isLoading: statsIsLoading, isError: statsIsError} = useUserStats(String(id))
 </script>
 
 <template>
     <div class="page">
-        <div v-if="isLoading">
+        <div v-if="profileIsLoading">
             Loading...
         </div>
-        <div v-else-if="isError">
+        <div v-else-if="profileIsError">
             Error...
         </div>
-        <div v-else="data?.data">
+        <div v-else="profileData?.data">
             <title-section text="Профиль"/>
             <div class="profile">
                 <div class="profile-info">
                     <div class="profile-avatar">
-                        <img :src="data?.data.user.photo_url" alt="Аватар"/>
+                        <img :src="profileData?.data.user.photo_url" alt="Аватар"/>
                     </div>
-                    <div class="profile-name"> {{ data?.data.user.first_name + (data?.data.user.last_name ? data?.data.user.last_name : "") }} </div>
+                    <div class="profile-name"> {{ profileData?.data.user.first_name + (profileData?.data.user.last_name ? profileData?.data.user.last_name : "") }} </div>
                     <div class="profile-contacts" v-if="$route.params.otherProfile">
                         <div>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,22 +52,31 @@ const {data, isLoading, isError} = useUserProfile(String(id))
 
                         </div>
                     </div>
-                    <!--<div class="profile-stat">
-                        <h2>Статистика</h2>
-                        <div class="profile-stat_item">
-                            <div>Открыто кейсов</div>
-                            <div>{{ authStores.stats? `${authStores.stats.cases_opened}`: "Загрузка..." }}</div>
-                        </div>
-                        <div class="profile-stat_item">
-                            <div>Выбито на сумму</div>
-                            <div><img src="/img/icons/moon.png" alt="Мун" />{{ authStores.stats? `${authStores.stats.case_opened_mora}`: "Загрузка..." }}</div>
-                        </div>
-                        <div class="profile-stat_item">
-                            <div>Выбито кристаллов</div>
-                            <div>
-                                <img src="/img/icons/crystall.png" alt="Кристаллов" /> {{ authStores.stats? `${authStores.stats.crystals_obtained}`: "Загрузка..." }}</div>
-                        </div>
-                    </div>-->
+                    
+                    <div v-if="statsIsLoading">
+                        Loading...
+                    </div>
+                    <div v-else-if="statsIsError">
+                        Error...
+                    </div>
+                    <div v-else="statsData?.data">
+                      <div class="profile-stat">
+                          <h2>Статистика</h2>
+                          <div class="profile-stat_item">
+                              <div>Открыто кейсов</div>
+                              <div>{{ `${statsData?.data.stats.cases_opened}` }}</div>
+                          </div>
+                          <div class="profile-stat_item">
+                              <div>Выбито на сумму</div>
+                              <div><img src="/img/icons/moon.png" alt="Мун" />{{ `${statsData?.data.stats.case_opened_mora}` }}</div>
+                          </div>
+                          <div class="profile-stat_item">
+                              <div>Выбито кристаллов</div>
+                              <div>
+                                  <img src="/img/icons/crystall.png" alt="Кристаллов" /> {{ `${statsData?.data.stats.crystals_obtained}` }}</div>
+                          </div>
+                      </div>
+                    </div>
                 </div>
                 <!--<div class="inventory">
                     <div class="inventory-top">
