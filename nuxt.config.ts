@@ -18,6 +18,9 @@ export default defineNuxtConfig({
       linkExactActiveClass: "exact-active"
     }
   },
+  routeRules: {
+    '/': { prerender: true },
+  }
   // image: {
   //   dir: 'assets'
   // }
