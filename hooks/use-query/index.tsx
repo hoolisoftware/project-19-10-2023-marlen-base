@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/vue-query";
+import { SERVER_URL } from "~/config";
 
 export const apiInstance = axios.create({
-    baseURL: 'http://135.181.103.193:8000/api/',
+    baseURL: SERVER_URL + '/api/',
     timeout: 1000
 })
 
