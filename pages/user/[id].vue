@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useUserProfile, useUserStats } from "~/hooks/use-query/profile";
-import { SERVER_URL } from "~/config";
+import { useUserProfile, useUserStats, useUserInventory } from "~/hooks/use-query/profile";
 
 const { id } = useRoute().params
 const {data: profileData, isLoading: profileIsLoading, isError: profileIsError} = useUserProfile(String(id))
 const {data: statsData, isLoading: statsIsLoading, isError: statsIsError} = useUserStats(String(id))
+const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsError} = useUserInventory(String(id))
 </script>
 
 <template>
@@ -78,42 +78,33 @@ const {data: statsData, isLoading: statsIsLoading, isError: statsIsError} = useU
                       </div>
                     </div>
                 </div>
-                <!--<div class="inventory">
-                    <div class="inventory-top">
-                        <div class="inventory-top_title">
-                            <h2>Инвентарь</h2>
-                            <span>120 предметов</span>
+                <div v-if="inventoryIsLoading">
+                    Loading...
+                </div>
+                <div v-else-if="inventoryIsError">
+                    Error...
+                </div>
+                <div v-else="inventoryData?.data">
+                    <div class="inventory">
+                        <div class="inventory-top">
+                            <div class="inventory-top_title">
+                                <h2>Инвентарь</h2>
+                                <span>{{ inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length }} 
+                                  {{ getNoun(inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length, "предмет", "предмета", "предметов") }}</span>
+                            </div>
                         </div>
-                        <div class="inventory-top_actions" v-if="!$route.params.otherProfile">
-                            Продать всё
+                        <div class="inventory-tabs">
+                            <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
+                            <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active':'')" v-on:click="activeTab = 0">Все предметы</div>
+                            <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active':'')" v-on:click="activeTab = 1">Выведено</div>
+                        </div>
+                        <div class="inventory-items">
+                          <div v-for="profile_item in inventoryData?.data.items">
+                            <profile-item :image="SERVER_URL + profile_item.item.photo_url" v-if="(activeTab === 0) || (activeTab === 1 && profile_item.is_ordered)"/>
+                          </div>
                         </div>
                     </div>
-                    <div class="inventory-tabs">
-                        <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
-                        <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active':'')" v-on:click="activeTab = 0">Все предметы</div>
-                        <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active':'')" v-on:click="activeTab = 1">Выведено</div>
-                    </div>
-                    <div class="inventory-items">
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                        <inventory-item/>
-                    </div>
-                </div>-->
+                </div>
             </div>
         </div>
     </div>
@@ -121,10 +112,12 @@ const {data: statsData, isLoading: statsIsLoading, isError: statsIsError} = useU
 
 <script lang="ts">
 import mediumButton from "@/components/buttons/medium-button.vue";
-import inventoryItem from "@/components/cards/inventory-item.vue";
+import profileItem from "@/components/cards/profile-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import {modalStore} from "~/store/modal";
 import { authStore } from "~/store/auth";
+import { getNoun } from "~/languageCorrecter"
+import { SERVER_URL } from "~/config";
 
 export default {
     name: "user_profile",
@@ -133,7 +126,7 @@ export default {
     },
     components: {
         mediumButton,
-        inventoryItem,
+        profileItem,
         titleSection
     },
     data() {
