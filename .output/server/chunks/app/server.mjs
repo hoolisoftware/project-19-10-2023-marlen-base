@@ -887,7 +887,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/reviews-8e2f8ffa.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/reviews-164ec805.mjs').then((m) => m.default || m)
   },
   {
     name: "shop",

@@ -41,14 +41,8 @@ export function useReviews() {
             return await response.data
         },
         getNextPageParam: (lastPage: any) => {
-            // const currentUrl = new URL(lastPage.config.url);
-            // const currentPage = Number(currentUrl.searchParams.get('page'));
-            // return lastPage.data.success && lastPage.data.data.reviews.length ? currentPage + 1 : undefined;
-            // return currentUrl.searchParams.get('page') + 1
-            // console.log(currentUrl.searchParams.get('page'))
             return lastPage.data.page + 1
         },
-        onSuccess: (data) => console.log(data.pages),
         onError: (e) => console.log(e)
     })
 }
