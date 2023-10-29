@@ -7,12 +7,13 @@ export const apiInstance = axios.create({
     timeout: 1000
 })
 
-export default function useBaseQuery<T>(keys: (string|number)[], url: string) {
+export default function useBaseQuery<T>(keys: (string|number)[], url: string, onSuccess?: (data: any) => void) {
     return useQuery({
         queryKey: keys,
         queryFn: async () => {
             const {data} = await apiInstance.get(url)
             return data as T
-        }
+        },
+        onSuccess: onSuccess
     })
 }

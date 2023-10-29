@@ -2,7 +2,7 @@
   <div class="review">
     <div class="review-top">
       <div class="review-user">
-        <nuxt-img format="webp" :src="avatar" width="190" height="190" alt="Аватар"/>
+        <img :src="avatar" width="190" height="190" alt="Аватар"/>
         <div class="review-info">
           <div class="review-info_user">{{name}}</div>
           <div class="review-details_date">{{date}}</div>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="review-body">
-      Текст отзыва
+      {{ text }}
     </div>
   </div>
 </template>
@@ -32,6 +32,10 @@ export default {
   name: "review",
   props: {
     avatar: {
+      type: String,
+      required: true
+    },
+    text: {
       type: String,
       required: true
     },

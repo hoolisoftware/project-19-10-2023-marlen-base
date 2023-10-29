@@ -1,9 +1,20 @@
+<script setup lang="ts">
+import { useReviewsStats } from "~/hooks/use-query/review";
+
+const { data, isLoading } = useReviewsStats()
+
+</script>
+
 <template>
   <div class="stat">
     <div class="stat-title">Статистика</div>
     <div class="stat-main">
-      <div class="stat-main_item">Положительных: <span class="stat-main_item__positive">1012</span></div>
-      <div class="stat-main_item">Негативных: <span class="stat-main_item__negative">1012</span></div>
+      <div class="stat-main_item">Положительных: <span class="stat-main_item__positive">
+          {{ isLoading ? 'Загрузка...' : data?.data.positive_reviews }}
+        </span></div>
+      <div class="stat-main_item">Негативных: <span class="stat-main_item__negative">
+          {{ isLoading ? 'Загрузка...' : data?.data.negative_reviews }}
+        </span></div>
     </div>
     <div class="stat-line">
       <div></div>
@@ -15,25 +26,24 @@
       <p>Напиши свой честный отзыв о нашем сервисе и получи <span>1 бесплатный кейс</span></p>
     </div>
     <div v-on:click="modals.showModal('review')">
-      <medium-button text="НАПИСАТЬ ОТЗЫВ"/>
+      <medium-button text="НАПИСАТЬ ОТЗЫВ" />
     </div>
   </div>
-
 </template>
 
-<script>
+<script lang="ts">
 import mediumButton from "@/components/buttons/medium-button.vue";
-import {modalStore} from "~/store/modal";
+import { modalStore } from "~/store/modal";
 export default {
   name: "review-stats",
   components: {
     mediumButton
   },
-    data() {
-      return {
-          modals: modalStore()
-      }
+  data() {
+    return {
+      modals: modalStore()
     }
+  }
 }
 </script>
 
@@ -53,10 +63,10 @@ export default {
   border: var(--reviews-border);
   border-radius: 10px;
 
-  @media(max-width: 1100px)
-  {
+  @media(max-width: 1100px) {
     width: 100%;
   }
+
   &-title {
     display: flex;
     font-style: normal;
@@ -65,25 +75,30 @@ export default {
     line-height: 29px;
     color: var(--reviews-text);
   }
+
   &-main {
     display: flex;
-    width:100%;
+    width: 100%;
     justify-content: space-between;
     color: var(--reviews-text);
+
     &_item {
       font-weight: 400;
       font-size: 14px;
       line-height: 16px;
+
       &__positive {
         font-weight: 500;
         color: #48B75A;
       }
+
       &__negative {
         font-weight: 500;
         color: #E17474;
       }
     }
   }
+
   &-line {
     display: flex;
     width: 100%;
@@ -91,12 +106,14 @@ export default {
     background: none;
     border-radius: 30px;
     overflow: hidden;
+
     & div:nth-child(1) {
       display: flex;
       height: 100%;
       width: 30%;
       background: #48B75A;
     }
+
     & div:nth-child(2) {
       display: flex;
       height: 100%;
@@ -104,21 +121,22 @@ export default {
       background: #E17474;
     }
   }
+
   &-description {
     width: 100%;
     text-align: center;
+
     & p {
       font-weight: 500;
       font-size: 14px;
       line-height: 16px;
       text-align: center;
       color: #9E9E9E;
+
       & span {
         font-weight: 600;
         color: var(--reviews-text);
       }
     }
   }
-}
-
-</style>
+}</style>
