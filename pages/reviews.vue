@@ -1,9 +1,31 @@
+<script setup lang="ts">
+import { useReviews } from "~/hooks/use-query/review";
+import { formatIsoDate } from '@/utils/dates'
+
+const { data, fetchNextPage, isLoading } = useReviews()
+
+</script>
 <template>
   <div class="page">
-    <title-section text="Отзывы" info="1000 отзывов"/>
+    <title-section text="Отзывы" :info="`${data?.pages[0].data.count} отзывов`"/>
     <div class="reviews">
-      <div class="reviews-list">
-        <review v-for="(review,index) in filteredReviews" :avatar="review.avatar" :name="review.name" :text="review.text" :source="review.source" :date="review.date" :type="review.type" :key="index" />
+      <div class="reviews-list" v-if="data?.pages">
+        <template v-for="page in data?.pages">
+          <review
+            v-for="(review, index) in page.data.reviews"
+            :avatar="review.author.photo_url"
+            :name="`${review.author.first_name} ${review.author.last_name}`"
+            :text="review.text"
+            source="vk"
+            :date="formatIsoDate(review.created_at)"
+            :type="review.is_positive ? 'positive' : 'negative'"
+            :key="index"
+          />
+        </template>
+        <medium-button v-if="data.pages[Object.keys(data.pages).length-1].data?.has_next" text="Увидеть ещё" @click="fetchNextPage"></medium-button>
+      </div>
+      <div v-else-if="isLoading">
+        Loading...
       </div>
       <div class="reviews-stat">
         <review-stats/>
@@ -15,7 +37,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import review from "@/components/reviews/review.vue";
 import reviewStats from "@/components/reviews/review-stats.vue";
 import titleSection from "@/components/blocks/title-section.vue";

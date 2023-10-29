@@ -839,7 +839,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/_id_-0fed3055.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/_id_-5f395baa.mjs').then((m) => m.default || m)
   },
   {
     name: "index",
@@ -847,7 +847,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/index-bb276c1c.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/index-e0a92770.mjs').then((m) => m.default || m)
   },
   {
     name: "lottery",
@@ -863,9 +863,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/profile-d1222349.mjs').then(function(n) {
-      return n.p;
-    }).then((m) => m.default || m)
+    component: () => import('./_nuxt/profile-677b2725.mjs').then((m) => m.default || m)
   },
   {
     name: "purchase",
@@ -889,7 +887,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/reviews-1c82ff7f.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/reviews-8e2f8ffa.mjs').then((m) => m.default || m)
   },
   {
     name: "shop",
@@ -898,6 +896,14 @@ const _routes = [
     alias: [],
     redirect: void 0,
     component: () => import('./_nuxt/shop-ce928928.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "user-id",
+    path: "/user/:id()",
+    meta: {},
+    alias: [],
+    redirect: void 0,
+    component: () => import('./_nuxt/_id_-c176103e.mjs').then((m) => m.default || m)
   }
 ];
 const routerOptions0 = {
@@ -1576,7 +1582,7 @@ const _wrapIf = (component, props, slots) => {
   } };
 };
 const layouts = {
-  default: () => import('./_nuxt/default-f2d4d268.mjs').then((m) => m.default || m),
+  default: () => import('./_nuxt/default-8d4b845f.mjs').then((m) => m.default || m),
   list: () => import('./_nuxt/list-6f534658.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = /* @__PURE__ */ defineComponent({
