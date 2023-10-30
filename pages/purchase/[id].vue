@@ -17,7 +17,12 @@ const {data: itemData, isLoading: itemIsLoading, isError: itemIsError} = useShop
         </div>
         <div v-else="itemData?.data">
             <div class="purchase__grid">
-                <PurchaseItem/>
+                <PurchaseItem 
+                    :name="itemData?.data? itemData?.data.items.name : ''" 
+                    :description="itemData?.data? itemData?.data.items.description : ''"
+                    :img="itemData?.data? SERVER_URL + itemData?.data.items.photo_url : ''"
+                    :price="itemData?.data? itemData?.data.items.price : -1"
+                />
                 <PurchaseAdvantages/>
                 <PurchasePayment/>
                 <PurchaseUser/>
@@ -79,6 +84,7 @@ import PurchaseAdvantages from "@/components/purchase/PurchaseAdvantages.vue";
 import PurchasePayment from "@/components/purchase/PurchasePayment.vue";
 import PurchaseUser from "@/components/purchase/PurchaseUser.vue";
 import Button from "@/components/common/Button.vue";
+import { SERVER_URL } from "~/config";
 
 export default {
     components: {Button, PurchaseUser, PurchasePayment, PurchaseAdvantages, PurchaseItem}

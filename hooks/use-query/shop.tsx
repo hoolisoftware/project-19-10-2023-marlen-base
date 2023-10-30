@@ -23,5 +23,5 @@ export function useShopItems() {
 
 
 export function useShopItem(id: string|number) {
-    return useBaseQuery<APIResponse<{item: ShopItem}>>(['item', id], `payments/item/${id}`)
+    return useBaseQuery<APIResponse<{items: ShopItem}>>(['item', id], `payments/item/${id}/`)
 }
