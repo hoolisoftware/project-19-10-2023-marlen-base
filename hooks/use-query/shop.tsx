@@ -13,7 +13,7 @@ export interface ShopItem extends Model {
 
 
 export function useShopItems() {
-    return useBaseQuery<APIResponse<{items: {id: ShopItem}}>>(['items'], `payments/items/`)
+    return useBaseQuery<APIResponse<{items: ShopItem[]}>>(['items'], `payments/items/`)
 }
 
 
