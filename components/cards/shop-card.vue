@@ -12,7 +12,7 @@
           <span>{{cost}}</span>
         </div>
       </div>
-      <NuxtLink to="/purchase">
+      <NuxtLink :to="`/purchase/${id}/`">
         <medium-button text="Купить"/>
       </NuxtLink>
     </div>
@@ -26,7 +26,8 @@ export default {
   props: {
     title: String,
     image: String,
-    cost: Number
+    cost: Number,
+    id: String | Number,
   },
   components: {mediumButton},
   name: "card",

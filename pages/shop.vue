@@ -16,8 +16,8 @@ const {data: itemsData, isLoading: itemsIsLoading, isError: itemsIsError} = useS
     </div>
     <div v-else="itemsData?.data">
         <div class="shop">
-          <div v-for="item in itemsData?.data.items">
-            <shop-card :title="item.name" :image="SERVER_URL + item.photo_url" :cost="item.price"/>
+          <div v-for="(item, id) in itemsData?.data.items">
+            <shop-card :title="item.name" :image="SERVER_URL + item.photo_url" :cost="item.price" :id="id"/>
           </div> 
         </div>
     </div>
