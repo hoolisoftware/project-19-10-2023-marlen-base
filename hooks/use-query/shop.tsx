@@ -4,6 +4,7 @@ import type { Model } from "@/types/models";
 
 
 export interface ShopItem extends Model {
+    id: number
     name: string
     description: string
     photo_url: string
@@ -18,5 +19,5 @@ export function useShopItems() {
 
 
 export function useShopItem(id: string|number) {
-    return useBaseQuery<APIResponse<{items: ShopItem}>>(['item', id], `payments/item/${id}/`)
+    return useBaseQuery<APIResponse<{item: ShopItem}>>(['item', id], `payments/item/${id}/`)
 }

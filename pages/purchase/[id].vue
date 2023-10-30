@@ -18,10 +18,10 @@ const {data: itemData, isLoading: itemIsLoading, isError: itemIsError} = useShop
         <div v-else="itemData?.data">
             <div class="purchase__grid">
                 <PurchaseItem 
-                    :name="itemData?.data? itemData?.data.items.name : ''" 
-                    :description="itemData?.data? itemData?.data.items.description : ''"
-                    :img="itemData?.data? SERVER_URL + itemData?.data.items.photo_url : ''"
-                    :price="itemData?.data? itemData?.data.items.price : -1"
+                    :name="itemData?.data? itemData?.data.item.name : ''" 
+                    :description="itemData?.data? itemData?.data.item.description : ''"
+                    :img="itemData?.data? SERVER_URL + itemData?.data.item.photo_url : ''"
+                    :price="itemData?.data? itemData?.data.item.price : -1"
                 />
                 <PurchaseAdvantages/>
                 <PurchasePayment/>
