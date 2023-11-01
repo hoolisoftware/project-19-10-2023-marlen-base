@@ -2,7 +2,7 @@
   <div class="purchase-item">
     <div class="purchase-item__img-box">
       <img
-          src=""
+          :src="img"
           format="avif,webp"
           densities="x1 x2"
           class="purchase-item__img"
@@ -11,17 +11,41 @@
       />
     </div>
     <div class="purchase-item__content">
-      <h2 class="purchase-item__name">Название предмета</h2>
-      <p class="purchase-item__text">Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько
-        абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных
-        выступлений в домашних условиях. </p>
+      <h2 class="purchase-item__name">{{ name }}</h2>
+      <p class="purchase-item__text"> {{ description }} </p>
       <div class="purchase-item__price-box">
         <p class="purchase-item__price-text">Цена</p>
-        <p class="purchase-item__price">456 руб</p>
+        <p class="purchase-item__price">{{ price }} руб</p>
       </div>
     </div>
   </div>
 </template>
+
+
+<script lang="ts">
+
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true
+    },
+    img: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+  }
+}
+</script>
+
 
 <style lang="scss" scoped>
 .purchase-item {
