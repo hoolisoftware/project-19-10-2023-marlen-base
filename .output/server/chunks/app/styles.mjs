@@ -5,15 +5,15 @@ const styles = {
   "pages/auction.vue": () => import('./_nuxt/auction-styles.36dc75ab.mjs').then(interopDefault),
   "pages/case/[id].vue": () => import('./_nuxt/_id_-styles.bd615e79.mjs').then(interopDefault),
   "pages/lottery.vue": () => import('./_nuxt/lottery-styles.bb2003d1.mjs').then(interopDefault),
-  "pages/purchase.vue": () => import('./_nuxt/purchase-styles.c4750e4f.mjs').then(interopDefault),
-  "pages/profile.vue": () => import('./_nuxt/profile-styles.2c229d36.mjs').then(interopDefault),
   "pages/results.vue": () => import('./_nuxt/results-styles.8fcca904.mjs').then(interopDefault),
-  "pages/shop.vue": () => import('./_nuxt/shop-styles.29032f8a.mjs').then(interopDefault),
+  "pages/profile.vue": () => import('./_nuxt/profile-styles.2c229d36.mjs').then(interopDefault),
   "pages/index.vue": () => import('./_nuxt/index-styles.0632e850.mjs').then(interopDefault),
   "node_modules/nuxt-icons/dist/runtime/components/nuxt-icon.vue": () => import('./_nuxt/nuxt-icon-styles.a680ee0e.mjs').then(interopDefault),
-  "pages/reviews.vue": () => import('./_nuxt/reviews-styles.fd240537.mjs').then(interopDefault),
+  "pages/shop.vue": () => import('./_nuxt/shop-styles.3ab09c09.mjs').then(interopDefault),
+  "pages/reviews.vue": () => import('./_nuxt/reviews-styles.57472446.mjs').then(interopDefault),
+  "pages/purchase/[id].vue": () => import('./_nuxt/_id_-styles.5392ccb9.mjs').then(interopDefault),
   "pages/user/[id].vue": () => import('./_nuxt/_id_-styles.64ff52b0.mjs').then(interopDefault),
-  "layouts/default.vue": () => import('./_nuxt/default-styles.816cbfb5.mjs').then(interopDefault)
+  "layouts/default.vue": () => import('./_nuxt/default-styles.ee13c662.mjs').then(interopDefault)
 };
 
 export { styles as default };

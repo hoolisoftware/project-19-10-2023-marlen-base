@@ -1,7 +1,6 @@
 <script setup>
-import {ref, reactive, onMounted, watch, setDevtoolsHook} from "vue";
+import {onMounted} from "vue";
 import api from "@/apiCaller";
-import { useRoute } from 'vue-router';
 import { authStore } from '@/store/auth'
 import { modalStore } from "@/store/modal";
 import { themeStore } from "~/store/theme"
@@ -10,12 +9,6 @@ import axios from "axios";
 let authStores = authStore();
 let modalStores = modalStore();
 let themeStores = themeStore();
-
-const route = useRoute()
-const referrer = route.query.ref
-const cases = ref([])
-const caseHistory = ref([])
-const showSold = ref(false)
 
 console.log("Setup complete")
 
@@ -57,17 +50,6 @@ if (process.client){
   }
 }
 
-
-const openCase = async (id) => {
-  const req = await api.post(`case/open/${id}/`, {}, {
-    headers: {
-        Authorization: `KWT ${authStores.token}`
-      }
-  })
-
-  alert(req.data.name)
-}
-
 const tmpTransaction = async (morValue) => {
   console.log(morValue)
   await axios.post('http://localhost:8000/api/payments/balance/', {amount: morValue}, {
@@ -95,15 +77,11 @@ onMounted(async () => {
   themeStores.getTheme();
   themeStores.toggleTheme();
   themeStores.toggleTheme();
-/* 
-  const casesReq = await api.get('/case/all/')
-  cases.value = casesReq.data
-  console.log(authStores.stats)
-   */
 })
 </script>
 
 <template>
+    <!-- signIn -->
     <Transition name="fade">
         <div class="modal" v-if="modalStores.isModalShown('signIn')">
             <div class="modal-content">
@@ -116,15 +94,17 @@ onMounted(async () => {
                                   :fill="themeStores.isDarkTheme ? 'white':'black'"/>
                         </svg>
                     </div>
-                </div>
-
-                <div class="modal-content_body">
+                  </div>
+                  <div class="modal-content_body">
                     <button-vk/>
                     <button-telegram id="telegram-login-button"/>
-                </div>
+                  </div>
+                  <div class="modal-content_title">Через токен (Тест)</div>
+                  <Input/>
             </div>
         </div>
     </Transition>
+    <!-- deposit -->
     <Transition name="fade">
         <div class="modal" v-if="modalStores.isModalShown('deposit')">
             <div class="modal-content">
@@ -179,6 +159,7 @@ onMounted(async () => {
             </div>
         </div>
     </Transition>
+    <!-- review -->
     <Transition name="fade">
         <div class="modal" v-if="modalStores.isModalShown('review')">
             <div class="modal-content">
@@ -203,7 +184,7 @@ onMounted(async () => {
             </div>
         </div>
     </Transition>
-
+    <!-- caseOpen -->
     <Transition name="fade">
         <div class="modal" v-if="modalStores.isModalShown('caseOpen')">
             <div class="modal-content">
@@ -237,6 +218,7 @@ import {authStore} from "@/store/auth"
 import {rouletteStore} from "@/store/roulette"
 import RouletteItem from "~/components/cards/roulette-item.vue";
 import RouletteWheel from "~/components/misc/roulette-wheel.vue";
+import Input from '@/components/common/Input'
 
 export default {
     name: "modal",

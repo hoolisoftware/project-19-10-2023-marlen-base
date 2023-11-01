@@ -866,12 +866,12 @@ const _routes = [
     component: () => import('./_nuxt/profile-677b2725.mjs').then((m) => m.default || m)
   },
   {
-    name: "purchase",
-    path: "/purchase",
+    name: "purchase-id",
+    path: "/purchase/:id()",
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/purchase-b9427c6c.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/_id_-57c537a7.mjs').then((m) => m.default || m)
   },
   {
     name: "results",
@@ -887,7 +887,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/reviews-164ec805.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/reviews-ec140fbe.mjs').then((m) => m.default || m)
   },
   {
     name: "shop",
@@ -895,7 +895,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0,
-    component: () => import('./_nuxt/shop-ce928928.mjs').then((m) => m.default || m)
+    component: () => import('./_nuxt/shop-39616bf3.mjs').then((m) => m.default || m)
   },
   {
     name: "user-id",
@@ -1582,7 +1582,7 @@ const _wrapIf = (component, props, slots) => {
   } };
 };
 const layouts = {
-  default: () => import('./_nuxt/default-8d4b845f.mjs').then((m) => m.default || m),
+  default: () => import('./_nuxt/default-7f88eb85.mjs').then((m) => m.default || m),
   list: () => import('./_nuxt/list-6f534658.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = /* @__PURE__ */ defineComponent({
