@@ -17,7 +17,6 @@
 
 <script>
 import {modalStore} from '@/store/modal'; // Импортируем хранилище
-import {themeStore} from "~/store/theme";
 import {authStore} from "@/store/auth"
 import {rouletteStore} from "@/store/roulette"
 import RouletteItem from "~/components/cards/roulette-item.vue";
@@ -29,7 +28,6 @@ export default {
     data() {
         return {
             modalStores: modalStore(),
-            themeStores: themeStore(),
             authStores: authStore(),
             rouletteStores: rouletteStore(),
             items: [

@@ -12,6 +12,7 @@ export const modalStore = defineStore({
     }),
     actions: {
         showModal(modalName) {
+            console.log(modalName)
             this.setModal({ name: modalName, value: true });
         },
         hideModal(modalName) {

@@ -1,6 +1,13 @@
+<script setup>
+import { useThemeStore } from "~/store/themeNew";
+
+const theme = useThemeStore()
+
+</script>
+
 <template>
   <NuxtErrorBoundary>
-    <div class="wrapper" :data-theme="theme">
+    <div class="wrapper" :data-theme="theme.darkTheme ? 'dark' : 'light'">
       <modal />
       <website-header />
       <main>
@@ -15,27 +22,11 @@
 <script>
 import websiteHeader from "@/components/layout/website-header.vue";
 import websiteFooter from "@/components/layout/website-footer.vue";
-import card from "@/components/cards/case-card.vue";
 import About from "@/components/blocks/about.vue";
 import livedrop from "@/components/livedrop/livedrop.vue";
 import modal from "@/components/blocks/modal.vue";
-import Game from "@/pages/profile.vue";
-import { themeStore } from '@/store/theme';
 
-export default {
-  components: { Game, About, websiteHeader, websiteFooter, card, livedrop, modal },
-
-  computed: {
-    theme() {
-      return this.store.isDarkTheme ? 'dark' : 'light';
-    }
-  },
-  data() {
-    return {
-      store: themeStore()
-    };
-  }
-}
+export default {}
 </script>
 
 <style lang="scss">

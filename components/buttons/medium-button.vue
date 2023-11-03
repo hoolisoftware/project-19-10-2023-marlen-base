@@ -1,11 +1,17 @@
+<script setup>
+import { useThemeStore } from "~/store/themeNew";
+
+const theme = useThemeStore()
+
+</script>
+
 <template>
-<div :class="'button ' + (color ? color:'') + (border ? ' button-bordered':'')" :data-theme="theme">
-  {{text}}
-</div>
+  <div :class="'button ' + (color ? color : '') + (border ? ' button-bordered' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
+    {{ text }}
+  </div>
 </template>
 
 <script>
-import {themeStore} from "~/store/theme";
 
 export default {
   name: "medium-button",
@@ -23,18 +29,11 @@ export default {
       required: false
     }
   },
-computed: {
-
-    theme() {
-        return this.store.isDarkTheme ? 'dark':'light';
+  data() {
+    return {
+      activeMenu: false,
     }
-},
-    data() {
-        return {
-            activeMenu: false,
-            store: themeStore()
-        }
-    },
+  },
 }
 </script>
 
@@ -54,6 +53,7 @@ computed: {
   transition: 0.3s;
   text-decoration: none;
   cursor: pointer;
+
   &-bordered {
     background: none;
     border: var(--case-border);
@@ -61,16 +61,18 @@ computed: {
     font-weight: 500;
     opacity: 0.5;
   }
+
   & a {
     text-decoration: none;
   }
+
   &:hover {
     opacity: 0.9;
     transform: scale(0.98);
   }
 }
+
 .green {
   background: #30AD4B;
   color: #ffffff;
-}
-</style>
+}</style>

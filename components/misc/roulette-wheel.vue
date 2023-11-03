@@ -37,7 +37,6 @@
 <script>
 import MediumButton from "@/components/buttons/medium-button.vue";
 import {modalStore} from '@/store/modal'; // Импортируем хранилище
-import {themeStore} from "~/store/theme";
 import {authStore} from "@/store/auth"
 import RouletteItems from "~/components/misc/roulette-items.vue";
 import { rouletteStore } from "~/store/roulette";
@@ -48,7 +47,6 @@ export default {
     data() {
         return {
             modalStores: modalStore(),
-            themeStores: themeStore(),
             authStores: authStore(),
             rouletteStores: rouletteStore(),
         }
