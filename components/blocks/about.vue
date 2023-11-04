@@ -1,3 +1,9 @@
+<script setup>
+import { useAuthStore } from "~/store/authNew";
+
+const auth = useAuthStore()
+</script>
+
 <template>
   <div class="about">
     <h1>О нас в цифрах</h1>
@@ -63,8 +69,8 @@
     </div>
     <div class="about-right">
       <nuxt-img format="webp" alt="Девушка" class="about-right_girl" src="/img/person.png"/>
-      <div class="about-right_text">А ты всё еще не с нами?</div>
-      <medium-button text="Присоединиться"/>
+      <div class="about-right_text" v-if="!auth.kwt">А ты всё еще не с нами?</div>
+      <medium-button v-if="!auth.kwt" text="Присоединиться"/>
     </div>
   </div>
 </template>

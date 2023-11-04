@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/vue-query';
 import axios from 'axios';
-import useBaseQuery from ".";
+import useBaseQuery, { useBaseKwtQuery } from ".";
 import type { APIResponse } from "~/types/api";
 import type { Model } from "~/types/models";
 import { SERVER_URL } from '~/config';
@@ -45,4 +45,12 @@ export function useReviews() {
         },
         onError: (e) => console.log(e)
     })
+}
+
+
+export function useReviewUser() {
+    return useBaseKwtQuery<APIResponse<{review: Review}>>(
+        ['review-user'],
+        'reviews/user/'
+    )
 }

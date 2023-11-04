@@ -7,9 +7,6 @@ const modals = modalStore();
 const theme = useThemeStore();
 const roulette = rouletteStore()
 
-console.log(modals.isModalShown('caseOpen'))
-console.log('lol')
-
 </script>
 
 <template>

@@ -1,9 +1,11 @@
 <script setup>
 import { modalStore } from "@/store/modal"
 import { useThemeStore } from "~/store/themeNew";
+import { useAuthStore } from "~/store/authNew";
 
-let modals = modalStore()
-let theme = useThemeStore()
+const modals = modalStore()
+const theme = useThemeStore()
+const auth = useAuthStore()
 
 </script>
 
@@ -27,7 +29,8 @@ let theme = useThemeStore()
                     <button-telegram id="telegram-login-button"/>
                   </div>
                   <div class="modal-content_title">Через токен (Тест)</div>
-                  <Input/>
+                  <input type="text" placeholder="Введите токен" v-model="kwt">
+                  <button @click="() => auth.setKwt(kwt)">Сохранить токен</button>
             </div>
         </div>
     </Transition>

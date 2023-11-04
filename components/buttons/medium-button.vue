@@ -53,6 +53,7 @@ export default {
   transition: 0.3s;
   text-decoration: none;
   cursor: pointer;
+  width: 100%;
 
   &-bordered {
     background: none;
@@ -75,4 +76,12 @@ export default {
 .green {
   background: #30AD4B;
   color: #ffffff;
-}</style>
+}
+
+.red
+{
+  background: red;
+  color: #ffffff;
+}
+
+</style>

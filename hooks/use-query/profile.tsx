@@ -1,4 +1,4 @@
-import useBaseQuery from ".";
+import useBaseQuery, { useBaseKwtQuery } from ".";
 import type { APIResponse } from '@/types/api'
 import type { Model } from "@/types/models";
 import type { Item } from "./case";
@@ -31,8 +31,16 @@ export function useUserProfile(id: string|number) {
     return useBaseQuery<APIResponse<{user: UserInformation}>>(['user', id], `user/details/${id}`)
 }
 
+export function useUserSelf() {
+    return useBaseKwtQuery<APIResponse<{user: UserInformation}>>(['user-self'], `user/details/`)
+}
+
 export function useUserStats(id: string|number) {
     return useBaseQuery<APIResponse<{stats: UserStats}>>(['stats', id], `user/stats/${id}`)
+}
+
+export function useUserStatsSelf() {
+    return useBaseKwtQuery<APIResponse<{stats: UserStats}>>(['stats-self'], `user/stats/`)
 }
 
 export function useUserInventory(id: string|number) {

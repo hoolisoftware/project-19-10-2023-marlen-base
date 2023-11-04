@@ -8,10 +8,6 @@
       <span>Магазин</span>
       <div class="menu-item_border"></div>
     </nuxt-link>
-    <nuxt-link  to="/" class="menu-item" active-class="menu-item_active">
-      <span>Тайник</span>
-      <div class="menu-item_border"></div>
-    </nuxt-link>
     <nuxt-link  to="/alchemy" class="menu-item" active-class="menu-item_active">
       <span>Алхимия</span>
       <div class="menu-item_border"></div>
