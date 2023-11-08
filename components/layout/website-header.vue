@@ -1,7 +1,9 @@
 <script setup>
 import { useThemeStore } from "~/store/themeNew";
 import { useAuthStore } from "~/store/authNew";
+import { modalStore } from "~/store/modal"
 
+const modals = modalStore()
 const auth = useAuthStore()
 const theme = useThemeStore() 
 </script>
@@ -96,7 +98,10 @@ const theme = useThemeStore()
           </svg>
         </div>
       </div>
-      <mini-profile :logged="!!auth.kwt" />
+      <div v-if="!auth.kwt" v-on:click="modals.showModal('signIn')">
+        <medium-button text="Войти" />
+      </div>
+      <mini-profile v-else />
     </div>
   </div>
 </template>
@@ -105,13 +110,15 @@ const theme = useThemeStore()
 import miniProfile from "@/components/blocks/mini-profile.vue";
 import headerMenu from "@/components/menu/header-menu.vue";
 import mobileMenu from "@/components/menu/mobile-menu.vue";
+import mediumButton from "@/components/buttons/medium-button.vue"
 
 export default {
   name: "website-header",
   components: {
     miniProfile,
     headerMenu,
-    mobileMenu
+    mobileMenu,
+    mediumButton
   },
   data() {
     return {

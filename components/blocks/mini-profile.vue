@@ -8,10 +8,7 @@ const { data, isLoading } = useUserSelf()
 
 <template>
   <div class="mini-profile">
-    <div class="profile" v-if="!logged" v-on:click="modals.showModal('signIn')">
-      <medium-button text="Войти" />
-    </div>
-    <div class="profile" v-else>
+    <div class="profile">
       <div class="profile-cash" v-on:click="modals.showModal('deposit')">
         <nuxt-img alt="moon" src="/img/mor.png" />
         <div>{{ data?.data.user ? `${data?.data.user.balance}` : "Загрузка..." }}</div>
@@ -28,12 +25,6 @@ import MediumButton from "@/components/buttons/medium-button.vue";
 export default {
   name: "mini-profile",
   components: { MediumButton },
-  props: {
-    logged: {
-      type: Boolean,
-      required: true
-    },
-  }
 }
 </script>
 
