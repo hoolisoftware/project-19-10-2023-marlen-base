@@ -1,7 +1,16 @@
+<script setup>
 
+const url = new URL("https://oauth.telegram.org/auth")
+url.searchParams.set('bot_id', '6505934697')
+url.searchParams.set('origin', 'https://core.telegram.org')
+url.searchParams.set('embed', '1')
+url.searchParams.set('request_access', 'write')
+url.searchParams.set('return_to', 'http://leks.hooli.xyz/telegram-login')
+
+</script>
 
 <template>
-  <div class="tg" @click="tgPopup">
+  <a class="tg" :href="url.href">
     <div>Войти с помощью</div>
     <div>
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,53 +19,14 @@
           fill="white" />
       </svg>
     </div>
-  </div>
+  </a>
 </template>
 
 
 <script>
-import { authStore } from '@/store/auth'
-import api from '~/apiCaller';
-import { tgBotId, origin } from '@/config.js'
-
-export default {
-  components: {
-
-  },
-  methods: {
-    async tgPopup() {
-      window.open(
-        `https://oauth.telegram.org/auth?bot_id=${tgBotId}&origin=${origin}/&request_access=write`,
-        "_blank", "width=500,height=500"
-      )
-    },
-
-    async handleTelegramResponse(event) {
-      // Проверяем что это от телеги
-      const data = JSON.parse(event.data)
-      console.log(window.location.origin)
-      if (data.origin.slice(0, -1) !== window.location.origin || data.event !== "auth_result") return // слайсом убрали лишний / в конце
-
-      console.log(data)
-      let authStores = authStore();
-
-      const req = await api.post('user/auth/telegram_login/', { 'user': data.result })
-      console.log(req)
-      authStores.setToken(req.data.data.token)
-      authStores.setUser(req.data.data.user)
-      this.$router.go(0);
-    },
-  },
-  mounted() {
-    window.addEventListener('message', this.handleTelegramResponse, false);
-  },
-  beforeUnmount() {
-    window.removeEventListener('message', this.handleTelegramResponse, false);
-  },
-};
+export default {}
 </script>
     
-
 <style lang="scss" scoped>
 .tg {
   display: flex;
