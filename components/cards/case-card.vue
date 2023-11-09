@@ -56,7 +56,7 @@ export default {
 @import '../../public/colors';
 
 .case {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   width: 314px;
   height: max-content;
@@ -139,6 +139,7 @@ export default {
       font-size: 14px;
       line-height: 16px;
       color: #A6A6A6;
+      padding-right: 15px;
     }
 
     & div:nth-child(2) {
