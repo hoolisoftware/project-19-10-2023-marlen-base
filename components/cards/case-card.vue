@@ -7,9 +7,11 @@ const theme = useThemeStore()
 
 <template>
   <div :class="'case' + (!showBorder ? ' case-wb' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
-    <div :class="'case-image' + (!showBorder ? ' case-image_wb' : '')">
-      <img format="webp" :quality="showBorder ? 90 : 100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300"
-        :src="image" alt="Кейс" />
+    <div>
+      <div :class="'case-image' + (!showBorder ? ' case-image_wb' : '')">
+        <img format="webp" :quality="showBorder ? 90 : 100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300"
+          :src="image" alt="Кейс" />
+      </div>
     </div>
     <div class="case-title">{{ title }}</div>
     <div class="case-bottom">
@@ -65,6 +67,7 @@ export default {
   border-radius: 28px;
   gap: 10px;
   user-select: none;
+  text-align: center;
 
   a {
     color: var(--modal-text);
@@ -99,7 +102,7 @@ export default {
   }
 
   &-image {
-    display: flex;
+    display: inline-block;
     justify-content: center;
     align-items: center;
     width: 280px;
