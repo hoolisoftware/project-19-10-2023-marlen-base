@@ -2,7 +2,7 @@
 import { useAuthStore } from '~/store/authNew'
 import { ref } from 'vue'
 import { useReviews, type Review } from "~/hooks/use-query/review";
-import { formatIsoDate } from '@/utils/dates'
+import { useUserSelf } from '~/hooks/use-query/profile';
 
 const auth = useAuthStore()
 const filter = ref('all')
@@ -11,16 +11,19 @@ const setFilter = (value: string) => {
   filter.value = value
 }
 
-const filteredReviews = (reviews: Review[]) => {
+const filteredReviews = (reviews: Review[], currentUserId?: number) => {
   return reviews.filter(
     item =>
       filter.value === 'all' ? true : filter.value==='positive' ? item.is_positive : !item.is_positive
   ).filter(
     item => item.id
+  ).filter(
+    item => currentUserId ? (item.author.id !== currentUserId) : true
   )
 }
 
 const { data, fetchNextPage, isLoading } = useReviews()
+const { data: userData, isLoading: userIsLoading } = useUserSelf()
 
 </script>
 <template>
@@ -28,13 +31,11 @@ const { data, fetchNextPage, isLoading } = useReviews()
     {{ auth.user }}
     <title-section text="Отзывы" :info="`${data?.pages[0].data.count} отзывов`" />
     <div class="reviews">
-      <div v-if="isLoading">
-        Loading...
-      </div>
+      <loader v-if="isLoading || userIsLoading"/>
       <div class="reviews-list" v-else-if="data?.pages">
-        <review-user/>
+        <review-user v-if="auth.kwt"/>
         <template v-for="page in data.pages">
-          <template v-for="review in page.data.reviews.filter(item=> { return filter==='all' ? true : filter==='positive' ? item.is_positive : !item.is_positive } )" :key="review.id">
+          <template v-for="review in filteredReviews(page.data.reviews, userData?.data?.user?.id)" :key="review.id">
             <review-item
               v-bind="review"
             />
@@ -54,11 +55,12 @@ const { data, fetchNextPage, isLoading } = useReviews()
 </template>
 
 <script lang="ts">
-import reviewItem from "@/components/reviews/review-item-new.vue"
+import reviewItem from "@/components/reviews/review-item.vue"
 import reviewUser from "@/components/reviews/review-user.vue"
 import reviewStats from "@/components/reviews/review-stats.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import MediumButton from "@/components/buttons/medium-button.vue";
+import Loader from '~/components/loaders/Loader.vue';
 export default {
   name: "reviews",
   head: {

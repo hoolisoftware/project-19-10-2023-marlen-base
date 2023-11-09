@@ -1,0 +1,6 @@
+import { useAuthStore } from "~/store/authNew"
+
+export default defineNuxtRouteMiddleware((to, from) => {
+    const auth = useAuthStore()
+    if (!auth.kwt) return navigateTo('/')
+})

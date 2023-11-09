@@ -1,5 +1,8 @@
 <script setup>
 import { useThemeStore } from "~/store/themeNew"
+import { useAuthStore } from "~/store/authNew";
+
+const auth = useAuthStore()
 
 const theme = useThemeStore()
 </script>
@@ -32,7 +35,7 @@ const theme = useThemeStore()
     </nuxt-link>
     <br><br>
     <div class="menu-item logout-button">
-      <medium-button text="Выйти" />
+      <medium-button text="Выйти" @click="auth.removeKwt"/>
     </div>
 
     <div class="theme" v-on:click="theme.toggleTheme">

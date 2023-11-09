@@ -8,9 +8,7 @@ const {data: itemsData, isLoading: itemsIsLoading, isError: itemsIsError} = useS
 <template>
   <div class="page">
     <title-section text="Магазин"/>
-    <div v-if="itemsIsLoading">
-        Loading...
-    </div>
+    <loader v-if="itemsIsLoading"/>
     <div v-else-if="itemsIsError">
         Error...
     </div>
@@ -27,6 +25,7 @@ const {data: itemsData, isLoading: itemsIsLoading, isError: itemsIsError} = useS
 <script lang="ts">
 import shopCard from "@/components/cards/shop-card.vue";
 import titleSection from "@/components/blocks/title-section.vue";
+import Loader from "@/components/loaders/Loader.vue";
 import { SERVER_URL } from "~/config";
 
 export default {

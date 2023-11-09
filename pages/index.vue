@@ -15,9 +15,7 @@ const categories = [
 </script>
 
 <template>
-  <div v-if="isLoading">
-    Loading...
-  </div>
+  <loader v-if="isLoading"/>
   <div v-else-if="error">
     {{ (error instanceof AxiosError) && error.message }}
   </div>
@@ -57,6 +55,7 @@ const categories = [
 
 import card from "@/components/cards/case-card.vue";
 import titleSection from "@/components/blocks/title-section.vue";
+import Loader from '@/components/loaders/Loader.vue';
 
 export default {
   head: {

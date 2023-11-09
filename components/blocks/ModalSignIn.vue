@@ -30,7 +30,7 @@ const auth = useAuthStore()
                   </div>
                   <div class="modal-content_title">Через токен (Тест)</div>
                   <input type="text" placeholder="Введите токен" v-model="kwt">
-                  <button @click="() => auth.setKwt(kwt)">Сохранить токен</button>
+                  <button @click="() => {auth.setKwt(kwt); modals.hideModal('signIn')}">Сохранить токен</button>
             </div>
         </div>
     </Transition>

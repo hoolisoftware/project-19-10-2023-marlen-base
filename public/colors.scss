@@ -1,3 +1,14 @@
+// Loader
+
+$loaderBackgroundLight: #fff; 
+$loaderBackgroundDark: #131212;
+$loaderBoxLight: linear-gradient(97.6deg, #dbc1ab, #c9a788);
+$loaderBoxDark: #fff;
+$loaderBoxShadowLight: #000;
+$loaderBoxShadowDark: #fff;
+
+// 
+
 $caseBackground: #FFFFFF;
 $caseImage: rgba(0, 0, 0, 0.02);
 $caseBorder: 1px solid #DCDCDC;
@@ -47,6 +58,7 @@ $themeActiveBackgroundDark: #ffffff;
 
 $reviewBackground: #ffffff;
 $reviewBorder: 1px solid rgba(0, 0, 0, 0.08);
+$reviewSelfBorder: 1px solid #DBC1AB;
 $reviewLike: #E4F4E0;
 $reviewDislike: #F9E6E6;
 $reviewBody: #1B1B1B;
@@ -55,6 +67,7 @@ $reviewSource: rgba(0,0,0,0.4);
 
 $reviewBackgroundDark: #000000;
 $reviewBorderDark: 1px solid rgba(255, 255, 255, 0.08);
+$reviewSelfBorderDark: 1px solid #fff;
 $reviewLikeDark: #1D251B;
 $reviewDislikeDark: #291A1A;
 $reviewBodyDark: #E2E2E2;
@@ -120,6 +133,10 @@ $modalInputBorderDark: 1px solid #313131;
 
 
 [data-theme='light'] {
+  --loader-background: #{$loaderBackgroundLight};
+  --loader-box: #{$loaderBoxLight};
+  --loader-box-shadow: #{$loaderBoxShadowLight};
+
   --about-background: #{$aboutBackground};
   --about-item-background: #{$aboutItemBackground};
   --about-item-icon: #{$aboutItemIcon};
@@ -144,6 +161,7 @@ $modalInputBorderDark: 1px solid #313131;
 
   --review-background: #{$reviewBackground};
   --review-border: #{$reviewBorder};
+  --review-self-border: #{$reviewSelfBorder};
   --review-like: #{$reviewLike};
   --review-dislike: #{$reviewDislike};
   --review-body: #{$reviewBody};
@@ -179,6 +197,10 @@ $modalInputBorderDark: 1px solid #313131;
 }
 
 [data-theme='dark'] {
+  --loader-background: #{$loaderBackgroundDark};
+  --loader-box: #{$loaderBoxDark};
+  --loader-box-shadow: #{$loaderBoxShadowDark};
+
   --about-background: #{$aboutBackgroundDark};
   --about-item-background: #{$aboutItemBackgroundDark};
   --about-item-icon: #{$aboutItemIconDark};
@@ -203,6 +225,7 @@ $modalInputBorderDark: 1px solid #313131;
 
   --review-background: #{$reviewBackgroundDark};
   --review-border: #{$reviewBorderDark};
+  --review-self-border: #{$reviewSelfBorderDark};
   --review-like: #{$reviewLikeDark};
   --review-dislike: #{$reviewDislikeDark};
   --review-body: #{$reviewBodyDark};

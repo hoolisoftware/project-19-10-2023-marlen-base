@@ -8,7 +8,7 @@ export const apiInstance = axios.create({
     timeout: 1000
 })
 
-export default function useBaseQuery<T>(keys: (string|number)[], url: string, onSuccess?: (data: any) => void) {
+export default function useBaseQuery<T>(keys: (string|number|null)[], url: string, onSuccess?: (data: any) => void) {
     return useQuery({
         queryKey: keys,
         queryFn: async () => {
@@ -19,17 +19,21 @@ export default function useBaseQuery<T>(keys: (string|number)[], url: string, on
     })
 }
 
-export function useBaseKwtQuery<T>(keys: (string|number)[], url: string, onSuccess?: (data: any) => void) {
+export function useBaseKwtQuery<T>(keys: (string|number|null)[], url: string, onSuccess?: (data: any) => void) {
     const auth = useAuthStore()
+    keys.push(auth.kwt)
     return useQuery({
         queryKey: keys,
         queryFn: async () => {
-            const {data} = await apiInstance.get(url, {
-                headers: {
-                    Authorization: `KWT ${auth.kwt}`
-                }
-            })
-            return data as T
+            if (auth.kwt) {
+                const {data} = await apiInstance.get(url, {
+                    headers: {
+                        Authorization: `KWT ${auth.kwt}`
+                    }
+                })
+                return data as T
+            }
+            return {}
         },
         onSuccess: onSuccess,
         onError: (e: AxiosError) => {

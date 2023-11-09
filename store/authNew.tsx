@@ -14,7 +14,6 @@ export const useAuthStore = defineStore('auth', {
     },
     removeKwt() {
       this.kwt = null
-      navigateTo('/')
     }
   },
   persist: true,

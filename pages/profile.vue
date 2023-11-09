@@ -3,18 +3,19 @@ import { useAuthStore } from "~/store/authNew";
 import { useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
 
 const auth = useAuthStore()
-const { data } = useUserSelf()
-const { data: statsData } = useUserStatsSelf()
+const { data, isLoading } = useUserSelf()
+const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
 </script>
 
 <template>
-  <div class="page">
+  <loader v-if="isLoading || isLoadingStats"/>
+  <div class="page" v-else-if="data?.data?.user">
     <title-section text="Профиль" />
     <div class="profile">
       <div class="profile-info">
         <div class="profile-avatar">
           <img
-            :src="data?.data.user.photo_url ? data?.data.user.photo_url : 'https://bipbap.ru/wp-content/uploads/2022/11/1652235714_41-kartinkin-net-p-prikolnie-kartinki-dlya-stima-44.jpg'"
+            :src="data?.data?.user.photo_url ? data?.data.user.photo_url : 'https://bipbap.ru/wp-content/uploads/2022/11/1652235714_41-kartinkin-net-p-prikolnie-kartinki-dlya-stima-44.jpg'"
             alt="Аватар" />
         </div>
         <div class="profile-name">
@@ -91,7 +92,7 @@ const { data: statsData } = useUserStatsSelf()
           </div>
         </div>
         <br>
-        <medium-button text="Выйти" @click="auth.removeKwt"/>
+        <medium-button text="Выйти" @click="() => {auth.removeKwt(); navigateTo('/')}"/>
       </div>
       <div class="inventory">
         <div class="inventory-top">
@@ -140,6 +141,11 @@ import mediumButton from "@/components/buttons/medium-button.vue";
 import inventoryItem from "@/components/cards/inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import { modalStore } from "~/store/modal";
+import Loader from "~/components/loaders/Loader.vue";
+
+definePageMeta({
+  middleware: 'authenticated'
+})
 
 export default {
   name: "profile",
