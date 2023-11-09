@@ -99,8 +99,8 @@ const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsE
                             <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active':'')" v-on:click="activeTab = 1">Выведено</div>
                         </div>
                         <div class="inventory-items">
-                          <div v-for="profile_item in inventoryData?.data.items">
-                            <profile-item :image="SERVER_URL + profile_item.item.photo_url" v-if="(activeTab === 0) || (activeTab === 1 && profile_item.is_ordered)"/>
+                          <div v-for="profile_item in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))">
+                            <profile-item :image="SERVER_URL + profile_item.item.photo_url"/>
                           </div>
                         </div>
                     </div>

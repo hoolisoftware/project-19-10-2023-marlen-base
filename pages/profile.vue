@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/store/authNew";
-import { useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
+import { useInventorySelf, useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
 
 const auth = useAuthStore()
 const { data } = useUserSelf()
 const { data: statsData } = useUserStatsSelf()
+const { data: inventoryData } = useInventorySelf()
 </script>
 
 <template>
@@ -97,7 +98,11 @@ const { data: statsData } = useUserStatsSelf()
         <div class="inventory-top">
           <div class="inventory-top_title">
             <h2>Инвентарь</h2>
-            <span>120 предметов</span>
+            <span>
+              {{ inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length }} 
+              {{ getNoun(inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length, "предмет", "предмета", "предметов") }}
+            </span>
+
           </div>
           <div class="inventory-top_actions" v-if="!$route.params.otherProfile">
             Продать всё
@@ -111,24 +116,9 @@ const { data: statsData } = useUserStatsSelf()
             v-on:click="activeTab = 1">Выведено</div>
         </div>
         <div class="inventory-items">
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
+          <div v-for="profile_item in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))">
+            <inventory-item :image="SERVER_URL + profile_item.item.photo_url"/>
+          </div>
         </div>
       </div>
     </div>
@@ -140,6 +130,8 @@ import mediumButton from "@/components/buttons/medium-button.vue";
 import inventoryItem from "@/components/cards/inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import { modalStore } from "~/store/modal";
+import { getNoun } from "~/languageCorrecter"
+import { SERVER_URL } from "~/config";
 
 export default {
   name: "profile",

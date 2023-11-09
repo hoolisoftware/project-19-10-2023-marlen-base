@@ -35,6 +35,10 @@ export function useUserSelf() {
     return useBaseKwtQuery<APIResponse<{user: UserInformation}>>(['user-self'], `user/details/`)
 }
 
+export function useInventorySelf() {
+    return useBaseKwtQuery<APIResponse<{items: InventoryItem[]}>>(['inventory-self'], `user/inventory/`)
+}
+
 export function useUserStats(id: string|number) {
     return useBaseQuery<APIResponse<{stats: UserStats}>>(['stats', id], `user/stats/${id}`)
 }
