@@ -20,7 +20,7 @@ const { data: statsData } = useUserStatsSelf()
         <div class="profile-name">
           {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
         </div>
-        <div class="profile-contacts" v-if="$route.params.otherProfile">
+        <!-- <div class="profile-contacts" v-if="$route.params.otherProfile">
           <div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_214_6157)">
@@ -56,7 +56,7 @@ const { data: statsData } = useUserStatsSelf()
             </svg>
 
           </div>
-        </div>
+        </div> -->
         <div class="profile-cash" v-if="!$route.params.otherProfile">
           <div class="profile-cash_left">
             <div>Баланс</div>
