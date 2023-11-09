@@ -62,6 +62,7 @@ export default {
         display: flex;
         justify-content: center;
         gap: 10px;
+        padding-top: 10px;
     }
     &-arrow {
         display: flex;
@@ -83,6 +84,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-bottom: 10px;
         & span {
             font-weight: 600;
             font-size: 16px;
