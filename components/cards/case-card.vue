@@ -93,6 +93,8 @@ export default {
     font-size: 18px;
     line-height: 21px;
     text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   &-bottom {
