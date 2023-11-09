@@ -83,7 +83,9 @@ export default {
                 element.style.transition = "transform 8s cubic-bezier(.08,.67,.25,1)"
                 element.style.transform = `translateX(${(-(this.items.length-this.bufferItems*2)/2*100+(10+this.random_num*80))}%)`;
             }); 
-            await new Promise(r => setTimeout(r, wait_before_again));
+            if (this.rouletteStores.animationState === 'again') {
+                await new Promise(r => setTimeout(r, wait_before_again));
+            }
             const animationStartTime = Date.now();
             let currentTime = Date.now();
             let elapsed = currentTime - animationStartTime;
