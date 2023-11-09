@@ -11,6 +11,7 @@ export interface Review extends Model {
     is_positive: boolean
     text: string
     author: {
+        id: number
         first_name: string
         last_name: string
         photo_url: string

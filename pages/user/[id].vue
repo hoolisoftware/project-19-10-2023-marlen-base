@@ -9,9 +9,7 @@ const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsE
 
 <template>
     <div class="page">
-        <div v-if="profileIsLoading">
-            Loading...
-        </div>
+        <loader v-if="profileIsLoading || statsIsLoading || inventoryIsLoading"/>
         <div v-else-if="profileIsError">
             Error...
         </div>
@@ -118,6 +116,7 @@ import {modalStore} from "~/store/modal";
 import { authStore } from "~/store/auth";
 import { getNoun } from "~/languageCorrecter"
 import { SERVER_URL } from "~/config";
+import Loader from "~/components/loaders/Loader.vue";
 
 export default {
     name: "user_profile",

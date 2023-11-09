@@ -9,9 +9,7 @@ const {data, isLoading, isError} = useCase(String(id))
 
 <template>
   <div class="page">
-    <div v-if="isLoading">
-      Loading...
-    </div>
+    <loader v-if="isLoading"/>
     <div v-else-if="isError">
       Error...
     </div>
@@ -41,6 +39,7 @@ const {data, isLoading, isError} = useCase(String(id))
 <script lang="ts">
 import CaseItem from "@/components/cards/case-item.vue";
 import card from "@/components/cards/case-card.vue";
+import Loader from "@/components/loaders/Loader.vue";
 
 export default {
   name: "case",
