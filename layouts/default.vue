@@ -92,6 +92,9 @@ body[data-theme="dark"] {
   background: #FFFFFF;
   color: #000000;
   transition: 0.3s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper[data-theme="dark"] {
