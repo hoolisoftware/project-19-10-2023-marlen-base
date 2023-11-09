@@ -24,9 +24,11 @@ const {data, isLoading, isError} = useCase(String(id))
           :cost="data?.data.case.price"
           :show-border="false"/>
       </div>
-      <h2>Что может выпасть?</h2>
-      <div class="page-items" v-for="item in data?.data.case.items">
-        <case-item :title='item.name' :image='SERVER_URL+item.photo_url' :cost='item.sgd_price'/>
+      <h2 class="page-items">Что может выпасть?</h2>
+      <div class="page-items">
+        <div v-for="item in data?.data.case.items">
+          <case-item :title='item.name' :image='SERVER_URL+item.photo_url' :cost='item.sgd_price'/>
+        </div>
       </div>
     </div>
     <h2>Другие кейсы</h2>
