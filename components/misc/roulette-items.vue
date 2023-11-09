@@ -68,10 +68,22 @@ export default {
     },
     methods: {
         async moveElement() {
-            this.items.forEach((item) => {
+            this.is_winner = false;
+            this.clicked = false;
+            this.instantly = false;
+            const wait_before_again = 100;
+            this.items.forEach(async (item) => {
                 const element = document.getElementById(`el${this.items.indexOf(item)}`);
-                element.style.transform = `translateX(${-(this.items.length-this.bufferItems*2)/2*100+(10+this.random_num*80)}%)`;
-            });
+                element.style.opacity = ""
+                if (this.rouletteStores.animationState === 'again') {
+                    element.style.transition = `transform 0.01s ease`
+                    element.style.transform = `translateX(${(this.items.length-this.bufferItems*2)/2*100-50}%)`;
+                    await new Promise(r => setTimeout(r, wait_before_again));
+                }
+                element.style.transition = "transform 8s cubic-bezier(.08,.67,.25,1)"
+                element.style.transform = `translateX(${(-(this.items.length-this.bufferItems*2)/2*100+(10+this.random_num*80))}%)`;
+            }); 
+            await new Promise(r => setTimeout(r, wait_before_again));
             const animationStartTime = Date.now();
             let currentTime = Date.now();
             let elapsed = currentTime - animationStartTime;
@@ -107,7 +119,7 @@ export default {
     watch: {
         rouletteStores: {
             async handler(newValue) {
-                if (newValue.animationState === "running") {
+                if ((newValue.animationState === "running") || (newValue.animationState === "again")) {
                     await this.moveElement()
                 }
             },
