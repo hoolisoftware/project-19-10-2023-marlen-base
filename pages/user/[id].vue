@@ -22,7 +22,7 @@ const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsE
                         <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-avatar"/>
                     </div>
                     <div class="profile-name"> {{ profileData?.data.user.first_name + (profileData?.data.user.last_name ? profileData?.data.user.last_name : "") }} </div>
-                    <div class="profile-contacts" v-if="$route.params.otherProfile">
+                    <!-- <div class="profile-contacts" v-if="$route.params.otherProfile">
                         <div>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0_214_6157)">
@@ -50,7 +50,7 @@ const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsE
                             </svg>
 
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div v-if="statsIsLoading">
                         Loading...
@@ -98,8 +98,8 @@ const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsE
                             <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active':'')" v-on:click="activeTab = 1">Выведено</div>
                         </div>
                         <div class="inventory-items">
-                          <div v-for="profile_item in inventoryData?.data.items">
-                            <profile-item :image="SERVER_URL + profile_item.item.photo_url" v-if="(activeTab === 0) || (activeTab === 1 && profile_item.is_ordered)"/>
+                          <div v-for="profile_item in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))">
+                            <profile-item :image="SERVER_URL + profile_item.item.photo_url"/>
                           </div>
                         </div>
                     </div>

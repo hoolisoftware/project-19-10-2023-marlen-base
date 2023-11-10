@@ -54,6 +54,7 @@ export default {
   text-decoration: none;
   cursor: pointer;
   width: 100%;
+  white-space: nowrap;
 
   &-bordered {
     background: none;

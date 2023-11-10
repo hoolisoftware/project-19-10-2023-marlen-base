@@ -71,7 +71,6 @@ export default {
     gap: 35px;
       overflow: hidden;
     @media(max-width: 400px) {
-      max-width: 300px;
       gap: 20px;
     }
 

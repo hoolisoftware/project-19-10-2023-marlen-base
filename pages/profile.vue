@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/store/authNew";
-import { useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
+import { useInventorySelf, useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
 
 const auth = useAuthStore()
 const { data, isLoading } = useUserSelf()
 const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
+const { data: inventoryData } = useInventorySelf()
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
         <div class="profile-name">
           {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
         </div>
-        <div class="profile-contacts" v-if="$route.params.otherProfile">
+        <!-- <div class="profile-contacts" v-if="$route.params.otherProfile">
           <div>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_214_6157)">
@@ -60,7 +61,7 @@ const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
             </svg>
 
           </div>
-        </div>
+        </div> -->
         <div class="profile-cash" v-if="!$route.params.otherProfile">
           <div class="profile-cash_left">
             <div>Баланс</div>
@@ -101,7 +102,11 @@ const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
         <div class="inventory-top">
           <div class="inventory-top_title">
             <h2>Инвентарь</h2>
-            <span>120 предметов</span>
+            <span>
+              {{ inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length }} 
+              {{ getNoun(inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length, "предмет", "предмета", "предметов") }}
+            </span>
+
           </div>
           <div class="inventory-top_actions" v-if="!$route.params.otherProfile">
             Продать всё
@@ -115,24 +120,9 @@ const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
             v-on:click="activeTab = 1">Выведено</div>
         </div>
         <div class="inventory-items">
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
-          <inventory-item />
+          <div v-for="profile_item in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))">
+            <inventory-item :image="SERVER_URL + profile_item.item.photo_url"/>
+          </div>
         </div>
       </div>
     </div>
@@ -149,6 +139,8 @@ import Loader from "~/components/loaders/Loader.vue";
 definePageMeta({
   middleware: 'authenticated'
 })
+import { getNoun } from "~/languageCorrecter"
+import { SERVER_URL } from "~/config";
 
 export default {
   name: "profile",

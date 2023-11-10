@@ -20,13 +20,13 @@
                 <p>Удачи и крутых впечатлений!</p>
             </div>
             <div class="roulette-buttons">
-                <medium-button color="green" text="Продать"/>
-                <medium-button text="Ещё раз"/>
+                <medium-button color="green" text="Продать" @click="rouletteStores.animationState = null; modalStores.hideModal('caseOpen')"/>
+                <medium-button text="Ещё раз" @click="rouletteStores.animationState = 'again'"/>
             </div>
         </div>
         <div v-else>
             <medium-button 
-                text="Открыть" 
+                :text="rouletteStores.animationState === 'again'? 'Ещё раз' : 'Открыть'" 
                 :style="{transition: `opacity 0.6s ease`, opacity: (rouletteStores.animationState === null? 1: 0.6)}"
                 @click="(rouletteStores.animationState === null)? (rouletteStores.animationState = 'running') : false"
             />
@@ -62,6 +62,7 @@ export default {
         display: flex;
         justify-content: center;
         gap: 10px;
+        padding-top: 10px;
     }
     &-arrow {
         display: flex;
@@ -83,6 +84,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding-bottom: 10px;
         & span {
             font-weight: 600;
             font-size: 16px;

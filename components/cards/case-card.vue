@@ -7,9 +7,11 @@ const theme = useThemeStore()
 
 <template>
   <div :class="'case' + (!showBorder ? ' case-wb' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
-    <div :class="'case-image' + (!showBorder ? ' case-image_wb' : '')">
-      <img format="webp" :quality="showBorder ? 90 : 100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300"
-        :src="image" alt="Кейс" />
+    <div>
+      <div :class="'case-image' + (!showBorder ? ' case-image_wb' : '')">
+        <img format="webp" :quality="showBorder ? 90 : 100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300"
+          :src="image" alt="Кейс" />
+      </div>
     </div>
     <div class="case-title">{{ title }}</div>
     <div class="case-bottom">
@@ -54,7 +56,7 @@ export default {
 @import '../../public/colors';
 
 .case {
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   width: 314px;
   height: max-content;
@@ -65,6 +67,7 @@ export default {
   border-radius: 28px;
   gap: 10px;
   user-select: none;
+  text-align: center;
 
   a {
     color: var(--modal-text);
@@ -90,6 +93,8 @@ export default {
     font-size: 18px;
     line-height: 21px;
     text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
 
   &-bottom {
@@ -99,7 +104,7 @@ export default {
   }
 
   &-image {
-    display: flex;
+    display: inline-block;
     justify-content: center;
     align-items: center;
     width: 280px;
@@ -136,6 +141,7 @@ export default {
       font-size: 14px;
       line-height: 16px;
       color: #A6A6A6;
+      padding-right: 15px;
     }
 
     & div:nth-child(2) {
