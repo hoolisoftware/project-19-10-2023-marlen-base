@@ -18,7 +18,8 @@ const {data: inventoryData, isLoading: inventoryIsLoading, isError: inventoryIsE
             <div class="profile">
                 <div class="profile-info">
                     <div class="profile-avatar">
-                        <img :src="profileData?.data.user.photo_url" alt="Аватар"/>
+                        <img v-if="profileData?.data.user.photo_url" :src="profileData?.data.user.photo_url" alt="Аватар"/>
+                        <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-avatar"/>
                     </div>
                     <div class="profile-name"> {{ profileData?.data.user.first_name + (profileData?.data.user.last_name ? profileData?.data.user.last_name : "") }} </div>
                     <div class="profile-contacts" v-if="$route.params.otherProfile">

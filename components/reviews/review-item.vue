@@ -10,36 +10,54 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-    <div :class="['review', self && 'review-self'].join(' ')">
-        <div class="review-top">
-            <div class="review-user">
-                <img :src="props.author.photo_url" width="190" height="190" alt="Аватар" />
-                <div class="review-info">
-                    <div class="review-info_user">{{ props.author.first_name }} {{ props.author.last_name }}</div>
-                    <div class="review-details_date">{{ formatIsoDate(props.created_at) }}</div>
+    <div>
+        <div :class="['review', self && 'review-self'].join(' ')">
+            <div class="review-top">
+                <div class="review-user">
+                    <img v-if="props.author.photo_url" :src="props.author.photo_url" width="190" height="190" alt="Аватар" />
+                    <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" width="190" height="190"/>
+                    <div class="review-info">
+                        <div class="review-info_user">{{ props.author.first_name }} {{ props.author.last_name }}</div>
+                        <div class="review-details_date">{{ formatIsoDate(props.created_at) }}</div>
+                    </div>
+                </div>
+                <div class="review-details">
+                    <div :class="props.is_positive ? 'review-details_icon' : 'review-details_icon__red'">
+    
+                        <svg v-if="props.is_positive" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.65432 14.6668V26.6668H7.50766C6.30766 26.6668 5.34766 25.7068 5.34766 24.5202V16.8268C5.34766 15.6402 6.32099 14.6668 7.50766 14.6668H9.65432ZM24.6676 12.6668H18.2943V8.00016C18.2943 6.5335 17.0943 5.3335 15.641 5.3335H15.521C14.9876 5.3335 14.5076 5.6535 14.2943 6.14683L10.6543 14.6668V26.6668H22.921C23.8943 26.6668 24.721 25.9735 24.8943 25.0135L26.6543 15.0135C26.8676 13.7868 25.9343 12.6668 24.681 12.6668H24.6676Z"
+                                fill="#68B159" />
+                        </svg>
+    
+                        <svg v-if="!props.is_positive" width="32" height="32" viewBox="0 0 32 32" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.65432 17.3332V5.33317H7.50766C6.30766 5.33317 5.34766 6.29317 5.34766 7.47984V15.1732C5.34766 16.3598 6.32099 17.3332 7.50766 17.3332H9.65432ZM24.6676 19.3332H18.2943V23.9998C18.2943 25.4665 17.0943 26.6665 15.641 26.6665H15.521C14.9876 26.6665 14.5076 26.3465 14.2943 25.8532L10.6543 17.3332V5.33317H22.921C23.8943 5.33317 24.721 6.0265 24.8943 6.98651L26.6543 16.9865C26.8676 18.2132 25.9343 19.3332 24.681 19.3332H24.6676Z"
+                                fill="#D34A4A" />
+                        </svg>
+                    </div>
                 </div>
             </div>
-            <div class="review-details">
-                <div :class="props.is_positive ? 'review-details_icon' : 'review-details_icon__red'">
-
-                    <svg v-if="props.is_positive" width="32" height="32" viewBox="0 0 32 32" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M9.65432 14.6668V26.6668H7.50766C6.30766 26.6668 5.34766 25.7068 5.34766 24.5202V16.8268C5.34766 15.6402 6.32099 14.6668 7.50766 14.6668H9.65432ZM24.6676 12.6668H18.2943V8.00016C18.2943 6.5335 17.0943 5.3335 15.641 5.3335H15.521C14.9876 5.3335 14.5076 5.6535 14.2943 6.14683L10.6543 14.6668V26.6668H22.921C23.8943 26.6668 24.721 25.9735 24.8943 25.0135L26.6543 15.0135C26.8676 13.7868 25.9343 12.6668 24.681 12.6668H24.6676Z"
-                            fill="#68B159" />
-                    </svg>
-
-                    <svg v-if="!props.is_positive" width="32" height="32" viewBox="0 0 32 32" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M9.65432 17.3332V5.33317H7.50766C6.30766 5.33317 5.34766 6.29317 5.34766 7.47984V15.1732C5.34766 16.3598 6.32099 17.3332 7.50766 17.3332H9.65432ZM24.6676 19.3332H18.2943V23.9998C18.2943 25.4665 17.0943 26.6665 15.641 26.6665H15.521C14.9876 26.6665 14.5076 26.3465 14.2943 25.8532L10.6543 17.3332V5.33317H22.921C23.8943 5.33317 24.721 6.0265 24.8943 6.98651L26.6543 16.9865C26.8676 18.2132 25.9343 19.3332 24.681 19.3332H24.6676Z"
-                            fill="#D34A4A" />
-                    </svg>
-                </div>
+            <div class="review-body">
+                {{ props.text }}
             </div>
         </div>
-        <div class="review-body">
-            {{ props.text }}
+        <div class="review-answer">
+            <div :class="['review'].join(' ')">
+                <div class="review-top">
+                    <div class="review-user">
+                        <nuxt-img src="/img/avatars/no-avatar.png" format="webp" width="190" height="190"/>
+                        <div class="review-info">
+                            <div class="review-info_user">Kleewish</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-body">
+                    {{ props.text }}
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -50,7 +68,6 @@ const props = defineProps<Props>()
 .review {
     display: flex;
     flex-direction: column;
-    width: 790px;
     height: max-content;
     box-sizing: border-box;
     padding: 25px;
@@ -59,8 +76,12 @@ const props = defineProps<Props>()
     border: var(--review-border);
     border-radius: 10px;
 
-    @media(max-width: 1100px) {
-        width: 100%;
+    &-answer
+    {
+        border-left: 2px solid #fff;
+        padding-left: 10px;
+        margin-left: 16px;
+        margin-top: 16px;
     }
 
     &-self {
@@ -156,7 +177,6 @@ const props = defineProps<Props>()
             font-weight: 500;
             font-size: 14px;
             line-height: 16px;
-            text-align: center;
             opacity: 0.25;
         }
     }

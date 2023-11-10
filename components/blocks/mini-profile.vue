@@ -14,7 +14,8 @@ const { data, isLoading } = useUserSelf()
         <div>{{ data?.data.user ? `${data?.data.user.balance}` : "Загрузка..." }}</div>
       </div>
       <nuxt-link :to="{ name: 'profile' }">
-        <img :src="data?.data.user.photo_url" alt="" class="profile-avatar">
+        <img v-if="data?.data.user.photo_url" :src="data?.data.user.photo_url" alt="" class="profile-avatar">
+        <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-avatar"/>
       </nuxt-link>
     </div>
   </div>

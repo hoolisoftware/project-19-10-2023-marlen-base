@@ -44,11 +44,13 @@ const { data: userData, isLoading: userIsLoading } = useUserSelf()
         <medium-button v-if="data.pages[Object.keys(data.pages).length - 1].data?.has_next" text="Увидеть ещё"
           @click="fetchNextPage"></medium-button>
       </div>
-      <div class="reviews-stat">
-        <review-stats />
-        <div><medium-button @click="() => setFilter('all')" text="Все" :border="filter==='all'" /></div>
-        <div><medium-button @click="() => setFilter('positive')" text="Только положительные" :border="filter==='positive'" /></div>
-        <div><medium-button @click="() => setFilter('negative')" text="Только отрицательные" :border="filter==='negative'" /></div>
+      <div>
+        <div class="reviews-stat">
+          <review-stats />
+          <div><medium-button @click="() => setFilter('all')" text="Все" :border="filter==='all'" /></div>
+          <div><medium-button @click="() => setFilter('positive')" text="Только положительные" :border="filter==='positive'" /></div>
+          <div><medium-button @click="() => setFilter('negative')" text="Только отрицательные" :border="filter==='negative'" /></div>
+        </div>
       </div>
     </div>
   </div>
@@ -121,6 +123,8 @@ select {
   }
 
   &-stat {
+    position: sticky;
+    top: 0px;
     display: flex;
     flex-direction: column;
     gap: 7px;

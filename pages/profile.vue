@@ -15,8 +15,11 @@ const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
       <div class="profile-info">
         <div class="profile-avatar">
           <img
-            :src="data?.data?.user.photo_url ? data?.data.user.photo_url : 'https://bipbap.ru/wp-content/uploads/2022/11/1652235714_41-kartinkin-net-p-prikolnie-kartinki-dlya-stima-44.jpg'"
-            alt="Аватар" />
+            v-if="data?.data?.user.photo_url"
+            :src="data?.data?.user.photo_url"
+            alt="Аватар"
+          />
+          <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-avatar"/>
         </div>
         <div class="profile-name">
           {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
