@@ -25,7 +25,7 @@ const { data: SimilarCasesData, isLoading: isLoadingSimilarCases } = useSimilarC
       <h2 class="page-items">Что может выпасть?</h2>
       <div class="page-items">
         <div v-for="item in data?.data.case.items">
-          <case-item :title='item.name' :image='SERVER_URL+item.photo_url' :cost='item.sgd_price'/>
+          <case-item :title='item.name' :image='SERVER_URL+item.photo_url' :cost='item.price'/>
         </div>
       </div>
     </div>
