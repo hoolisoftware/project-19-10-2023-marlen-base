@@ -14,8 +14,6 @@
             :instantly="instantly"
             :id="`el${items.indexOf(item)}`"
         />
-
-        <!-- class="roulette_transitions" -->
     </div>
 </template>
 
@@ -36,7 +34,7 @@ export default {
             modalStores: modalStore(),
             authStores: authStore(),
             rouletteStores: rouletteStore(),
-            items: [
+/*             items: [
                 {title: "None", image: "/img/items/item_1.png", cost: 125},
                 {title: "Nonee", image: "/img/items/item_1.png", cost: 125},
                 {title: "None", image: "/img/items/item_1.png", cost: 120},
@@ -61,17 +59,21 @@ export default {
                 {title: "None", image: "/img/items/item_1.png", cost: 1200},
                 {title: "None", image: "/img/items/item_1.png", cost: 125},
                 {title: "None", image: "/img/items/item_1.png", cost: 120},
-            ],
-            //items: [], 
-            len_items: null,
+            ], */
+            items: [],
+            case_data: null,
             random_num: Math.random(),
             is_winner: false,
             animationStartTime: 0,
             animationCompletion: 0,
-            animationDuration: 8000,
+            animationDuration: null,
             clicked: false,
             instantly: false,
             bufferItems: 2,
+            min_items: 21,
+            max_items: 41,
+            min_animation_duration: 6000,
+            max_animation_duration: 10000,
         }
     },
     methods: {
@@ -131,45 +133,53 @@ export default {
             })
         },
         async populateItems() {
-            const rouletteStores = rouletteStore()
-            while (rouletteStores.caseId === null) {
-                await new Promise(r => setTimeout(r, 100));
-            }
-            if (rouletteStores.caseId === "dfasfa") {
-                return  
-            }
-            const {data, isLoading, isError} = useCase(rouletteStores.caseId.toString())
-            while (isLoading?.value) {
-                await new Promise(r => setTimeout(r, 100));
-            }
-            const caseItems = data?.value?.data.case.items
-            let items = []
+            const caseItems = this.case_data.data.case.items
+            const items = []
             
-            this.len_items = Math.floor((20+Math.random()*20))
-            this.animationDuration = 6000+Math.random()*4000
+            const len_items = Math.floor((this.min_items+Math.random()*(this.max_items-this.min_items))/2)*2+1
+            const animationDuration = this.min_animation_duration+Math.random()*(this.max_animation_duration-this.min_animation_duration)
 
-            for (let i = 0; i < this.len_items; i++) {
+            for (let i = 0; i < len_items; i++) {
                 const item = caseItems[Math.floor((Math.random()*caseItems.length))]
                 items.push({title: item.name, image: SERVER_URL + item.photo_url, cost: item.price})
             }
-
-            this.items = items
+            console.log(items, animationDuration)
+            return {items, animationDuration}
         }
     },
     watch: {
         rouletteStores: {
             async handler(newValue) {
-                if ((newValue.animationState === "running") || (newValue.animationState === "again")) {
+                if (newValue.animationState === "running") {
                     await this.moveElement()
+                } else if (newValue.animationState === "again") {
+                    const data = await this.populateItems()
+                    this.items = data.items
+                    this.animationDuration = data.animationDuration
+                    this.random_num = Math.random()
+                    await this.$nextTick().then(async () => { 
+                        await this.moveElement()
+                    })
                 }
             },
             deep: true,
         }
     },
-    mounted() {
-        this.populateItems()
+    created() {
+        const {data, isLoading, isError} = useCase(this.rouletteStores.caseId.toString())
+        this.case_data = data
+        this.populateItems().then(data => {
+            this.items = data.items
+            this.animationDuration = data.animationDuration
+        })
+    },
+    async mounted() {
+        while (this.items.length === 0) {
+            await new Promise(r => setTimeout(r, 30));
+        }
         this.items.forEach((item) => {
             const element = document.getElementById(`el${this.items.indexOf(item)}`);
+            element.style.transition = `transform 0s ease`
             element.style.transform = `translateX(${(this.items.length-this.bufferItems*2)/2*100-50}%)`;
         });
     },
