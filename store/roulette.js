@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const rouletteStore = defineStore({
     id: 'rouletteStore',
     state: () => ({
-        animationState: null
+        animationState: null,
+        caseId: null
     })
 });

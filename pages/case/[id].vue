@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { useCase, useSimilarCases } from "~/hooks/use-query/case";
 import { SERVER_URL } from "~/config";
+import { rouletteStore } from "@/store/roulette";
+const roulette = rouletteStore()
 
 const { id } = useRoute().params
-const {data, isLoading, isError} = useCase(String(id))
+roulette.caseId = id.toString()
+
+const {data, isLoading, isError} = useCase(id.toString())
 const { data: SimilarCasesData, isLoading: isLoadingSimilarCases } = useSimilarCases(id.toString(), 4)
 </script>
 
