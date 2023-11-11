@@ -34,32 +34,6 @@ export default {
             modalStores: modalStore(),
             authStores: authStore(),
             rouletteStores: rouletteStore(),
-/*             items: [
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "Nonee", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 1200},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-            ], */
             items: [],
             case_data: null,
             random_num: Math.random(),
@@ -143,7 +117,6 @@ export default {
                 const item = caseItems[Math.floor((Math.random()*caseItems.length))]
                 items.push({title: item.name, image: SERVER_URL + item.photo_url, cost: item.price})
             }
-            console.log(items, animationDuration)
             return {items, animationDuration}
         }
     },
@@ -166,7 +139,7 @@ export default {
         }
     },
     created() {
-        const {data, isLoading, isError} = useCase(this.rouletteStores.caseId.toString())
+        const {data} = useCase(this.rouletteStores.caseId.toString())
         this.case_data = data
         this.populateItems().then(data => {
             this.items = data.items
@@ -187,25 +160,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-@keyframes testt {
-  0% {
-    transform: translateX(450%);
-  }
-  50% {
-    transform: translateX(-450%);
-  }
-  100% {
-    transform: translateX(450%);
-  }
+.placeholder {
+    color: white
 }
-
-.test {
-    animation: testt 7s infinite;
-}
-
-.roulette_transitions {
-    transition: transform 8s cubic-bezier(.08,.67,.25,1);
-}
-
 </style>
