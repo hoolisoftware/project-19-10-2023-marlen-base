@@ -6,9 +6,9 @@ const theme = useThemeStore()
 </script>
 
 <template>
-  <div :class="'button ' + (color ? color : '') + (border ? ' button-bordered' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
+  <button :class="'button ' + (color ? color : '') + (border ? ' button-bordered' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
     {{ text }}
-  </div>
+  </button>
 </template>
 
 <script>
