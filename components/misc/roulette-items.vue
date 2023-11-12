@@ -1,3 +1,6 @@
+<script setup>
+</script>
+
 <template>
     <div>
         <roulette-item  
@@ -10,7 +13,6 @@
             :unselected="(clicked !== false)? clicked !== items.indexOf(item) : false"
             :instantly="instantly"
             :id="`el${items.indexOf(item)}`"
-            class="roulette_transitions"
         />
     </div>
 </template>
@@ -21,6 +23,8 @@ import {authStore} from "@/store/auth"
 import {rouletteStore} from "@/store/roulette"
 import RouletteItem from "~/components/cards/roulette-item.vue";
 import BezierEasing from "bezier-easing"
+import { useCase } from "~/hooks/use-query/case";
+import { SERVER_URL } from "~/config";
 
 export default {
     name: "roulette-items",
@@ -30,40 +34,20 @@ export default {
             modalStores: modalStore(),
             authStores: authStore(),
             rouletteStores: rouletteStore(),
-            items: [
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-                {title: "None", image: "/img/items/item_1.png", cost: 1200},
-                {title: "None", image: "/img/items/item_1.png", cost: 125},
-                {title: "None", image: "/img/items/item_1.png", cost: 120},
-            ],
+            items: [],
+            case_data: null,
             random_num: Math.random(),
             is_winner: false,
             animationStartTime: 0,
             animationCompletion: 0,
-            animationDuration: 8000,
+            animationDuration: null,
             clicked: false,
             instantly: false,
             bufferItems: 2,
+            min_items: 21,
+            max_items: 41,
+            min_animation_duration: 6000,
+            max_animation_duration: 10000,
         }
     },
     methods: {
@@ -81,7 +65,7 @@ export default {
                     element.style.transform = `translateX(${(this.items.length-this.bufferItems*2)/2*100-50}%)`;
                     await new Promise(r => setTimeout(r, wait_before_again));
                 }
-                element.style.transition = ""
+                element.style.transition = `transform ${this.animationDuration/1000}s cubic-bezier(.08,.67,.25,1)`
                 element.style.transform = `translateX(${(-(this.items.length-this.bufferItems*2)/2*100+(10+this.random_num*80))}%)`;
             }); 
 
@@ -122,20 +106,53 @@ export default {
                 }
             })
         },
+        async populateItems() {
+            const caseItems = this.case_data.data.case.items
+            const items = []
+            
+            const len_items = Math.floor((this.min_items+Math.random()*(this.max_items-this.min_items))/2)*2+1
+            const animationDuration = this.min_animation_duration+Math.random()*(this.max_animation_duration-this.min_animation_duration)
+
+            for (let i = 0; i < len_items; i++) {
+                const item = caseItems[Math.floor((Math.random()*caseItems.length))]
+                items.push({title: item.name, image: SERVER_URL + item.photo_url, cost: item.price})
+            }
+            return {items, animationDuration}
+        }
     },
     watch: {
         rouletteStores: {
             async handler(newValue) {
-                if ((newValue.animationState === "running") || (newValue.animationState === "again")) {
+                if (newValue.animationState === "running") {
                     await this.moveElement()
+                } else if (newValue.animationState === "again") {
+                    const data = await this.populateItems()
+                    this.items = data.items
+                    this.animationDuration = data.animationDuration
+                    this.random_num = Math.random()
+                    await this.$nextTick().then(async () => { 
+                        await this.moveElement()
+                    })
                 }
             },
             deep: true,
         }
     },
-    mounted() {
+    created() {
+        const {data} = useCase(this.rouletteStores.caseId.toString())
+        this.case_data = data
+        this.populateItems().then(data => {
+            this.items = data.items
+            this.animationDuration = data.animationDuration
+        })
+    },
+    async mounted() {
+        while (this.items.length === 0) {
+            await new Promise(r => setTimeout(r, 30));
+        }
         this.items.forEach((item) => {
             const element = document.getElementById(`el${this.items.indexOf(item)}`);
+            element.style.transition = `transform 0s ease`
             element.style.transform = `translateX(${(this.items.length-this.bufferItems*2)/2*100-50}%)`;
         });
     },
@@ -143,25 +160,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-@keyframes testt {
-  0% {
-    transform: translateX(450%);
-  }
-  50% {
-    transform: translateX(-450%);
-  }
-  100% {
-    transform: translateX(450%);
-  }
+.placeholder {
+    color: white
 }
-
-.test {
-    animation: testt 7s infinite;
-}
-
-.roulette_transitions {
-    transition: transform 8s cubic-bezier(.08,.67,.25,1);
-}
-
 </style>

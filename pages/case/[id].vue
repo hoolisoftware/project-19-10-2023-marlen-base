@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { useCase } from "~/hooks/use-query/case";
+import { useCase, useSimilarCases } from "~/hooks/use-query/case";
 import { SERVER_URL } from "~/config";
+import { rouletteStore } from "@/store/roulette";
+const roulette = rouletteStore()
 
 const { id } = useRoute().params
-const {data, isLoading, isError} = useCase(String(id))
+roulette.caseId = id.toString()
 
+const {data, isLoading, isError} = useCase(id.toString())
+const { data: SimilarCasesData, isLoading: isLoadingSimilarCases } = useSimilarCases(id.toString(), 4)
 </script>
 
 <template>
@@ -25,17 +29,18 @@ const {data, isLoading, isError} = useCase(String(id))
       <h2 class="page-items">Что может выпасть?</h2>
       <div class="page-items">
         <div v-for="item in data?.data.case.items">
-          <case-item :title='item.name' :image='SERVER_URL+item.photo_url' :cost='item.sgd_price'/>
+          <case-item :title='item.name' :image='SERVER_URL+item.photo_url' :cost='item.price'/>
         </div>
       </div>
     </div>
     <h2>Другие кейсы</h2>
 
     <div class="page-items">
-      <card title="Кейс Кли" image="/img/cases/case_3.png" :cost="200"/>
-      <card title="Кейс Кли" image="/img/cases/case_4.png" :cost="200"/>
-      <card title="Кейс Кли" image="/img/cases/case_5.png" :cost="200"/>
-      <card title="Кейс Кли" image="/img/cases/case_6.png" :cost="200"/>
+      <div v-for="similar_case in SimilarCasesData?.data">
+        <nuxt-link :to='`/case/${similar_case.id}`'>
+          <card  :title="similar_case.name" :image="SERVER_URL + similar_case.photo_url" :cost="similar_case.price"/>
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>

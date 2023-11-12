@@ -4,6 +4,7 @@ import type { Model } from "@/types/models";
 
 
 export interface Case extends Model {
+    id: number
     name: string
     category: string
     photo_url: string
@@ -30,4 +31,8 @@ export function useCases() {
 
 export function useCase(id: string|number) {
     return useBaseQuery<APIResponse<{case: Case}>>(['cases', id], `case/details/${id}`)
+}
+
+export function useSimilarCases(id: string|number, n: string|number) {
+    return useBaseQuery<APIResponse<Case[]>>([`similar_cases_to_${id}`, n], `case/similar/?id=${id}&n=${n}`)
 }
