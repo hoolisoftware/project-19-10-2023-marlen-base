@@ -106,7 +106,7 @@ export default {
                 }
             })
         },
-        async populateItems() {
+        async populateItems(winItem) {
             const caseItems = this.case_data.data.case.items
             const items = []
             
@@ -114,19 +114,29 @@ export default {
             const animationDuration = this.min_animation_duration+Math.random()*(this.max_animation_duration-this.min_animation_duration)
 
             for (let i = 0; i < len_items; i++) {
-                const item = caseItems[Math.floor((Math.random()*caseItems.length))]
-                items.push({title: item.name, image: SERVER_URL + item.photo_url, cost: item.price})
+                if ((winItem !== null) && (i === (len_items - this.bufferItems - 1))) {
+                    items.push({title: winItem.name, image: SERVER_URL + winItem.photo_url, cost: winItem.price})
+                } else {
+                    const item = caseItems[Math.floor((Math.random()*caseItems.length))]
+                    items.push({title: item.name, image: SERVER_URL + item.photo_url, cost: item.price})
+                }
             }
             return {items, animationDuration}
+        },
+        async insertWinItem(winItem) {
+            this.items[this.items.length - this.bufferItems - 1] = {title: winItem.name, image: SERVER_URL + winItem.photo_url, cost: winItem.price}
         }
     },
     watch: {
         rouletteStores: {
             async handler(newValue) {
                 if (newValue.animationState === "running") {
-                    await this.moveElement()
+                    await this.insertWinItem(newValue.winItem)
+                    await this.$nextTick().then(async () => { 
+                        await this.moveElement()
+                    })
                 } else if (newValue.animationState === "again") {
-                    const data = await this.populateItems()
+                    const data = await this.populateItems(newValue.winItem)
                     this.items = data.items
                     this.animationDuration = data.animationDuration
                     this.random_num = Math.random()
@@ -141,7 +151,7 @@ export default {
     created() {
         const {data} = useCase(this.rouletteStores.caseId.toString())
         this.case_data = data
-        this.populateItems().then(data => {
+        this.populateItems(null).then(data => {
             this.items = data.items
             this.animationDuration = data.animationDuration
         })
