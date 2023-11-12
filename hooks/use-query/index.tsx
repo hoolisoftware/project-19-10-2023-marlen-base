@@ -45,3 +45,18 @@ export function useBaseKwtQuery<T>(keys: (string|number|null)[], url: string, on
         }
     })
 }
+
+export function useBaseKwtMutation<RequestT, ResponseT>(url: string) {
+    const auth = useAuthStore()
+
+    return useMutation({
+        mutationFn: async (formData: RequestT) => {
+            const { data } = await apiInstance.post(url, formData, {
+                headers: {
+                    Authorization: `KWT ${auth.kwt}`
+                }
+            })
+            return data as ResponseT
+        }
+    })
+}

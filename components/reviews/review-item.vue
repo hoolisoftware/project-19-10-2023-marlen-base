@@ -44,7 +44,7 @@ const props = defineProps<Props>()
                 {{ props.text }}
             </div>
         </div>
-        <div class="review-answer">
+        <div v-if="props.reply" class="review-answer">
             <div :class="['review'].join(' ')">
                 <div class="review-top">
                     <div class="review-user">
@@ -55,7 +55,7 @@ const props = defineProps<Props>()
                     </div>
                 </div>
                 <div class="review-body">
-                    {{ props.text }}
+                    {{ props.reply.text }}
                 </div>
             </div>
         </div>

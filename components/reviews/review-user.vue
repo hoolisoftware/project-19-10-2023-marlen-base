@@ -5,7 +5,7 @@ const { data } = useReviewUser()
 </script>
 
 <template>
-    <review-item v-if="data?.data"
+    <review-item v-if="data?.data?.review?.id"
         v-bind="data.data.review"
         :self="true"
     />

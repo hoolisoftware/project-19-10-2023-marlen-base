@@ -1,9 +1,10 @@
-import { useInfiniteQuery } from '@tanstack/vue-query';
+import { useInfiniteQuery, useMutation } from '@tanstack/vue-query';
 import axios from 'axios';
-import useBaseQuery, { useBaseKwtQuery } from ".";
+import useBaseQuery, { apiInstance, useBaseKwtQuery, useBaseKwtMutation } from ".";
 import type { APIResponse } from "~/types/api";
 import type { Model } from "~/types/models";
 import { SERVER_URL } from '~/config';
+import { useAuthStore } from '~/store/authNew';
 
 
 export interface Review extends Model {
@@ -16,7 +17,13 @@ export interface Review extends Model {
         last_name: string
         photo_url: string
     }
-    created_at: string; // ISO 8601 format date string
+    created_at: string // ISO 8601 format date string
+    reply: null | {
+        id: number
+        name: string
+        text: string
+        created_at: string // ISO 8601 format date string
+    }
 }
 
 export interface Stats {
@@ -54,4 +61,9 @@ export function useReviewUser() {
         ['review-user'],
         'reviews/user/'
     )
+}
+
+
+export function useReviewCreate() {
+    return useBaseKwtMutation('reviews/create/')
 }
