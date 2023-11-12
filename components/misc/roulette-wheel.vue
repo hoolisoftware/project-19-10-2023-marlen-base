@@ -7,19 +7,19 @@ const { mutate, data, isSuccess, isLoading, error } = useOpenCase(stores.caseId)
 async function startSpin() {
     if ((stores.animationState === null) || (stores.animationState === 'ended')) {
         mutate()
-        while (data._object.status === "loading") {
+        while (isLoading._object.status === "loading") {
             await new Promise(r => setTimeout(r, 30));
         }
-        if (data._object.data.success) {
+        if (isSuccess._object.status == "success") {
             stores.winItem = data._object.data.data.item
             if (stores.animationState === null) {
                 stores.animationState = 'running'
             } else if (stores.animationState === 'ended') {
                 stores.animationState = 'again'
             }
-        } else {
-            const heading = data._object.data.heading
-            const message = data._object.data.message
+        } else if (isSuccess._object.status == "error") {
+            const heading = error._object.error.response.data.heading
+            const message = error._object.error.response.data.message
             alert(`${heading}\n${message}`)
         }
     }
