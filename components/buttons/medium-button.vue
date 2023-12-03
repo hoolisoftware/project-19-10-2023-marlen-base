@@ -55,6 +55,7 @@ export default {
   cursor: pointer;
   width: 100%;
   white-space: nowrap;
+  border: none;
 
   &-bordered {
     background: none;
