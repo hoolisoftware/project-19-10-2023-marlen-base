@@ -108,7 +108,7 @@ const { data: inventoryData } = useInventorySelf()
             </span>
 
           </div>
-          <div class="inventory-top_actions" v-if="!$route.params.otherProfile">
+          <div class="inventory-top_actions" v-if="!$route.params.otherProfile" @click="define()">
             Продать всё
           </div>
         </div>
@@ -119,10 +119,25 @@ const { data: inventoryData } = useInventorySelf()
           <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
             v-on:click="activeTab = 1">Выведено</div>
         </div>
-        <div class="inventory-items">
-          <div v-for="profile_item in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))">
-            <inventory-item :image="SERVER_URL + profile_item.item.photo_url"/>
+        <div class="inventory-sections">
+          <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-70%,0); position: absolute;`" v-show="relative_title_pos != 0">
+            Название
           </div>
+          <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+            Цена
+          </div>
+          <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+            Статус
+          </div>
+        </div>
+        <div class="inventory-items">
+            <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
+              :image="SERVER_URL + profile_item.item.photo_url" 
+              :title="profile_item.item.name" 
+              :cost="`${profile_item.item.price}`" 
+              :id="`inv-item-${index}`"
+              :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+            />
         </div>
       </div>
     </div>
@@ -132,6 +147,7 @@ const { data: inventoryData } = useInventorySelf()
 <script lang="ts">
 import mediumButton from "@/components/buttons/medium-button.vue";
 import inventoryItem from "@/components/cards/inventory-item.vue";
+import newInventoryItem from "@/components/cards/new-inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import { modalStore } from "~/store/modal";
 import Loader from "~/components/loaders/Loader.vue";
@@ -150,14 +166,47 @@ export default {
   components: {
     mediumButton,
     inventoryItem,
-    titleSection
+    titleSection,
+    newInventoryItem,
   },
   data() {
     return {
       activeTab: 0,
       otherProfile: 0,
       modals: modalStore(),
+      relative_title_pos: 0,
+      relative_cost_pos: 0,
+      relative_status_pos: 0,
     }
+  },
+  methods: {
+    define() {
+      let item = document.getElementById("inv-item-0")
+      if (item === null) {
+        return
+      }
+      let abs_inv_pos = Number(item?.getBoundingClientRect().x);
+      let abs_title_pos = Number(item?.children[1].getBoundingClientRect().x)+Number(item?.children[1].getBoundingClientRect().width)/2;
+      let abs_cost_pos = Number(item?.children[2].getBoundingClientRect().x)+Number(item?.children[2].getBoundingClientRect().width)/2;;
+      let abs_status_pos = Number(item?.children[3].getBoundingClientRect().x)+Number(item?.children[3].getBoundingClientRect().width)/2;;
+      let relative_title_pos = abs_title_pos-abs_inv_pos
+      let relative_cost_pos = abs_cost_pos-abs_inv_pos
+      let relative_status_pos = abs_status_pos-abs_inv_pos
+      this.relative_title_pos = relative_title_pos
+      this.relative_cost_pos = relative_cost_pos
+      this.relative_status_pos = relative_status_pos
+    },
+  },
+  async mounted() {
+    while (document.getElementById("inv-item-0") === null) {
+      await new Promise(r => setTimeout(r, 60))
+    }
+    this.define()
+    window.addEventListener('resize', this.define)
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.define)
   }
 }
 
@@ -343,6 +392,18 @@ export default {
 
   @media(max-width: 1100px) {
     width: 100%;
+  }
+
+  &-sections {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    padding-bottom: 6px;
+    & div {
+      font-weight: 500;
+      font-size: 12px;
+      color: #767676;
+    }
   }
 
   &-tabs {
