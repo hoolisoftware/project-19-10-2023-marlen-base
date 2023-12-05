@@ -134,9 +134,10 @@ const { data: inventoryData } = useInventorySelf()
             <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
               :image="SERVER_URL + profile_item.item.photo_url" 
               :title="profile_item.item.name" 
-              :cost="`${profile_item.item.price}`" 
+              :cost="`${profile_item.item.price}`"
               :id="`inv-item-${index}`"
               :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+              :item_id="Number(profile_item.id)"
             />
         </div>
       </div>

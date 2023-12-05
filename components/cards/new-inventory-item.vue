@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useSellItemCreate } from "~/hooks/use-query/profile";
+
+const {mutate: sellItem, data: sellItemData, isSuccess: isSuccessSellItem, isLoading: isLoadingSellItem, error: errorSellItem} = useSellItemCreate()
+</script>
+
+
 <template>
     <div class="item">
       <div class="item-image">
@@ -14,12 +21,12 @@
       </div>
       <div class="item-buttons">
         <div class="item-button-left"><div>Вывести</div></div>
-        <div class="item-button-right"><div>Продать</div></div>
+        <div class="item-button-right" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
       </div>
     </div>
   </template>
   
-  <script>
+  <script lang="ts">
   import mediumButton from "@/components/buttons/medium-button.vue";
 
   export default {
@@ -40,7 +47,11 @@
       status: {
         type: String,
         required: true
-      }
+      },
+      item_id: {
+        type: Number,
+        required: true
+      },
     },
     components: {
       mediumButton
