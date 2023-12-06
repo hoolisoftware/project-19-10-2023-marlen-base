@@ -4,6 +4,7 @@ export const rouletteStore = defineStore({
     id: 'rouletteStore',
     state: () => ({
         animationState: null,
-        caseId: null
+        caseId: null,
+        winItem: null,
     })
 });

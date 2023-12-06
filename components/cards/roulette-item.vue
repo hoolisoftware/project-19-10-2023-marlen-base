@@ -145,7 +145,8 @@ export default {
     color: var(--title-text)
   }
   &-image {
-    display: flex;
+    display: inline-block;
+    text-align: center;
     height: 140px;
     width: 140px;
     margin-bottom: 10px;

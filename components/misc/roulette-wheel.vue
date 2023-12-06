@@ -1,3 +1,32 @@
+<script setup>
+const stores = rouletteStore()
+console.log(stores.caseId)
+const { mutate, data, isSuccess, isLoading, error } = useOpenCase(stores.caseId)
+
+
+async function startSpin() {
+    if ((stores.animationState === null) || (stores.animationState === 'ended')) {
+        mutate()
+        while (isLoading._object.status === "loading") {
+            await new Promise(r => setTimeout(r, 30));
+        }
+        if (isSuccess._object.status == "success") {
+            stores.winItem = data._object.data.data.item
+            if (stores.animationState === null) {
+                stores.animationState = 'running'
+            } else if (stores.animationState === 'ended') {
+                stores.animationState = 'again'
+            }
+        } else if (isSuccess._object.status == "error") {
+            const heading = error._object.error.response.data.heading
+            const message = error._object.error.response.data.message
+            alert(`${heading}\n${message}`)
+        }
+    }
+}
+</script>
+
+
 <template>
     <div class="roulette-parent">
         <div class="roulette-arrow">
@@ -9,10 +38,10 @@
         <div v-if="rouletteStores.animationState === 'ended'">
             <div class="roulette-note">🎉 Поздравляем с выигрышем!</div>
             <div class="roulette-winner">
-                <span>Шлёпанцы индюка</span>
+                <span>{{ rouletteStores.winItem.name }}</span>
                 <div>
                     <img src="/img/icons/crystall.png" alt="Кристаллов" />
-                    <p>33</p>
+                    <p>{{ rouletteStores.winItem.price }}</p>
                 </div>
             </div>
             <div class="roulette-win">
@@ -21,14 +50,14 @@
             </div>
             <div class="roulette-buttons">
                 <medium-button color="green" text="Продать" @click="rouletteStores.animationState = null; modalStores.hideModal('caseOpen')"/>
-                <medium-button text="Ещё раз" @click="rouletteStores.animationState = 'again'"/>
+                <medium-button text="Ещё раз" @click="startSpin()"/>
             </div>
         </div>
         <div v-else>
             <medium-button 
                 :text="rouletteStores.animationState === 'again'? 'Ещё раз' : 'Открыть'" 
                 :style="{transition: `opacity 0.6s ease`, opacity: (rouletteStores.animationState === null? 1: 0.6)}"
-                @click="(rouletteStores.animationState === null)? (rouletteStores.animationState = 'running') : false"
+                @click="startSpin()"
             />
         </div>
     </div>
@@ -40,6 +69,7 @@ import {modalStore} from '@/store/modal'; // Импортируем хранил
 import {authStore} from "@/store/auth"
 import RouletteItems from "~/components/misc/roulette-items.vue";
 import { rouletteStore } from "~/store/roulette";
+import { useOpenCase } from '@/hooks/use-query/case'
 
 export default {
     name: "roulette-wheel",
@@ -50,7 +80,7 @@ export default {
             authStores: authStore(),
             rouletteStores: rouletteStore(),
         }
-    }
+    },
 }
 </script>
 

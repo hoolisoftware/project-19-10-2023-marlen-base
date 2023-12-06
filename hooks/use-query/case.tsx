@@ -1,4 +1,4 @@
-import useBaseQuery from ".";
+import useBaseQuery, { useBaseKwtMutation } from ".";
 import type { APIResponse } from '@/types/api'
 import type { Model } from "@/types/models";
 
@@ -35,4 +35,8 @@ export function useCase(id: string|number) {
 
 export function useSimilarCases(id: string|number, n: string|number) {
     return useBaseQuery<APIResponse<Case[]>>([`similar_cases_to_${id}`, n], `case/similar/?id=${id}&n=${n}`)
+}
+
+export function useOpenCase(id: string|number) {
+    return useBaseKwtMutation(`case/open/${id}/`)
 }
