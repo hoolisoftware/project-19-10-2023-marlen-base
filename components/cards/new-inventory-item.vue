@@ -8,21 +8,23 @@ let theme = useThemeStore();
 
 <template>
   <div class="item">
-    <div class="item-image">
-      <img alt="item" :src="image"/>
-    </div>
-    <div class="item-title">
-      {{ title }}
+    <div class="item-image_and_title">
+      <div class="item-image">
+        <img alt="item" :src="image"/>
+      </div>
+      <div class="item-title">
+        {{ title }}
+      </div>
     </div>
     <div class="item-cost">
       {{ cost }} руб
     </div>
-    <div class="item-status">
+    <div :class="`item-status-${theme.darkTheme? 'dark' : 'light'}`" class="item-status">
       {{ status }}  
     </div>
     <div class="item-buttons">
-      <div class="item-button-left"><div>Вывести</div></div>
-      <div class="item-button-right" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
+      <div class="item-button-left" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
+      <div class="item-button-right"><div>Вывести</div></div>
     </div>
   </div>
 </template>
@@ -63,6 +65,17 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../public/colors';
+$very-small: 400px;
+$small: 500px;
+$medium: 660px;
+$medium_small: 850px;
+$medium_large: 950px;
+$large: 1100px;
+
+
+$small-icons: "((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)";
+$small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)";
+
 
 .item {
   display:flex;
@@ -75,12 +88,45 @@ export default {
   border: var(--profile-border);
   border-radius: 8px;
   width: 98%;
+  @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
+    min-width: 320px;
+  }
+  @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
+    justify-content: space-between;
+    min-width: 100%;
+    height: 70px;
+  }
+  @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small) {
+    height: 84px;
+  }
+
+  &-image_and_title {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 200px;
+    padding-left: 4px;
+    @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium) {
+      flex-direction: column;
+      justify-content: space-between; 
+      align-items: center;
+      width: 80px;
+      height: 84px;
+    }
+  }
 
   &-title {
     margin-right: min(30px, 5%); 
     margin-left: 15px;
     font-size: 14px;
     font-weight: 600;
+    @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
+      margin-right: auto; 
+      margin-left: auto;
+      margin-top: 0px;
+      margin-bottom: auto;
+      font-size: 12px;
+    }
   }
 
   &-cost {
@@ -89,6 +135,10 @@ export default {
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
+    @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
+      margin-right: auto; 
+      margin-left: auto;
+    }
   }
   
   &-status {
@@ -96,23 +146,39 @@ export default {
     border-radius: 5px;
     border-width: 1px;
     border-style: solid;
-    margin-right: 35px; 
+    margin-right: 26px; 
     margin-left: 0px;
     text-align: center;
     font-size: 10px;
-    background-color: #ffffff;
-    color: #CBAA8C;
-    border-color: #CBAA8C;
     width: fit-content;
     padding-left: 10px;
     padding-right: 10px;
-    min-width: 75px;
+    width: 75px;
     height: 16px;
     font-weight: 400;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     white-space: nowrap;
+    background-color: var(--profile-background);
+    @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
+      margin-right: auto; 
+      margin-left: auto;
+    }
+    @media (max-width: $very-small) {
+      width: 60px;
+      font-size: 9px;
+    }
+    &-dark {
+      @extend .item-status;
+      color: #A8A8A8;
+      border-color: #A8A8A8;
+    }
+    &-light {
+      @extend .item-status;
+      color: #CBAA8C;
+      border-color: #CBAA8C;
+    }
   }
 
   &-button {
@@ -139,26 +205,52 @@ export default {
         border-radius: 10px 0px 0px 10px;
         background-color: #CBAA8C;
         color: #ffffff;
+        @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)  {
+          border-radius: 5px;
+          height: 25px;
+          margin-top: auto;
+          margin-bottom: auto;
+        }
       }
       &-right {
         @extend .item-button;
         border-radius: 0px 10px 10px 0px;
-        background-color: #ffffff;
-        color: #CBAA8C;
-      }
+        background-color: var(--profile-background);
+        @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)  {
+          border-radius: 5px;
+          height: 25px;
+          margin-top: 0px;
+          margin-bottom: auto;
+        }
+      }      
   }
   &-buttons {
     display: flex;
     margin-left: 0px; 
     margin-right: 10px;
+    @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)  {
+      margin-right: 10px; 
+      margin-left: auto;
+      flex-direction: column;
+      height: 100%;
+      align-items: center;
+      justify-content: space-between;
+    }
   }
   &-image {
     display: inline-block;
     max-width: 44px;
-    padding-left: 10px;
+    padding-left: 0px;
     & img {
       width: 100%;
       height: 100%;
+    }
+    @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
+      margin-right: 0px; 
+      margin-left: 0px;
+      margin-bottom: 2px;
+      margin-top: 12px;
+      width: 25px;
     }
   }
 }

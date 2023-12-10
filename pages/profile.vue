@@ -108,19 +108,22 @@ const { data: inventoryData } = useInventorySelf()
             </span>
 
           </div>
-          <div class="inventory-top_actions" v-if="!$route.params.otherProfile" @click="define()">
-            Продать всё
+        </div>
+        <div class="inventory-top-buttons">
+          <div class="inventory-tabs">
+            <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
+            <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
+              v-on:click="activeTab = 0">Все предметы</div>
+            <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
+              v-on:click="activeTab = 1">Выведено</div>
+          </div>
+
+          <div class="inventory-top_actions" v-if="!$route.params.otherProfile">
+              Продать всё
           </div>
         </div>
-        <div class="inventory-tabs">
-          <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
-          <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
-            v-on:click="activeTab = 0">Все предметы</div>
-          <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
-            v-on:click="activeTab = 1">Выведено</div>
-        </div>
         <div class="inventory-sections">
-          <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-70%,0); position: absolute;`" v-show="relative_title_pos != 0">
+          <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
             Название
           </div>
           <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
@@ -186,10 +189,14 @@ export default {
       if (item === null) {
         return
       }
+      let title = item.querySelector(".item-title")
+      let cost = item.querySelector(".item-cost")
+      let status = item.querySelector(".item-status")
+      console.log()
       let abs_inv_pos = Number(item?.getBoundingClientRect().x);
-      let abs_title_pos = Number(item?.children[1].getBoundingClientRect().x)+Number(item?.children[1].getBoundingClientRect().width)/2;
-      let abs_cost_pos = Number(item?.children[2].getBoundingClientRect().x)+Number(item?.children[2].getBoundingClientRect().width)/2;;
-      let abs_status_pos = Number(item?.children[3].getBoundingClientRect().x)+Number(item?.children[3].getBoundingClientRect().width)/2;;
+      let abs_title_pos = Number(title?.getBoundingClientRect().x)+Number(title?.getBoundingClientRect().width)/2;
+      let abs_cost_pos = Number(cost?.getBoundingClientRect().x)+Number(cost?.getBoundingClientRect().width)/2;;
+      let abs_status_pos = Number(status?.getBoundingClientRect().x)+Number(status?.getBoundingClientRect().width)/2;;
       let relative_title_pos = abs_title_pos-abs_inv_pos
       let relative_cost_pos = abs_cost_pos-abs_inv_pos
       let relative_status_pos = abs_status_pos-abs_inv_pos
@@ -216,6 +223,10 @@ export default {
 <style lang="scss" scoped>
 @import '../static/colors.scss';
 
+$medium_small: 850px;
+$medium_large: 950px;
+$large: 1100px;
+
 .page {
   width: 100%;
   max-width: 1300px;
@@ -227,7 +238,7 @@ export default {
   justify-content: space-evenly;
   width: 100%;
 
-  @media(max-width: 1100px) {
+  @media(max-width: $medium_small) {
     flex-direction: column;
     gap: 25px;
   }
@@ -377,7 +388,6 @@ export default {
   }
 }
 
-
 .inventory {
   display: flex;
   flex-direction: column;
@@ -391,7 +401,13 @@ export default {
   border: var(--profile-border);
   border-radius: 10px;
 
-  @media(max-width: 1100px) {
+  @media(max-width: $large) {
+    width: 500px;
+  }
+  @media(max-width: $medium_large) {
+    width: 400px;
+  }
+  @media(max-width: $medium_small) {
     width: 100%;
   }
 
@@ -414,12 +430,15 @@ export default {
     background: var(--profile-tab-background);
     border-radius: 10px;
     width: max-content;
-    height: max-content;
+    height: 40px;
     box-sizing: border-box;
     padding: 2px;
 
     @media(max-width: 436px) {
       align-self: center;
+    }
+    @media(max-width: 385px) {
+      height: 30px;
     }
 
     &_item {
@@ -438,6 +457,10 @@ export default {
       color: var(--profile-tab-inactive);
       transition: 0.2s;
       cursor: pointer;
+      @media(max-width: 385px) {
+        font-size: 10px;
+        line-height: 9px;
+      }
 
       &__active {
         color: var(--button-color);
@@ -453,14 +476,24 @@ export default {
       color: #ffffff;
       border-radius: 10px;
       transition: 0.2s;
+      @media(max-width: 385px) {
+        height: 27px;
+      }
 
       &__0 {
         width: 110px;
+        @media(max-width: 385px) {
+          width: 93px;
+        }
       }
 
       &__1 {
         transform: translateX(110px);
         width: 88px;
+        @media(max-width: 385px) {
+          transform: translateX(92px);
+          width: 74px;
+        }
       }
     }
   }
@@ -477,6 +510,15 @@ export default {
       gap: 10px;
     }
 
+    &-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      @media(max-width: 385px) {
+        height: 30px;
+      }
+    }
+
     &_actions {
       display: flex;
       box-sizing: border-box;
@@ -486,6 +528,14 @@ export default {
       font-size: 14px;
       cursor: pointer;
       border: 2px solid #C9A788;
+      margin-right: 0px;
+      margin-left: auto;
+      @media(max-width: 385px) {
+        font-size: 10px;
+      }
+      @media(max-width: 385px) {
+        font-size: 10px;
+      }
     }
 
     &_title {
