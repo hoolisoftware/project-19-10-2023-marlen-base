@@ -122,27 +122,55 @@ const { data: inventoryData } = useInventorySelf()
               Продать всё
           </div>
         </div>
-        <div class="inventory-sections">
-          <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
-            Название
+        <div class="inventory-items-text">
+          Выберите один или несколько предметов
+        </div>
+        <div class="inventory-items-container" v-if="is_mobile()">
+          <div class="inventory-sections">
+            <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
+              Название
+            </div>
+            <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+              Стоимость
+            </div>
+            <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+              Статус
+            </div>
           </div>
-          <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
-            Цена
-          </div>
-          <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
-            Статус
+          <div class="inventory-items">
+              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
+                :image="SERVER_URL + profile_item.item.photo_url" 
+                :title="profile_item.item.name" 
+                :cost="`${profile_item.item.price}`"
+                :id="`inv-item-${index}`"
+                :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                :item_id="Number(profile_item.id)"
+              />
           </div>
         </div>
-        <div class="inventory-items">
-            <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
-              :image="SERVER_URL + profile_item.item.photo_url" 
-              :title="profile_item.item.name" 
-              :cost="`${profile_item.item.price}`"
-              :id="`inv-item-${index}`"
-              :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
-              :item_id="Number(profile_item.id)"
-            />
-        </div>
+        <template v-else>
+          <div class="inventory-sections">
+            <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
+              Название
+            </div>
+            <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+              Цена
+            </div>
+            <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+              Статус
+            </div>
+          </div>
+          <div class="inventory-items">
+              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
+                :image="SERVER_URL + profile_item.item.photo_url" 
+                :title="profile_item.item.name" 
+                :cost="`${profile_item.item.price}`"
+                :id="`inv-item-${index}`"
+                :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                :item_id="Number(profile_item.id)"
+              />
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -204,6 +232,9 @@ export default {
       this.relative_cost_pos = relative_cost_pos
       this.relative_status_pos = relative_status_pos
     },
+    is_mobile() {
+      return window.innerWidth < 850
+    }
   },
   async mounted() {
     while (document.getElementById("inv-item-0") === null) {
@@ -388,12 +419,15 @@ $large: 1100px;
   }
 }
 
+$small: 500px;
+$medium: 660px;
+
 .inventory {
   display: flex;
   flex-direction: column;
   width: 644px;
   height: max-content;
-  max-height: 420px;
+  max-height: 443px;
   box-sizing: border-box;
   padding: 20px;
   gap: 15px;
@@ -409,6 +443,24 @@ $large: 1100px;
   }
   @media(max-width: $medium_small) {
     width: 100%;
+    padding: 0px;
+    background-color: var(--loader-background);
+    border: 0px;
+  }
+  @media((max-width: $large) and (min-width: $medium_large)){
+    max-height: 420px;
+  }
+  @media((max-width: $medium_large) and (min-width: $medium_small)){
+    max-height: 461px;
+  }
+  @media(max-width: $medium_small) and (min-width: $medium) {
+    max-height: 431px;
+  }
+  @media(max-width: $medium) {
+    max-height: 407px;
+  }
+  @media(max-width: $small) {
+    max-height: 449px;
   }
 
   &-sections {
@@ -428,7 +480,7 @@ $large: 1100px;
     position: relative;
     flex-direction: row;
     background: var(--profile-tab-background);
-    border-radius: 10px;
+    border-radius: 5px;
     width: max-content;
     height: 40px;
     box-sizing: border-box;
@@ -474,7 +526,7 @@ $large: 1100px;
       height: 36px;
       background: var(--button-background);
       color: #ffffff;
-      border-radius: 10px;
+      border-radius: 5px;
       transition: 0.2s;
       @media(max-width: 385px) {
         height: 27px;
@@ -504,11 +556,11 @@ $large: 1100px;
     justify-content: space-between;
     align-items: center;
 
-    @media(max-width: 436px) {
+    /* @media(max-width: 436px) {
       flex-direction: column;
       align-items: center;
       gap: 10px;
-    }
+    } */
 
     &-buttons {
       display: flex;
@@ -576,10 +628,30 @@ $large: 1100px;
       width: 2px;
     }
 
-    @media(max-width: 436px) {
+    /* @media(max-width: 436px) {
       align-self: center;
       align-items: center;
       justify-content: center;
+    } */
+
+    &-text {
+      color: #767676;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    &-container {
+      @extend .inventory;
+      height: max-content;
+      overflow: hidden;
+      background-color: var(--profile-background);
+      /* @media (max-width: $medium_small) {
+        padding-left: ;
+      } */
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 15px;  
+      padding-bottom: 15px
     }
   }
 }</style>

@@ -7,7 +7,7 @@ let theme = useThemeStore();
 
 
 <template>
-  <div class="item">
+  <div class="item" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'};`">
     <div class="item-image_and_title">
       <div class="item-image">
         <img alt="item" :src="image"/>
@@ -19,12 +19,12 @@ let theme = useThemeStore();
     <div class="item-cost">
       {{ cost }} руб
     </div>
-    <div :class="`item-status-${theme.darkTheme? 'dark' : 'light'}`" class="item-status">
+    <div class="item-status" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'}; border-color: ${theme.darkTheme? '#A8A8A8': '#CBAA8C'}`">
       {{ status }}  
     </div>
     <div class="item-buttons">
       <div class="item-button-left" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
-      <div class="item-button-right"><div>Вывести</div></div>
+      <div class="item-button-right" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'};`"><div>Вывести</div></div>
     </div>
   </div>
 </template>
@@ -84,7 +84,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
   min-width: 580px;
   height: 56px;
   align-items: center;
-  background: var(--profile-background);
+  background-color: var(--profile-item-background);
   border: var(--profile-border);
   border-radius: 8px;
   width: 98%;
