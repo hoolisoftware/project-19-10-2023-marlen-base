@@ -13,6 +13,7 @@ let theme = useThemeStore();
 <template>
   <loader v-if="isLoading || isLoadingStats"/>
   <div class="page" v-else-if="data?.data?.user">
+    <div :class="(show_copied_modal? 'profile-copied-show' : 'profile-copied-hide')+(theme.darkTheme? ' profile-copied-dark' : ' profile-copied-light')">Скопировано!</div>
     <title-section text="Профиль" />
     <div class="profile">
       <div class="profile-info" v-if="!is_mobile()">
@@ -74,14 +75,77 @@ let theme = useThemeStore();
           </div>
           <div class="profile-uid_input-field">
             <input :class="`profile-uid_input-field-${theme.darkTheme? 'dark' : 'light'}`" inputmode="numeric" pattern="\d*" placeholder="Не указан">
-            <img class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme">
-            <img v-else class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-light.svg">
+            <!-- <img class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme">
+            <img v-else class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-light.svg"> -->
           </div>
         </div>
       </div>
-      <div v-else class="profile-info">
 
+
+      <div v-else :class="`profile-mobile-info-${show_mobile_profile? 'long' : 'short'}`">
+        <div class="profile-mobile-top">
+          <div class="profile-mobile-avatar">
+            <img
+              v-if="data?.data?.user.photo_url"
+              :src="data?.data?.user.photo_url"
+              alt="Аватар"
+            />
+            <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-mobile-avatar"/>
+            <img @click="change_mobile_profile()" class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme" :style="show_mobile_profile? 'opacity: 1' : 'opacity: 0'">
+            <img @click="change_mobile_profile()" v-else class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-light.svg">
+          </div>
+          <div class="profile-mobile-side_info">
+            <div class="profile-mobile-side_info-name">
+              {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
+            </div>
+            <div class="profile-mobile-side_info-balance">
+              <span style="font-size: 18px; font-weight: 400; padding-right: 5px;">{{ data?.data.user.balance }}</span> 
+              <img alt="moon" src="/img/icons/moon.png" style="width: 14px; height: 14px;"/>
+            </div>
+          </div>
+          <img src="@/assets/icons/chevron-down.svg" class="profile-mobile-arrow" @click="change_mobile_profile_visibility()" :style="show_mobile_profile? 'transform: rotate(-180deg)' : 'transform: rotate(0deg)'">
+        </div>
+        <div class="profile-mobile-stat" :style="show_mobile_profile? 'opacity: 1' : 'opacity: 0'">
+          <h2>Статистика</h2>
+          <div class="profile-mobile-stat_item">
+            <div>Открыто кейсов</div>
+            <div>{{ statsData?.data.stats.cases_opened }}</div>
+          </div>
+          <div class="profile-mobile-stat_item">
+            <div>Выбито на сумму</div>
+            <div>
+              <img src="/img/icons/moon.png" alt="Мун" />
+              {{ statsData?.data.stats.case_opened_mora }}
+            </div>
+          </div>
+          <div class="profile-mobile-stat_item">
+            <div>Выбито кристаллов</div>
+            <div>
+              <img src="/img/icons/crystall.png" alt="Кристаллов" />
+              {{ statsData?.data.stats.crystals_obtained }}
+            </div>
+          </div>
+        </div>
+        <div class="profile-mobile-uid_input">
+          <div class="profile-mobile-uid_input-text">
+            <div class="profile-mobile-uid_input-text-div">UID</div>
+          </div>
+          <div class="profile-mobile-uid_input-field">
+            <input :class="`profile-mobile-uid_input-field-${theme.darkTheme? 'dark' : 'light'}`" inputmode="numeric" pattern="\d*" placeholder="Не указан" v-model="UIDInput">
+            <img src="@/assets/icons/copy.svg" class="profile-mobile-uid_input-field-copy" @click="copyUIDInput()" >
+          </div>
+        </div>
+        <button :class="`profile-mobile-save_button-${theme.darkTheme? 'dark' : 'light'}`">Сохранить</button>
+        <div class="profile-mobile-referral_link">
+          <div class="profile-mobile-referral_link-text">Реферальная ссылка</div>
+          <div class="profile-mobile-referral_link-field">
+            <input :class="`profile-mobile-referral_link-field-${theme.darkTheme? 'dark' : 'light'}`" pattern="\d*" placeholder="Не указан" v-model="ReferralInput" disabled>
+            <img src="@/assets/icons/copy.svg" class="profile-mobile-referral_link-field-copy" @click="copyReferealInput()">
+          </div>
+        </div>
       </div>
+
+
       <div class="inventory">
         <div class="inventory-top">
           <div class="inventory-top_title">
@@ -196,6 +260,10 @@ export default {
       relative_cost_pos: 0,
       relative_status_pos: 0,
       show_uid_info: false,
+      show_mobile_profile: false,
+      UIDInput: "1234567890",
+      ReferralInput: "http://mail.ru",
+      show_copied_modal: false,
     }
   },
   methods: {
@@ -207,7 +275,6 @@ export default {
       let title = item.querySelector(".item-title")
       let cost = item.querySelector(".item-cost")
       let status = item.querySelector(".item-status")
-      console.log()
       let abs_inv_pos = Number(item?.getBoundingClientRect().x);
       let abs_title_pos = Number(title?.getBoundingClientRect().x)+Number(title?.getBoundingClientRect().width)/2;
       let abs_cost_pos = Number(cost?.getBoundingClientRect().x)+Number(cost?.getBoundingClientRect().width)/2;;
@@ -221,7 +288,28 @@ export default {
     },
     is_mobile() {
       return window.innerWidth < 850
-    }
+    },
+    change_mobile_profile() {
+      if (this.show_mobile_profile) {
+        console.log('edit time')
+      }
+    },
+    change_mobile_profile_visibility() {
+      this.show_mobile_profile = !this.show_mobile_profile
+    },
+    async copyUIDInput() {
+      if (this.UIDInput) {
+        navigator.clipboard.writeText(this.UIDInput);
+        this.show_copied_modal = true;
+        await new Promise(r => setTimeout(r, 200))
+        this.show_copied_modal = false
+      }
+    },
+    copyReferealInput() {
+      if (this.ReferralInput) {
+        navigator.clipboard.writeText(this.ReferralInput);
+      }
+    },
   },
   async mounted() {
     while (document.getElementById("inv-item-0") === null) {
@@ -259,6 +347,308 @@ $large: 1100px;
   @media(max-width: $medium_small) {
     flex-direction: column;
     gap: 25px;
+  }
+
+  &-copied {
+    border-radius: 5px;
+    border-style: solid;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    border-width: 1px;
+    &-show {
+      @extend .profile-copied;
+      transition: all 0s ease;
+      opacity: 1;
+    }
+    &-hide {
+      @extend .profile-copied;
+      transition: all 0.9s ease;
+      opacity: 0;
+    }
+    &-dark {
+      border-color: white;
+      background-color: black;
+      color: white;
+    }
+    &-light {
+      border-color: #686868;
+      background-color: #ffffff;
+      color: black;
+    }
+  }
+
+  &-mobile {
+    &-referral_link {
+      display: flex;
+      flex-direction: column;
+      padding-left: 72px;
+      width: 100%;
+
+      &-text {
+        display: inline-block;
+        height: fit-content;
+        width: fit-content;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: var(--profile-input-color);
+        font-weight: 600;
+      }
+      &-field {
+        display: flex;
+        &-copy {
+          width: 20px; 
+          height: 20px;
+          position: relative;
+          transform: translate(-150%, 54%);
+          cursor: pointer;
+        }
+        &-dark {
+          border-color: #3C3C3C;
+          background-color: #171717;
+          color: #979797;
+        }
+        &-light {
+          border-color: #DFDFDF;
+          background-color: #F9F9F9;
+          color: #929292;
+        }
+        & input {
+          width: 100%;
+          height: 43px;
+          border-radius: 8px;
+          padding-left: 12px;
+          border-style: solid;
+          border-width: 1px;
+          font-weight: 500;
+          font-size: 18px;
+          letter-spacing: 3px;
+          &:focus{
+            outline: none;
+          }
+        }
+      }
+    }
+
+    &-save_button {
+      margin-left: 72px;
+      margin-right: auto;
+      width: 99px!important;
+      height: 37px!important;
+      font-size: 14px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-weight: 500;
+      border-width: 1px;
+      border-style: solid;
+      background-color: var(--profile-background);
+      border-radius: 10px;
+
+      &-dark {
+        @extend .profile-mobile-save_button;
+        border-color: white;
+        color: white;
+      }
+      &-light {
+        @extend .profile-mobile-save_button;
+        border-color: black;
+        color: black;
+      }
+    }
+
+    &-uid_input {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-left: 72px;
+
+      &-text {
+        display: flex;
+        height: 27px;
+        align-items: center;
+        margin-bottom: 3px;
+
+        &-div {
+          display: inline-block;
+          height: fit-content;
+          width: fit-content;
+          margin-right: 10px;
+          margin-top: 3px;
+          font-size: 16px;
+          color: var(--profile-input-color);
+          font-weight: 600;
+        }
+      }
+      &-field {
+        display: flex;
+        &-copy {
+          width: 20px; 
+          height: 20px;
+          position: relative;
+          transform: translate(-150%, 54%);
+          cursor: pointer;
+        }
+        &-dark {
+          border-color: #3C3C3C;
+          background-color: #171717;
+          color: #979797;
+        }
+        &-light {
+          border-color: #DFDFDF;
+          background-color: #F9F9F9;
+          color: #929292;
+        }
+        & input {
+          width: 100%;
+          height: 43px;
+          border-radius: 8px;
+          padding-left: 12px;
+          border-style: solid;
+          border-width: 1px;
+          font-weight: 500;
+          font-size: 18px;
+          letter-spacing: 3px;
+          &:focus{
+            outline: none;
+          }
+        }
+      }
+    }
+
+    &-stat {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-width: 240px;
+      gap: 15px;
+      padding-left: 72px;
+      transition: all 0.4s ease;
+
+      & h2 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--profile-h2);
+        margin: 0;
+      }
+
+      &_item {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        & div:nth-child(1) {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: var(--profile-stat-color);
+        }
+
+        & div:nth-child(2) {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          color: var(--profile-stat-color);
+
+          & img {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+
+    &-arrow {
+      width: 24px;
+      height: 24px;
+      align-self: center;
+      transition: all 0.4s ease;
+    }
+
+    &-top {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    &-side_info {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      margin-left: 10px;
+      justify-content: center;
+      &-name {
+        display: flex;
+        width: fit-content;
+        justify-content: center;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        color: var(--profile-name);
+      }
+      &-balance {
+        padding-top: 4px;
+        color: #A8A8A8;
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
+
+    &-avatar {
+      display: flex;
+      width: 62px;
+      height: 62px;
+      object-fit: cover;
+      margin-left: 0px;
+      margin-right: 0px;
+
+      &-edit {
+        width: 25px!important;
+        height: 25px!important;
+        position: absolute;
+        transform: translate(21px, 50px);
+        transition: all 0.4s ease;
+      }
+
+      & img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 120px;
+      }
+    }
+    &-info {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 20px 20px;
+      align-items: center;
+      gap: 15px;
+      background: var(--profile-background);
+      border: var(--profile-border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+
+      &-long {
+        @extend .profile-mobile-info;
+        height: 467px;
+      }
+      &-short {
+        @extend .profile-mobile-info;
+        height: 104px;
+      }
+    }
   }
 
   &-uid_input {
@@ -337,7 +727,7 @@ $large: 1100px;
         color: #929292;
       }
       & input {
-        width: 195px;
+        width: 256px;
         height: 56px;
         border-radius: 8px;
         padding-left: 10px;
