@@ -63,7 +63,6 @@ let theme = useThemeStore();
           </div>
         </div>
         <br>
-        <!-- <medium-button text="Выйти" @click="() => {auth.removeKwt(); navigateTo('/')}"/> -->
         <div class="profile-uid_input">
           <div class="profile-uid_input-text">
             <div class="profile-uid_input-text-div">Ваш UID</div>
