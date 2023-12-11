@@ -158,6 +158,9 @@ export default {
     box-sizing: border-box;
     padding: 17px 25px;
     color: var(--modal-text);
+    &:focus{
+      outline: none;
+    }
 
     &::placeholder {
       font-weight: 400;

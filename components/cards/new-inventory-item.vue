@@ -19,12 +19,12 @@ let theme = useThemeStore();
     <div class="item-cost">
       {{ cost }} руб
     </div>
-    <div class="item-status" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'}; border-color: ${theme.darkTheme? '#A8A8A8': '#CBAA8C'}`">
+    <div class="item-status" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'}; border-color: ${theme.darkTheme? '#A8A8A8': '#CBAA8C'}; color: ${theme.darkTheme? '#A8A8A8': '#CBAA8C'}`">
       {{ status }}  
     </div>
     <div class="item-buttons">
       <div class="item-button-left" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
-      <div class="item-button-right" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'};`"><div>Вывести</div></div>
+      <div class="item-button-right" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'}; color: ${theme.darkTheme? '#ffffff': '#CBAA8C'};`"><div>Вывести</div></div>
     </div>
   </div>
 </template>
