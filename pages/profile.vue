@@ -84,8 +84,8 @@ let theme = useThemeStore();
           <div class="inventory-top_title">
             <h2>Инвентарь</h2>
             <span>
-              {{ inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length }} 
-              {{ getNoun(inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length, "предмет", "предмета", "предметов") }}
+              {{ inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length }} 
+              {{ getNoun(inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length, "предмет", "предмета", "предметов") }}
             </span>
 
           </div>
@@ -122,7 +122,7 @@ let theme = useThemeStore();
             </div>
           </div>
           <div class="inventory-items">
-              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
+              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
                 :image="SERVER_URL + profile_item.item.photo_url" 
                 :title="profile_item.item.name" 
                 :cost="`${profile_item.item.price}`"
@@ -145,7 +145,7 @@ let theme = useThemeStore();
             </div>
           </div>
           <div class="inventory-items">
-              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))" 
+              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
                 :image="SERVER_URL + profile_item.item.photo_url" 
                 :title="profile_item.item.name" 
                 :cost="`${profile_item.item.price}`"
