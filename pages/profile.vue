@@ -15,7 +15,7 @@ let theme = useThemeStore();
   <div class="page" v-else-if="data?.data?.user">
     <title-section text="Профиль" />
     <div class="profile">
-      <div class="profile-info">
+      <div class="profile-info" v-if="!is_mobile()">
         <div class="profile-avatar">
           <img
             v-if="data?.data?.user.photo_url"
@@ -78,6 +78,9 @@ let theme = useThemeStore();
             <img v-else class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-light.svg">
           </div>
         </div>
+      </div>
+      <div v-else class="profile-info">
+
       </div>
       <div class="inventory">
         <div class="inventory-top">
