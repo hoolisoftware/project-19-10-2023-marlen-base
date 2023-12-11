@@ -299,7 +299,20 @@ export default {
     },
     async copyUIDInput() {
       if (this.UIDInput) {
-        navigator.clipboard.writeText(this.UIDInput);
+        let textToCopy = this.UIDInput;
+        
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        await new Promise((res, rej) => {
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
         this.show_copied_modal = true;
         await new Promise(r => setTimeout(r, 200))
         this.show_copied_modal = false
@@ -307,7 +320,20 @@ export default {
     },
     async copyReferealInput() {
       if (this.ReferralInput) {
-        navigator.clipboard.writeText(this.ReferralInput);
+        let textToCopy = this.ReferralInput;
+        
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        await new Promise((res, rej) => {
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
         this.show_copied_modal = true;
         await new Promise(r => setTimeout(r, 200))
         this.show_copied_modal = false
