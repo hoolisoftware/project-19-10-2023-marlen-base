@@ -305,9 +305,12 @@ export default {
         this.show_copied_modal = false
       }
     },
-    copyReferealInput() {
+    async copyReferealInput() {
       if (this.ReferralInput) {
         navigator.clipboard.writeText(this.ReferralInput);
+        this.show_copied_modal = true;
+        await new Promise(r => setTimeout(r, 200))
+        this.show_copied_modal = false
       }
     },
   },
