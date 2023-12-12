@@ -185,6 +185,9 @@ $profileItemOrderButtonColorDark: #ffffff;
 $profileMobileContainerBorder: #dfdfdf;
 $profileMobileContainerBorderDark: #1D1D1D;
 
+$profileItemSelectedBorder: #CBAA8C;
+$profileItemSelectedBorderDark: #FFFFFF;
+
 
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
@@ -276,6 +279,8 @@ $profileMobileContainerBorderDark: #1D1D1D;
   --profile-item-order-button-color: #{$profileItemOrderButtonColor};
 
   --profile-mobile-container-border: #{$profileMobileContainerBorder};
+
+  --profile-item-selected-border: #{$profileItemSelectedBorder};
 }
 
 [data-theme='dark'] {
@@ -368,4 +373,6 @@ $profileMobileContainerBorderDark: #1D1D1D;
   --profile-item-order-button-color: #{$profileItemOrderButtonColorDark};
 
   --profile-mobile-container-border: #{$profileMobileContainerBorderDark};
+
+  --profile-item-selected-border: #{$profileItemSelectedBorderDark};
 }

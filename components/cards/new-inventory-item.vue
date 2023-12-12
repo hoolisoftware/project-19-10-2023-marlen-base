@@ -6,20 +6,22 @@ const {mutate: sellItem, data: sellItemData, isSuccess: isSuccessSellItem, isLoa
 
 
 <template>
-  <div class="item">
-    <div class="item-image_and_title">
-      <div class="item-image">
-        <img alt="item" :src="image"/>
+  <div :class="`item${selected? '-selected' : ''}`">
+    <div class="item-info" @click="on_click()">
+      <div class="item-image_and_title" >
+        <div class="item-image">
+          <img alt="item" :src="image"/>
+        </div>
+        <div class="item-title">
+          {{ title }}
+        </div>
       </div>
-      <div class="item-title">
-        {{ title }}
+      <div class="item-cost">
+        {{ cost }} руб
       </div>
-    </div>
-    <div class="item-cost">
-      {{ cost }} руб
-    </div>
-    <div class="item-status">
-      {{ status }}  
+      <div class="item-status">
+        {{ status }}  
+      </div>
     </div>
     <div class="item-buttons">
       <div class="item-button-left" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
@@ -54,6 +56,14 @@ export default {
       type: Number,
       required: true
     },
+    selected: {
+      type: Boolean,
+      required: true
+    },
+    on_click: {
+      type: Function,
+      required: true
+    },
   },
   components: {
     mediumButton
@@ -86,6 +96,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
   border: var(--profile-border);
   border-radius: 8px;
   width: 98%;
+  transition: all 0.3s;
   @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
     min-width: 320px;
   }
@@ -96,6 +107,20 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
   }
   @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small) {
     height: 84px;
+  }
+
+  &-info {
+    width: 100%; 
+    height: 100%; 
+    display: flex; 
+    align-items: center;
+  }
+
+  &-selected {
+    @extend .item;
+    border: 1px;
+    border-color: var(--profile-item-selected-border);
+    border-style: solid;
   }
 
   &-image_and_title {
@@ -128,6 +153,8 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
   }
 
   &-cost {
+    display: flex;
+    align-items: center;
     margin-right: 45px; 
     margin-left: auto;
     font-size: 14px;

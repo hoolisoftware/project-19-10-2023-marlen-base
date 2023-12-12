@@ -196,6 +196,8 @@ let theme = useThemeStore();
                 :id="`inv-item-${index}`"
                 :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
                 :item_id="Number(profile_item.id)"
+                :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                :selected="selected.includes(Number(profile_item.id))"
               />
           </div>
         </div>
@@ -219,6 +221,8 @@ let theme = useThemeStore();
                 :id="`inv-item-${index}`"
                 :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
                 :item_id="Number(profile_item.id)"
+                :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                :selected="selected.includes(Number(profile_item.id))"
               />
           </div>
         </template>
@@ -264,6 +268,7 @@ export default {
       UIDInput: "1234567890",
       ReferralInput: "http://mail.ru",
       show_copied_modal: false,
+      selected: [-1],
     }
   },
   methods: {
@@ -339,6 +344,16 @@ export default {
         this.show_copied_modal = false
       }
     },
+    select(id: number) {
+      if (this.selected.includes(id)) {
+        const index = this.selected.indexOf(id);
+        if (index > -1) {
+          this.selected.splice(index, 1);
+        }
+      } else {
+        this.selected.push(id)
+      }
+    }
   },
   async mounted() {
     while (document.getElementById("inv-item-0") === null) {
@@ -346,6 +361,7 @@ export default {
     }
     this.define()
     window.addEventListener('resize', this.define)
+    this.selected = []
   },
 
   beforeDestroy() {
@@ -905,7 +921,7 @@ $medium: 660px;
     width: 500px;
   }
   @media(max-width: $medium_large) {
-    width: 400px;
+    width: 410px;
   }
   @media(max-width: $medium_small) {
     width: 100%;
@@ -914,10 +930,10 @@ $medium: 660px;
     border: 0px;
   }
   @media((max-width: $large) and (min-width: $medium_large)){
-    max-height: 420px;
+    max-height: 410px;
   }
   @media((max-width: $medium_large) and (min-width: $medium_small)){
-    max-height: 461px;
+    max-height: 410px;
   }
   @media(max-width: $medium_small) and (min-width: $medium) {
     max-height: 431px;
@@ -1095,6 +1111,7 @@ $medium: 660px;
       border-color: var(--profile-mobile-container-border);
       border-style: solid;
       border-width: 1px;
+      transition: 0.3s;
       background-color: var(--profile-background);
       padding-left: 10px;
       padding-right: 10px;
