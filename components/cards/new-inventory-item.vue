@@ -205,7 +205,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
       &-right {
         @extend .item-button;
         border-radius: 0px 10px 10px 0px;
-        background-color: var(--profile-background);
+        background-color: var(--profile-item-background);
         color: var(--profile-item-order-button-color);
         @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)  {
           border-radius: 5px;
