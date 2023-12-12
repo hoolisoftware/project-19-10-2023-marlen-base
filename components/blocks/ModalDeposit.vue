@@ -41,18 +41,12 @@ let theme = useThemeStore();
                             <div class="deposit-method_title">Способ оплаты</div>
                             <div class="deposit-method_list">
                                 <div class="deposit-method_item" v-on:click="activeMethod = 1">
-                                    <svg v-if="activeMethod === 1" xmlns="http://www.w3.org/2000/svg" width="512"
-                                         height="512" viewBox="0 0 512 512"
-                                         style="enable-background:new 0 0 512 512"
-                                         xml:space="preserve"><path d="M256 42.667C138.453 42.667 42.667 138.453 42.667 256S138.453 469.333 256 469.333 469.333 373.547 469.333 256 373.547 42.667 256 42.667zm100.48 185.812L249.814 335.146a21.635 21.635 0 0 1-30.294 0l-64-64a21.42 21.42 0 1 1 30.294-30.292l48.853 49.063 91.519-91.729a21.42 21.42 0 0 1 30.294 30.291z" data-name="check-circle-Filled" fill="#32bb76" data-original="#000000"/></svg>
-                                    <nuxt-img format="webp" src="/img/deposit/method_1.png"/>
+                                  <img class="deposit-method_item-checkmark" v-if="activeMethod === 1" style="enable-background:new 0 0 512 512" src="@/assets/icons/checkmark.svg">
+                                  <nuxt-img format="webp" src="/img/deposit/method_1.png"/>
                                 </div>
                                 <div class="deposit-method_item" v-on:click="activeMethod = 2">
-                                    <svg v-if="activeMethod === 2" xmlns="http://www.w3.org/2000/svg" width="512"
-                                         height="512" viewBox="0 0 512 512"
-                                         style="enable-background:new 0 0 512 512"
-                                         xml:space="preserve"><path d="M256 42.667C138.453 42.667 42.667 138.453 42.667 256S138.453 469.333 256 469.333 469.333 373.547 469.333 256 373.547 42.667 256 42.667zm100.48 185.812L249.814 335.146a21.635 21.635 0 0 1-30.294 0l-64-64a21.42 21.42 0 1 1 30.294-30.292l48.853 49.063 91.519-91.729a21.42 21.42 0 0 1 30.294 30.291z" data-name="check-circle-Filled" fill="#32bb76" data-original="#000000"/></svg>
-                                    <nuxt-img format="webp" src="/img/deposit/method_2.png"/>
+                                  <img class="deposit-method_item-checkmark" v-if="activeMethod === 2" style="enable-background:new 0 0 512 512" src="@/assets/icons/checkmark.svg">
+                                  <nuxt-img format="webp" src="/img/deposit/method_2.png"/>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +118,7 @@ export default {
       cursor: pointer;
       transition: opacity 0.3s ease;
 
-      & svg {
+      &-checkmark {
         position: absolute;
         top: -5px;
         right: -5px;

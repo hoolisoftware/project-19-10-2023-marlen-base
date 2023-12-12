@@ -109,6 +109,9 @@ export default {
       font-weight: 500;
       opacity: 0.4;
       transition: 0.3s;
+      & svg {
+        fill: var(--button-background);
+      }
       @media(max-width: 1100px) {
         font-size: 16px;
       }
