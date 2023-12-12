@@ -156,20 +156,28 @@ let theme = useThemeStore();
             </span>
 
           </div>
-          <div class="inventory-top_actions" v-if="!is_mobile()">
+          <div class="inventory-top_actions" v-if="!is_mobile()" @click="sell_all()">
               Продать всё
           </div>
         </div>
         <div class="inventory-top-buttons">
-          <div class="inventory-tabs">
-            <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
-            <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
-              v-on:click="activeTab = 0">Все предметы</div>
-            <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
-              v-on:click="activeTab = 1">Выведено</div>
-          </div>
+          <template v-if="true">
+            <div class="inventory-top-selected-buttons" :class="`inventory-top-selected-buttons-${selected.length > 0? 'shown' : 'hidden'}`">
+              <div class="inventory-top-selected-button-left" @click="sellSelected()"><div>Продать выделенное</div></div>
+              <div class="inventory-top-selected-button-right" @click="orderSelected()"><div>Вывести выделенное</div></div>
+            </div>
+          </template>
+          <template v-if="true">
+            <div class="inventory-tabs" :class="`inventory-tabs-${selected.length > 0? 'hidden' : 'shown'}`">
+                <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
+                <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
+                  v-on:click="activeTab = 0">Все предметы</div>
+                <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
+                  v-on:click="activeTab = 1">Выведено</div>
+            </div>
+          </template>
 
-          <div class="inventory-top_actions" v-if="is_mobile()">
+          <div class="inventory-top_actions" v-if="is_mobile()" @click="sell_all()">
               Продать всё
           </div>
         </div>
@@ -198,6 +206,8 @@ let theme = useThemeStore();
                 :item_id="Number(profile_item.id)"
                 :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
                 :selected="selected.includes(Number(profile_item.id))"
+                :on_sell="sellSelected"
+                :on_order="orderSelected"
               />
           </div>
         </div>
@@ -223,6 +233,8 @@ let theme = useThemeStore();
                 :item_id="Number(profile_item.id)"
                 :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
                 :selected="selected.includes(Number(profile_item.id))"
+                :on_sell="sellSelected"
+                :on_order="orderSelected"
               />
           </div>
         </template>
@@ -268,7 +280,7 @@ export default {
       UIDInput: "1234567890",
       ReferralInput: "http://mail.ru",
       show_copied_modal: false,
-      selected: [-1],
+      selected: [],
     }
   },
   methods: {
@@ -353,6 +365,15 @@ export default {
       } else {
         this.selected.push(id)
       }
+    },
+    sellSelected() {
+
+    },
+    orderSelected() {
+
+    },
+    sell_all() {
+
     }
   },
   async mounted() {
@@ -361,7 +382,6 @@ export default {
     }
     this.define()
     window.addEventListener('resize', this.define)
-    this.selected = []
   },
 
   beforeDestroy() {
@@ -916,6 +936,7 @@ $medium: 660px;
   background: var(--profile-background);
   border: var(--profile-border);
   border-radius: 10px;
+  overflow: hidden;
 
   @media(max-width: $large) {
     width: 500px;
@@ -967,6 +988,16 @@ $medium: 660px;
     height: 40px;
     box-sizing: border-box;
     padding: 2px;
+    transition: 0.3s;
+
+    &-hidden {
+      transform: translate(-100%, 0%);
+      opacity: 0;
+    }
+    &-shown {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
 
     @media(max-width: $very_small) {
       height: 30px;
@@ -1035,10 +1066,67 @@ $medium: 660px;
     justify-content: space-between;
     align-items: center;
 
+    &-selected {
+      &-buttons {
+        position: absolute;
+        display: flex;
+        margin-left: 0px; 
+        margin-right: 10px;
+        height: 40px;
+        align-items: center;
+        margin-left: 2px;
+        transition: 0.3s;
+        z-index: 0;
+        &-hidden {
+          transform: translate(100%, 0%);
+          opacity: 0;
+        }
+        &-shown {
+          transform: translate(0%, 0%);
+          opacity: 1;
+        }
+      }
+      &-button {
+        display: flex;
+        font-size: 13px;
+        border-width: 0px;
+        height: 40px;
+        width: 100px;
+        transition: 0.3s;
+        &:hover {
+          opacity: 0.9;
+        }
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        flex-direction: row;
+        font-weight: 500;
+        @media(max-width: $very_small) {
+          font-size: 10px;
+          height: 30px;
+          width: 83.5px;
+        }
+        &-left {
+          @extend .inventory-top-selected-button;
+          border-radius: 5px 0px 0px 5px;
+          background-color: var(--button-background);
+          color: #000000;
+        }
+        &-right {
+          @extend .inventory-top-selected-button;
+          border-radius: 0px 5px 5px 0px;
+          background-color: var(--profile-tab-background);
+          color: var(--profile-tab-inactive);
+        }
+      }
+    }
+
     &-buttons {
       display: flex;
       flex-direction: row;
       align-items: center;
+      height: 40px;
       @media(max-width: $very_small) {
         height: 30px;
       }
@@ -1055,6 +1143,8 @@ $medium: 660px;
       border: 2px solid #C9A788;
       margin-right: 0px;
       margin-left: auto;
+      z-index: 2;
+      background-color: var(--loader-background);
       @media(max-width: $very_small) {
         font-size: 10px;
       }

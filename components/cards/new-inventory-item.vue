@@ -2,6 +2,9 @@
 import { useSellItemCreate } from "~/hooks/use-query/profile";
 
 const {mutate: sellItem, data: sellItemData, isSuccess: isSuccessSellItem, isLoading: isLoadingSellItem, error: errorSellItem} = useSellItemCreate()
+function orderItem (data: {ids: Number[]}) {
+
+}
 </script>
 
 
@@ -24,8 +27,8 @@ const {mutate: sellItem, data: sellItemData, isSuccess: isSuccessSellItem, isLoa
       </div>
     </div>
     <div class="item-buttons">
-      <div class="item-button-left" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
-      <div class="item-button-right"><div>Вывести</div></div>
+      <div class="item-button-left" @click="selected? on_sell() : sellItem({ids: [item_id]})"><div>Продать</div></div>
+      <div class="item-button-right" @click="selected? on_order() : orderItem({ids: [item_id]})"><div>Вывести</div></div>
     </div>
   </div>
 </template>
@@ -61,6 +64,14 @@ export default {
       required: true
     },
     on_click: {
+      type: Function,
+      required: true
+    },
+    on_sell: {
+      type: Function,
+      required: true
+    },
+    on_order: {
       type: Function,
       required: true
     },
