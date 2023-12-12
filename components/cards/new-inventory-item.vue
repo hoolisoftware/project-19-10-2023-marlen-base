@@ -2,12 +2,11 @@
 import { useSellItemCreate } from "~/hooks/use-query/profile";
 
 const {mutate: sellItem, data: sellItemData, isSuccess: isSuccessSellItem, isLoading: isLoadingSellItem, error: errorSellItem} = useSellItemCreate()
-let theme = useThemeStore();
 </script>
 
 
 <template>
-  <div class="item" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'};`">
+  <div class="item">
     <div class="item-image_and_title">
       <div class="item-image">
         <img alt="item" :src="image"/>
@@ -19,19 +18,18 @@ let theme = useThemeStore();
     <div class="item-cost">
       {{ cost }} руб
     </div>
-    <div class="item-status" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'}; border-color: ${theme.darkTheme? '#A8A8A8': '#CBAA8C'}; color: ${theme.darkTheme? '#A8A8A8': '#CBAA8C'}`">
+    <div class="item-status">
       {{ status }}  
     </div>
     <div class="item-buttons">
       <div class="item-button-left" @click="sellItem({ids: [item_id]})"><div>Продать</div></div>
-      <div class="item-button-right" :style="`background-color: ${theme.darkTheme? '#0C0C0C': '#ffffff'}; color: ${theme.darkTheme? '#ffffff': '#CBAA8C'};`"><div>Вывести</div></div>
+      <div class="item-button-right"><div>Вывести</div></div>
     </div>
   </div>
 </template>
   
 <script lang="ts">
 import mediumButton from "@/components/buttons/medium-button.vue";
-import { useThemeStore } from "~/store/themeNew";
 
 export default {
   name: "new-inventory-item",
@@ -160,7 +158,9 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
     justify-content: center;
     align-items: center;
     white-space: nowrap;
-    background-color: var(--profile-background);
+    background-color: var(--profile-item-background);
+    color: var(--profile-item-status-color);
+    border-color: var(--profile-item-status-color);
     @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
       margin-right: auto; 
       margin-left: auto;
@@ -168,16 +168,6 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
     @media (max-width: $very-small) {
       width: 60px;
       font-size: 9px;
-    }
-    &-dark {
-      @extend .item-status;
-      color: #A8A8A8;
-      border-color: #A8A8A8;
-    }
-    &-light {
-      @extend .item-status;
-      color: #CBAA8C;
-      border-color: #CBAA8C;
     }
   }
 
@@ -216,6 +206,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
         @extend .item-button;
         border-radius: 0px 10px 10px 0px;
         background-color: var(--profile-background);
+        color: var(--profile-item-order-button-color);
         @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)  {
           border-radius: 5px;
           height: 25px;

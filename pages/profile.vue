@@ -13,7 +13,7 @@ let theme = useThemeStore();
 <template>
   <loader v-if="isLoading || isLoadingStats"/>
   <div class="page" v-else-if="data?.data?.user">
-    <div :class="(show_copied_modal? 'profile-copied-show' : 'profile-copied-hide')+(theme.darkTheme? ' profile-copied-dark' : ' profile-copied-light')">Скопировано!</div>
+    <div :class="(show_copied_modal? 'profile-copied-show' : 'profile-copied-hide')">Скопировано!</div>
     <title-section text="Профиль" />
     <div class="profile">
       <div class="profile-info" v-if="!is_mobile()">
@@ -67,14 +67,14 @@ let theme = useThemeStore();
         <div class="profile-uid_input">
           <div class="profile-uid_input-text">
             <div class="profile-uid_input-text-div">Ваш UID</div>
-            <svg @mouseover="show_uid_info=true" @mouseleave="show_uid_info=false" width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg" :class="`profile-uid_input-text-info-${theme.darkTheme? 'dark' : 'light'}`" src="@/assets/icons/info-circle.svg">
+            <svg @mouseover="show_uid_info=true" @mouseleave="show_uid_info=false" width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="profile-uid_input-text-info" src="@/assets/icons/info-circle.svg">
               <ellipse cx="13.3846" cy="11" rx="12.6923" ry="11" fill="#F5F5F5"/>
               <path transform="translate(9.4, 4)" d="M2.95876 8.81046C2.95876 8.35408 3.0573 7.9288 3.25438 7.53465C3.45145 7.1405 3.69002 6.80339 3.97008 6.52333C4.25013 6.24328 4.53019 5.97878 4.81025 5.72984C5.0903 5.47053 5.32887 5.19047 5.52595 4.88967C5.72303 4.5785 5.82156 4.25176 5.82156 3.90947C5.82156 3.39085 5.64005 2.99669 5.27701 2.72701C4.92434 2.44695 4.46277 2.30692 3.89228 2.30692C2.75131 2.30692 2.02005 2.80999 1.69851 3.81612L0.469368 3.13154C0.72868 2.40546 1.16951 1.85572 1.79186 1.48231C2.41421 1.09853 3.11953 0.906641 3.90784 0.906641C4.83099 0.906641 5.6193 1.16595 6.27277 1.68458C6.9366 2.2032 7.26852 2.92409 7.26852 3.84724C7.26852 4.28288 7.16998 4.69259 6.97291 5.07637C6.77583 5.46016 6.53726 5.79208 6.25721 6.07213C5.97715 6.35219 5.69709 6.62706 5.41704 6.89674C5.13698 7.15606 4.89841 7.45167 4.70134 7.78359C4.50426 8.10514 4.40572 8.44743 4.40572 8.81046H2.95876ZM3.67446 12.1711C3.39441 12.1711 3.15584 12.0726 2.95876 11.8755C2.76168 11.6785 2.66315 11.4399 2.66315 11.1598C2.66315 10.8798 2.76168 10.6412 2.95876 10.4441C3.15584 10.2471 3.39441 10.1485 3.67446 10.1485C3.96489 10.1485 4.20346 10.2471 4.39016 10.4441C4.58724 10.6412 4.68578 10.8798 4.68578 11.1598C4.68578 11.4399 4.58724 11.6785 4.39016 11.8755C4.20346 12.0726 3.96489 12.1711 3.67446 12.1711Z" fill="#A5A5A5"/>
             </svg>
-            <div :style="show_uid_info? 'opacity:1;':'opacity:0'" :class="`profile-uid_input-info-${theme.darkTheme? 'dark' : 'light'}`">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
+            <div :style="show_uid_info? 'opacity:1;':'opacity:0'" class="profile-uid_input-info">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
           </div>
           <div class="profile-uid_input-field">
-            <input :class="`profile-uid_input-field-${theme.darkTheme? 'dark' : 'light'}`" inputmode="numeric" pattern="\d*" placeholder="Не указан">
+            <input inputmode="numeric" pattern="\d*" placeholder="Не указан">
             <!-- <img class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme">
             <img v-else class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-light.svg"> -->
           </div>
@@ -131,15 +131,15 @@ let theme = useThemeStore();
             <div class="profile-mobile-uid_input-text-div">UID</div>
           </div>
           <div class="profile-mobile-uid_input-field">
-            <input :class="`profile-mobile-uid_input-field-${theme.darkTheme? 'dark' : 'light'}`" inputmode="numeric" pattern="\d*" placeholder="Не указан" v-model="UIDInput">
+            <input inputmode="numeric" pattern="\d*" placeholder="Не указан" v-model="UIDInput">
             <img src="@/assets/icons/copy.svg" class="profile-mobile-uid_input-field-copy" @click="copyUIDInput()" >
           </div>
         </div>
-        <button :class="`profile-mobile-save_button-${theme.darkTheme? 'dark' : 'light'}`">Сохранить</button>
+        <button :class="`profile-mobile-save_button`">Сохранить</button>
         <div class="profile-mobile-referral_link">
           <div class="profile-mobile-referral_link-text">Реферальная ссылка</div>
           <div class="profile-mobile-referral_link-field">
-            <input :class="`profile-mobile-referral_link-field-${theme.darkTheme? 'dark' : 'light'}`" pattern="\d*" placeholder="Не указан" v-model="ReferralInput" disabled>
+            <input placeholder="Не указан" v-model="ReferralInput" disabled>
             <img src="@/assets/icons/copy.svg" class="profile-mobile-referral_link-field-copy" @click="copyReferealInput()">
           </div>
         </div>
@@ -389,6 +389,9 @@ $large: 1100px;
     justify-content: center;
     align-items: center;
     border-width: 1px;
+    border-color: var(--profile-copied-border);
+    background-color: var(--profile-copied-background);
+    color:  var(--profile-copied-color);
     &-show {
       @extend .profile-copied;
       transition: all 0s ease;
@@ -398,16 +401,6 @@ $large: 1100px;
       @extend .profile-copied;
       transition: all 0.9s ease;
       opacity: 0;
-    }
-    &-dark {
-      border-color: white;
-      background-color: black;
-      color: white;
-    }
-    &-light {
-      border-color: #686868;
-      background-color: #ffffff;
-      color: black;
     }
   }
 
@@ -437,17 +430,10 @@ $large: 1100px;
           transform: translate(-150%, 54%);
           cursor: pointer;
         }
-        &-dark {
-          border-color: #3C3C3C;
-          background-color: #171717;
-          color: #979797;
-        }
-        &-light {
-          border-color: #DFDFDF;
-          background-color: #F9F9F9;
-          color: #929292;
-        }
         & input {
+          border-color: var(--profile-input-border);
+          background-color: var(--profile-input-background);
+          color: var(--profile-input-color);
           width: 100%;
           height: 43px;
           border-radius: 8px;
@@ -477,17 +463,8 @@ $large: 1100px;
       border-style: solid;
       background-color: var(--profile-background);
       border-radius: 10px;
-
-      &-dark {
-        @extend .profile-mobile-save_button;
-        border-color: white;
-        color: white;
-      }
-      &-light {
-        @extend .profile-mobile-save_button;
-        border-color: black;
-        color: black;
-      }
+      border-color: var(--profile-save-button-border);
+      color: var(--profile-save-button-color);
     }
 
     &-uid_input {
@@ -522,17 +499,10 @@ $large: 1100px;
           transform: translate(-150%, 54%);
           cursor: pointer;
         }
-        &-dark {
-          border-color: #3C3C3C;
-          background-color: #171717;
-          color: #979797;
-        }
-        &-light {
-          border-color: #DFDFDF;
-          background-color: #F9F9F9;
-          color: #929292;
-        }
         & input {
+          border-color: var(--profile-input-border);
+          background-color: var(--profile-input-background);
+          color: var(--profile-input-color);
           width: 100%;
           height: 43px;
           border-radius: 8px;
@@ -693,18 +663,11 @@ $large: 1100px;
       padding: 10px;
       width: 200px;
       transition: opacity 0.4s ease;
-      &-dark {
-        @extend .profile-uid_input-info;
-        background: #242424;
-        border: 1px #464646 solid;
-        color: #ffffff;
-      }
-      &-light {
-        @extend .profile-uid_input-info;
-        border: 1px #9e9e9e solid;
-        background-color: #dfdfdf;
-        color: #000000;
-      }
+      background: var(--profile-uid-info-background);
+      border-color: var(--profile-uid-info-border);
+      color: var(--profile-uid-info-color);
+      border-width: 1px;
+      border-style: solid;
     }
 
     &-text {
@@ -714,21 +677,11 @@ $large: 1100px;
       margin-bottom: 3px;
 
       &-info {
-        &-dark {
-          & ellipse {
-            fill: #171717;
-          }
-          & path {
-            fill: #7a7a7a;
-          }
+        & ellipse {
+          fill: var(--profile-uid-info-ellipse);
         }
-        &-light {
-          & ellipse {
-            fill: #F5F5F5;
-          }
-          & path {
-            fill: #A5A5A5;
-          }
+        & path {
+          fill: var(--profile-uid-info-questionmark);
         }
       }
 
@@ -745,17 +698,10 @@ $large: 1100px;
     }
     &-field {
       display: flex;
-      &-dark {
-        border-color: #3C3C3C;
-        background-color: #171717;
-        color: #979797;
-      }
-      &-light {
-        border-color: #DFDFDF;
-        background-color: #F9F9F9;
-        color: #929292;
-      }
       & input {
+        border-color: var(--profile-input-border);
+        background-color: var(--profile-input-background);
+        color: var(--profile-input-color);
         width: 256px;
         height: 56px;
         border-radius: 8px;
