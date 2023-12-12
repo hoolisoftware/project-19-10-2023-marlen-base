@@ -129,12 +129,12 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
     text-align: center;
     width: 200px;
     padding-left: 4px;
+    height: inherit;
     @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium) {
       flex-direction: column;
       justify-content: space-between; 
       align-items: center;
       width: 80px;
-      height: 84px;
     }
   }
 
@@ -256,9 +256,10 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
     }
   }
   &-image {
-    display: inline-block;
+    display: flex;
     max-width: 44px;
     padding-left: 0px;
+    align-items: center;
     & img {
       width: 100%;
       height: 100%;
@@ -266,9 +267,13 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
     @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
       margin-right: 0px; 
       margin-left: 0px;
-      margin-bottom: 2px;
-      margin-top: 12px;
       width: 25px;
+      margin-top: 8px;
+      margin-bottom: 2px;
+    }
+    @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small) {
+      margin-top: 12px;
+      margin-bottom: 2px;
     }
   }
 }

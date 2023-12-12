@@ -909,7 +909,7 @@ $medium: 660px;
   flex-direction: column;
   width: 644px;
   height: max-content;
-  max-height: 443px;
+  max-height: 455px;
   box-sizing: border-box;
   padding: 20px;
   gap: 15px;
@@ -930,19 +930,19 @@ $medium: 660px;
     border: 0px;
   }
   @media((max-width: $large) and (min-width: $medium_large)){
-    max-height: 410px;
+    max-height: 455px;
   }
   @media((max-width: $medium_large) and (min-width: $medium_small)){
-    max-height: 410px;
+    max-height: 455px;
   }
   @media(max-width: $medium_small) and (min-width: $medium) {
-    max-height: 431px;
+    max-height: 441px;
   }
   @media(max-width: $medium) {
-    max-height: 407px;
+    max-height: 417px;
   }
   @media(max-width: $small) {
-    max-height: 449px;
+    max-height: 459px;
   }
 
   &-sections {
