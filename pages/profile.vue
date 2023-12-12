@@ -269,6 +269,7 @@ export default {
     newInventoryItem,
   },
   data() {
+    let selected: Number[] = [];
     return {
       activeTab: 0,
       modals: modalStore(),
@@ -280,7 +281,7 @@ export default {
       UIDInput: "1234567890",
       ReferralInput: "http://mail.ru",
       show_copied_modal: false,
-      selected: [],
+      selected: selected,
     }
   },
   methods: {
