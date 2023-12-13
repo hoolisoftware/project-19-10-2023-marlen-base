@@ -130,7 +130,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
   &-selected {
     @extend .item;
     border: 1px;
-    border-color: var(--profile-item-selected-border);
+    border-color: var(--profile-item-selected-border-gradient-right);
     border-style: solid;
   }
 
