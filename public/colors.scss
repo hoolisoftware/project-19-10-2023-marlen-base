@@ -199,6 +199,16 @@ $orderItemTextColorDark: #ffffff;
 $orderSupportLinkColor: #606060;
 $orderSupportLinkColorDark: #a3a3a3;
 
+$profleReferralTextSideColor: #94725B;
+$profleReferralTextCenterColor: #C9A788;/* 
+$profleReferralTextSideColor: #DDC8B5;
+$profleReferralTextCenterColor: #CBAA8B; */
+$profleReferralTextSideColorDark: #ffffff;
+$profleReferralTextCenterColorDark: #ffffff;
+
+$profileReferralTitleColor: #3B180E;
+$profileReferralTitleColorDark: #ffffff;
+
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
   --loader-box: #{$loaderBoxLight};
@@ -296,6 +306,11 @@ $orderSupportLinkColorDark: #a3a3a3;
   --order-item-cost-background: #{$orderItemCostBackground};
   --order-item-text-color: #{$orderItemTextColor};
   --order-support-link-color: #{$orderSupportLinkColor};
+
+  --profle-referral-text-color-center: #{$profleReferralTextCenterColor};
+  --profle-referral-text-color-side: #{$profleReferralTextSideColor};
+
+  --profile-referral-title-color: #{$profileReferralTitleColor};
 }
 
 [data-theme='dark'] {
@@ -395,4 +410,9 @@ $orderSupportLinkColorDark: #a3a3a3;
   --order-item-cost-background: #{$orderItemCostBackgroundDark};
   --order-item-text-color: #{$orderItemTextColorDark};
   --order-support-link-color: #{$orderSupportLinkColorDark};
+
+  --profle-referral-text-color-center: #{$profleReferralTextCenterColorDark};
+  --profle-referral-text-color-side: #{$profleReferralTextSideColorDark};
+
+  --profile-referral-title-color: #{$profileReferralTitleColorDark};
 }

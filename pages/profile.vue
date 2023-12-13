@@ -145,99 +145,145 @@ let theme = useThemeStore();
         </div>
       </div>
 
+      <div class="profile-side">
+        <div class="inventory">
+          <div class="inventory-top">
+            <div class="inventory-top_title">
+              <h2>Инвентарь</h2>
+              <span>
+                {{ inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length }} 
+                {{ getNoun(inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length, "предмет", "предмета", "предметов") }}
+              </span>
 
-      <div class="inventory">
-        <div class="inventory-top">
-          <div class="inventory-top_title">
-            <h2>Инвентарь</h2>
-            <span>
-              {{ inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length }} 
-              {{ getNoun(inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length, "предмет", "предмета", "предметов") }}
-            </span>
+            </div>
+            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="!is_mobile()" @click="sell_all()">
+                Продать всё
+            </div>
+          </div>
+          <div class="inventory-top-buttons">
+            <template v-if="true">
+              <div class="inventory-top-selected-buttons" :class="`inventory-top-selected-buttons-${selected.length > 0? 'shown' : 'hidden'}`">
+                <div class="inventory-top-selected-button-left" @click="sellSelected()"><div>Продать выделенное</div></div>
+                <div class="inventory-top-selected-button-right" @click="orderSelected()"><div>Вывести выделенное</div></div>
+              </div>
+            </template>
+            <template v-if="true">
+              <div class="inventory-tabs" :class="`inventory-tabs-${selected.length > 0? 'hidden' : 'shown'}`">
+                  <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
+                  <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
+                    v-on:click="activeTab = 0">Все предметы</div>
+                  <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
+                    v-on:click="activeTab = 1">Выведено</div>
+              </div>
+            </template>
 
+            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="is_mobile()" @click="sell_all()">
+                Продать всё
+            </div>
           </div>
-          <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="!is_mobile()" @click="sell_all()">
-              Продать всё
+          <div class="inventory-items-text">
+            Выберите один или несколько предметов
           </div>
-        </div>
-        <div class="inventory-top-buttons">
-          <template v-if="true">
-            <div class="inventory-top-selected-buttons" :class="`inventory-top-selected-buttons-${selected.length > 0? 'shown' : 'hidden'}`">
-              <div class="inventory-top-selected-button-left" @click="sellSelected()"><div>Продать выделенное</div></div>
-              <div class="inventory-top-selected-button-right" @click="orderSelected()"><div>Вывести выделенное</div></div>
+          <div class="inventory-items-container" v-if="is_mobile()">
+            <div class="inventory-sections">
+              <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
+                Название
+              </div>
+              <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+                Стоимость
+              </div>
+              <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+                Статус
+              </div>
+            </div>
+            <div class="inventory-items">
+                <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
+                  :image="SERVER_URL + profile_item.item.photo_url" 
+                  :title="profile_item.item.name" 
+                  :cost="`${profile_item.item.price}`"
+                  :id="`inv-item-${index}`"
+                  :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                  :item_id="Number(profile_item.id)"
+                  :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                  :selected="selected.includes(Number(profile_item.id))"
+                  :on_sell="sellSelected"
+                  :on_order="orderSelected"
+                />
+            </div>
+          </div>
+          <template v-else>
+            <div class="inventory-sections">
+              <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
+                Название
+              </div>
+              <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+                Цена
+              </div>
+              <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+                Статус
+              </div>
+            </div>
+            <div class="inventory-items">
+                <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
+                  :image="SERVER_URL + profile_item.item.photo_url" 
+                  :title="profile_item.item.name" 
+                  :cost="`${profile_item.item.price}`"
+                  :id="`inv-item-${index}`"
+                  :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                  :item_id="Number(profile_item.id)"
+                  :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                  :selected="selected.includes(Number(profile_item.id))"
+                  :on_sell="sellSelected"
+                  :on_order="orderSelected"
+                />
             </div>
           </template>
-          <template v-if="true">
-            <div class="inventory-tabs" :class="`inventory-tabs-${selected.length > 0? 'hidden' : 'shown'}`">
-                <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
-                <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
-                  v-on:click="activeTab = 0">Все предметы</div>
-                <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
-                  v-on:click="activeTab = 1">Выведено</div>
+        </div>
+        <div class="profile-referral" v-if="!is_mobile()">
+          <div class="profile-referral-left">
+            <div class="profile-referral-title">
+              Реферальная ссылка
             </div>
-          </template>
-
-          <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="is_mobile()" @click="sell_all()">
-              Продать всё
+            <div class="profile-referral-field" @click="copyReferealInput()">
+              <div class="profile-referral-field-text">{{ ReferralInput }}</div>
+            </div>
+          </div>
+          <svg class="profile-referral-line-vertical" width="2" height="121" viewBox="0 0 2 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 0L0.999997 59.9646L0.999995 121" :stroke="theme.darkTheme? `rgba(255, 255, 255, 0.08)`: `rgba(0, 0, 0, 0.08)`"/>
+          </svg>
+          <svg class="profile-referral-line-horizontal" width="calc(100%+100px)" height="5" viewBox="0 0 500 2" fill="black" xmlns="http://www.w3.org/2000/svg">
+              <line y1="0.5" x2="500" y2="0.5" :stroke="theme.darkTheme? `rgba(255, 255, 255, 0.08)`: `rgba(0, 0, 0, 0.08)`"/>
+          </svg>
+          <div class="profile-referral-right">
+            <div class="profile-referral-stats">
+              <div class="profile-referral-stat">
+                <div class="profile-referral-stats-left">
+                  Кол-во приглашённых
+                </div>
+                <div class="profile-referral-stats-right">
+                  1000
+                </div>
+              </div>
+              <div class="profile-referral-stat">
+                <div class="profile-referral-stats-left">
+                  Получено моры
+                </div>
+                <div class="profile-referral-stats-right">
+                  1000
+                  <img alt="moon" src="/img/icons/moon.png" style="width: 14px; height: 14px; margin-left: 4px; align-self: center;"/>
+                </div>
+              </div>
+              <div class="profile-referral-stat">
+                <div class="profile-referral-stats-left">
+                  До подарка
+                </div>
+                <div class="profile-referral-stats-right">
+                  5 пользователей
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="inventory-items-text">
-          Выберите один или несколько предметов
-        </div>
-        <div class="inventory-items-container" v-if="is_mobile()">
-          <div class="inventory-sections">
-            <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
-              Название
-            </div>
-            <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
-              Стоимость
-            </div>
-            <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
-              Статус
-            </div>
-          </div>
-          <div class="inventory-items">
-              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
-                :image="SERVER_URL + profile_item.item.photo_url" 
-                :title="profile_item.item.name" 
-                :cost="`${profile_item.item.price}`"
-                :id="`inv-item-${index}`"
-                :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
-                :item_id="Number(profile_item.id)"
-                :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
-                :selected="selected.includes(Number(profile_item.id))"
-                :on_sell="sellSelected"
-                :on_order="orderSelected"
-              />
-          </div>
-        </div>
-        <template v-else>
-          <div class="inventory-sections">
-            <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
-              Название
-            </div>
-            <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
-              Цена
-            </div>
-            <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
-              Статус
-            </div>
-          </div>
-          <div class="inventory-items">
-              <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
-                :image="SERVER_URL + profile_item.item.photo_url" 
-                :title="profile_item.item.name" 
-                :cost="`${profile_item.item.price}`"
-                :id="`inv-item-${index}`"
-                :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
-                :item_id="Number(profile_item.id)"
-                :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
-                :selected="selected.includes(Number(profile_item.id))"
-                :on_sell="sellSelected"
-                :on_order="orderSelected"
-              />
-          </div>
-        </template>
       </div>
     </div>
   </div>
@@ -279,7 +325,7 @@ export default {
       show_uid_info: false,
       show_mobile_profile: false,
       UIDInput: "1234567890",
-      ReferralInput: "http://mail.ru",
+      ReferralInput: "https://kleewish.com/?ref=5044436150",
       show_copied_modal: false,
       selected: selected,
     }
@@ -394,6 +440,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../static/colors.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 $medium_small: 850px;
 $medium_large: 950px;
@@ -414,6 +461,162 @@ $large: 1100px;
     flex-direction: column;
     gap: 25px;
   }
+  &-side {
+    display: flex;
+    flex-direction: column;
+    height: 544px;
+    @media (max-width: $large) {
+      height: 640px;
+    }
+  }
+
+  &-referral {
+    display: flex;
+    margin-top: 13px;
+    border-width: 1px;
+    border-style: solid;
+    background: var(--profile-background);
+    border: var(--profile-border);
+    height: 100%;
+    width: 644px;
+    border-radius: 10px;
+    overflow: hidden;
+    @media(max-width: $large) {
+      width: 500px;
+    }
+    @media(max-width: $medium_large) {
+      width: 410px;
+    }
+
+    @media (max-width: $large) {
+      flex-direction: column;
+      justify-content: left;
+    }
+
+    &-line-vertical {
+      @media (max-width: $large) {
+        position: absolute;
+        opacity: 0;
+      }
+    }
+    &-line-horizontal {
+      @media (min-width: $large) {
+        position: absolute;
+        opacity: 0;
+        align-self: center;
+      }
+    }
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      height: 100%;
+      padding-right: 20px;
+      padding-bottom: 20px;
+      @media (max-width: $large) {
+        width: 100%;
+      }
+    }
+    &-right {
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+      height: 100%;
+      padding-right: 11px;
+      padding-left: 20px;
+      justify-content: center;
+      @media (max-width: $large) {
+        width: 100%;
+        padding-right: 20px;
+      }
+    }
+    &-field {
+      display: flex;
+      cursor: pointer;
+      &-text {
+        display: flex;
+        background: radial-gradient(var(--profle-referral-text-color-center), var(--profle-referral-text-color-side));
+        font-weight: 700;
+        font-size: 14px;
+        font-family: 'Roboto Mono', monospace;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: underline;
+      }
+      border-width: 1px;
+      border-style: solid;
+      background: var(--profile-background);
+      border: var(--profile-border);
+      width: 335px;
+      height: 46px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-left: 20px;
+      @media (max-width: $large) {
+        width: calc(100% - 20px);
+      }
+    }
+    &-title {
+      color: var(--profile-referral-title-color);
+      font-weight: 700;
+      font-size: 24px;
+      margin-top: 14px;
+      margin-left: 20px;
+      @media (max-width: $large) {
+        align-self: center;
+      }
+    }
+    &-stat {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 9px;
+    }
+    &-stats {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-self: center;
+      height: fit-content;
+      white-space: nowrap;
+      justify-content: center;
+      &-left {
+        display: flex;
+        color: var(--profile-stat-color);
+        font-weight: 500;
+        font-size: 14px;
+        width: fit-content;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin-left: 0px;
+      }
+      &-right {
+        display: flex;
+        flex-direction: row;
+        color: var(--profile-stat-color);
+        width: fit-content;
+        height: fit-content;
+        font-weight: 600;
+        font-size: 14px;
+        height: 100%;
+        display: flex;
+        margin-right: 0px;
+        margin-left: auto;
+        justify-content: center;
+        align-items: center;
+        & img {
+          transform: translate(0%, -1.4px);
+        }
+      }
+    }
+  }
 
   &-copied {
     border-radius: 5px;
@@ -429,6 +632,7 @@ $large: 1100px;
     border-color: var(--profile-copied-border);
     background-color: var(--profile-copied-background);
     color:  var(--profile-copied-color);
+    z-index: 100;
     &-show {
       @extend .profile-copied;
       transition: all 0s ease;
@@ -930,7 +1134,7 @@ $medium: 660px;
   flex-direction: column;
   width: 644px;
   height: max-content;
-  max-height: 455px;
+  max-height: 410px;
   box-sizing: border-box;
   padding: 20px;
   gap: 15px;
@@ -952,10 +1156,10 @@ $medium: 660px;
     border: 0px;
   }
   @media((max-width: $large) and (min-width: $medium_large)){
-    max-height: 455px;
+    max-height: 410px;
   }
   @media((max-width: $medium_large) and (min-width: $medium_small)){
-    max-height: 455px;
+    max-height: 410px;
   }
   @media(max-width: $medium_small) and (min-width: $medium) {
     max-height: 441px;
