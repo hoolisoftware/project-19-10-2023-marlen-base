@@ -67,16 +67,11 @@ let theme = useThemeStore();
         <div class="profile-uid_input">
           <div class="profile-uid_input-text">
             <div class="profile-uid_input-text-div">Ваш UID</div>
-            <svg @mouseover="show_uid_info=true" @mouseleave="show_uid_info=false" width="27" height="22" viewBox="0 0 27 22" fill="none" xmlns="http://www.w3.org/2000/svg" class="profile-uid_input-text-info" src="@/assets/icons/info-circle.svg">
-              <ellipse cx="13.3846" cy="11" rx="12.6923" ry="11" fill="#F5F5F5"/>
-              <path transform="translate(9.4, 4)" d="M2.95876 8.81046C2.95876 8.35408 3.0573 7.9288 3.25438 7.53465C3.45145 7.1405 3.69002 6.80339 3.97008 6.52333C4.25013 6.24328 4.53019 5.97878 4.81025 5.72984C5.0903 5.47053 5.32887 5.19047 5.52595 4.88967C5.72303 4.5785 5.82156 4.25176 5.82156 3.90947C5.82156 3.39085 5.64005 2.99669 5.27701 2.72701C4.92434 2.44695 4.46277 2.30692 3.89228 2.30692C2.75131 2.30692 2.02005 2.80999 1.69851 3.81612L0.469368 3.13154C0.72868 2.40546 1.16951 1.85572 1.79186 1.48231C2.41421 1.09853 3.11953 0.906641 3.90784 0.906641C4.83099 0.906641 5.6193 1.16595 6.27277 1.68458C6.9366 2.2032 7.26852 2.92409 7.26852 3.84724C7.26852 4.28288 7.16998 4.69259 6.97291 5.07637C6.77583 5.46016 6.53726 5.79208 6.25721 6.07213C5.97715 6.35219 5.69709 6.62706 5.41704 6.89674C5.13698 7.15606 4.89841 7.45167 4.70134 7.78359C4.50426 8.10514 4.40572 8.44743 4.40572 8.81046H2.95876ZM3.67446 12.1711C3.39441 12.1711 3.15584 12.0726 2.95876 11.8755C2.76168 11.6785 2.66315 11.4399 2.66315 11.1598C2.66315 10.8798 2.76168 10.6412 2.95876 10.4441C3.15584 10.2471 3.39441 10.1485 3.67446 10.1485C3.96489 10.1485 4.20346 10.2471 4.39016 10.4441C4.58724 10.6412 4.68578 10.8798 4.68578 11.1598C4.68578 11.4399 4.58724 11.6785 4.39016 11.8755C4.20346 12.0726 3.96489 12.1711 3.67446 12.1711Z" fill="#A5A5A5"/>
-            </svg>
+            <info-circle @mouseover="show_uid_info=true" @mouseleave="show_uid_info=false"/>
             <div :style="show_uid_info? 'opacity:1;':'opacity:0'" class="profile-uid_input-info">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
           </div>
           <div class="profile-uid_input-field">
             <input inputmode="numeric" pattern="\d*" placeholder="Не указан">
-            <!-- <img class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme">
-            <img v-else class="profile-uid_input-field-edit" src="@/assets/icons/edit-pen-light.svg"> -->
           </div>
         </div>
       </div>
@@ -242,7 +237,11 @@ let theme = useThemeStore();
         <div class="profile-referral" v-if="!is_mobile()">
           <div class="profile-referral-left">
             <div class="profile-referral-title">
-              Реферальная ссылка
+              <div class="profile-referral-title-text">
+                Реферальная ссылка
+              </div>
+              <info-circle class="profile-referral-title-info-circle" @mouseover="show_referral_info=true" @mouseleave="show_referral_info=false"/>
+              <div :style="show_referral_info? 'opacity:1;':'opacity:0'" class="profile-referral-title-info">Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!</div>
             </div>
             <div class="profile-referral-field" @click="copyReferealInput()">
               <div class="profile-referral-field-text">{{ ReferralInput }}</div>
@@ -294,6 +293,7 @@ let theme = useThemeStore();
 
 <script lang="ts">
 import mediumButton from "@/components/buttons/medium-button.vue";
+import infoCircle from "@/components/images/info-circle.vue";
 import inventoryItem from "@/components/cards/inventory-item.vue";
 import newInventoryItem from "@/components/cards/new-inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
@@ -316,6 +316,7 @@ export default {
     inventoryItem,
     titleSection,
     newInventoryItem,
+    infoCircle,
   },
   data() {
     let selected: Number[] = [];
@@ -331,6 +332,7 @@ export default {
       ReferralInput: "https://kleewish.com/?ref=5044436150",
       show_copied_modal: false,
       selected: selected,
+      show_referral_info: false,
     }
   },
   methods: {
@@ -566,13 +568,39 @@ $large: 1100px;
       }
     }
     &-title {
-      color: var(--profile-referral-title-color);
-      font-weight: 700;
-      font-size: 24px;
+      display: flex;
+      flex-direction: row;
       margin-top: 14px;
       margin-left: 20px;
       @media (max-width: $large) {
         align-self: center;
+        margin-left: 0px;
+      }
+      &-text {
+        color: var(--profile-referral-title-color);
+        font-weight: 700;
+        font-size: 24px;
+        margin-right: 8px;
+      }
+      &-info {
+        position: absolute;
+        @media (max-width: $large) {
+          transform: translate(20%, -100%);
+        }
+        transform: translate(140%, -100%);
+        font-size: 14px;
+        border-radius: 5px;
+        padding: 10px;
+        width: 200px;
+        transition: opacity 0.4s ease;
+        background: var(--profile-uid-info-background);
+        border-color: var(--profile-uid-info-border);
+        color: var(--profile-uid-info-color);
+        border-width: 1px;
+        border-style: solid;
+        &-circle {
+          transform: translate(0px, 2px);
+        }
       }
     }
     &-stat {

@@ -209,6 +209,13 @@ $profleReferralTextCenterColorDark: #ffffff;
 $profileReferralTitleColor: #3B180E;
 $profileReferralTitleColorDark: #ffffff;
 
+$infoCircleBackground: #ffffff;
+$infoCircleBorder: #DFDFDF;
+$infoCircleQuestionmark: #DFDFDF;
+$infoCircleBackgroundDark: #2B2B2B;
+$infoCircleBorderDark: #2B2B2B;
+$infoCircleQuestionmarkDark: #A5A5A5;
+
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
   --loader-box: #{$loaderBoxLight};
@@ -311,6 +318,10 @@ $profileReferralTitleColorDark: #ffffff;
   --profle-referral-text-color-side: #{$profleReferralTextSideColor};
 
   --profile-referral-title-color: #{$profileReferralTitleColor};
+
+  --info-circle-background: #{$infoCircleBackground};
+  --info-circle-border: #{$infoCircleBorder};
+  --info-circle-questionmark: #{$infoCircleQuestionmark};
 }
 
 [data-theme='dark'] {
@@ -415,4 +426,8 @@ $profileReferralTitleColorDark: #ffffff;
   --profle-referral-text-color-side: #{$profleReferralTextSideColorDark};
 
   --profile-referral-title-color: #{$profileReferralTitleColorDark};
+
+  --info-circle-background: #{$infoCircleBackgroundDark};
+  --info-circle-border: #{$infoCircleBorderDark};
+  --info-circle-questionmark: #{$infoCircleQuestionmarkDark};
 }
