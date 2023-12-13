@@ -151,28 +151,28 @@ let theme = useThemeStore();
               </span>
 
             </div>
-            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="!is_mobile()" @click="sell_all()">
+            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="!is_mobile()" @click="(selected.length == 0 && !is_mobile())? sell_all(): null">
                 Продать всё
             </div>
           </div>
           <div class="inventory-top-buttons">
             <template v-if="true">
               <div class="inventory-top-selected-buttons" :class="`inventory-top-selected-buttons-${selected.length > 0? 'shown' : 'hidden'}`">
-                <div class="inventory-top-selected-button-left" @click="sellSelected()"><div>Продать выделенное</div></div>
-                <div class="inventory-top-selected-button-right" @click="orderSelected()"><div>Вывести выделенное</div></div>
+                <div class="inventory-top-selected-button-left" @click="selected.length > 0? sellSelected() : null"><div>Продать выделенное</div></div>
+                <div class="inventory-top-selected-button-right" @click="selected.length > 0? orderSelected() : null"><div>Вывести выделенное</div></div>
               </div>
             </template>
             <template v-if="true">
               <div class="inventory-tabs" :class="`inventory-tabs-${selected.length > 0? 'hidden' : 'shown'}`">
                   <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
                   <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
-                    v-on:click="activeTab = 0">Все предметы</div>
+                    v-on:click="selected.length === 0? activeTab = 0 : null">Все предметы</div>
                   <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
-                    v-on:click="activeTab = 1">Выведено</div>
+                    v-on:click="selected.length === 0? activeTab = 1 : null">Выведено</div>
               </div>
             </template>
 
-            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="is_mobile()" @click="sell_all()">
+            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="is_mobile()" @click="(selected.length == 0 && is_mobile())? sell_all(): null">
                 Продать всё
             </div>
           </div>
@@ -419,13 +419,14 @@ export default {
       }
     },
     sellSelected() {
-
+      console.log('sell selected')
     },
     orderSelected() {
+      console.log('order selected')
       this.modals.showModal('order')
     },
     sell_all() {
-
+      console.log('sell all')
     }
   },
   async mounted() {
@@ -456,6 +457,24 @@ $large: 1100px;
   max-width: 1300px;
 }
 
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scroll-track-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb-color);
+    border-radius: 5px;
+    min-height: 20px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-thumb-hovered-color);
+}
+
 .profile {
   display: flex;
   flex-direction: row;
@@ -482,12 +501,13 @@ $large: 1100px;
     border-style: solid;
     background: var(--profile-background);
     border: var(--profile-border);
-    height: 100%;
+    height: 121px;
     width: 644px;
     border-radius: 10px;
     overflow: hidden;
     @media(max-width: $large) {
       width: 500px;
+      height: 242px;
     }
     @media(max-width: $medium_large) {
       width: 410px;
@@ -1239,6 +1259,9 @@ $medium: 660px;
     &-hidden {
       transform: translate(-100%, 0%);
       opacity: 0;
+      & div {
+        cursor: default;
+      }
     }
     &-shown {
       transform: translate(0%, 0%);
@@ -1326,10 +1349,16 @@ $medium: 660px;
         &-hidden {
           transform: translate(100%, 0%);
           opacity: 0;
+          & div {
+            cursor: default;
+          }
         }
         &-shown {
           transform: translate(0%, 0%);
           opacity: 1;
+          & div {
+            cursor: pointer;
+          }
         }
       }
       &-button {
@@ -1345,7 +1374,6 @@ $medium: 660px;
         justify-content: center;
         align-items: center;
         text-align: center;
-        cursor: pointer;
         flex-direction: row;
         font-weight: 500;
         @media(max-width: $very_small) {
@@ -1398,6 +1426,10 @@ $medium: 660px;
       &-hidden {
         @extend .inventory-top_actions;
         opacity: 0;
+        cursor: default;
+        & div {
+          cursor: default;
+        }
       }
       &-shown {
         @extend .inventory-top_actions;
@@ -1438,10 +1470,6 @@ $medium: 660px;
     overflow: auto;
     box-sizing: border-box;
     padding-right: 5px;
-
-    &::-webkit-scrollbar {
-      width: 2px;
-    }
 
     &-text {
       color: #767676;

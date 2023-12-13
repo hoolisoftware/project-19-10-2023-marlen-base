@@ -216,6 +216,13 @@ $infoCircleBackgroundDark: #2B2B2B;
 $infoCircleBorderDark: #2B2B2B;
 $infoCircleQuestionmarkDark: #A5A5A5;
 
+$scrollThumbColor: #C9A788;
+$scrollThumbHoveredColor: #927a63;
+$scrollTrackColor: #F0F0F0;
+$scrollThumbColorDark: #343434;
+$scrollThumbHoveredColorDark: #4d4d4d;
+$scrollTrackColorDark: #000000;
+
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
   --loader-box: #{$loaderBoxLight};
@@ -322,6 +329,9 @@ $infoCircleQuestionmarkDark: #A5A5A5;
   --info-circle-background: #{$infoCircleBackground};
   --info-circle-border: #{$infoCircleBorder};
   --info-circle-questionmark: #{$infoCircleQuestionmark};
+  --scroll-thumb-color: #{$scrollThumbColor};
+  --scroll-thumb-hovered-color: #{$scrollThumbHoveredColor};
+  --scroll-track-color: #{$scrollTrackColor};
 }
 
 [data-theme='dark'] {
@@ -430,4 +440,8 @@ $infoCircleQuestionmarkDark: #A5A5A5;
   --info-circle-background: #{$infoCircleBackgroundDark};
   --info-circle-border: #{$infoCircleBorderDark};
   --info-circle-questionmark: #{$infoCircleQuestionmarkDark};
+
+  --scroll-thumb-color: #{$scrollThumbColorDark};
+  --scroll-thumb-hovered-color: #{$scrollThumbHoveredColorDark};
+  --scroll-track-color: #{$scrollTrackColorDark};
 }

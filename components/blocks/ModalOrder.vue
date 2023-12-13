@@ -158,6 +158,23 @@ export default {
     }
 }
 
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scroll-track-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb-color);
+    border-radius: 5px;
+    min-height: 50px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-thumb-hovered-color);
+}
 .modal {
   display: flex;
   flex-direction: column;
@@ -209,9 +226,11 @@ export default {
       align-items: center;
       justify-content: center;
       height: 310px;
-      overflow: auto;
+      overflow-y: auto;
       box-sizing: border-box;
       padding-right: 5px;
+      scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
+      scrollbar-width: 3px;
     }
 
     &_top {
