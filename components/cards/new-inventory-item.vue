@@ -32,9 +32,9 @@ function sellItem(data: {ids: Number[]}) {
         {{ status }}  
       </div>
     </div>
-    <div class="item-buttons" v-if="status === 'В инвентаре'">
-      <div class="item-button-left" @click="selected? on_sell() : sellItem({ids: [item_id]})"><div>Продать</div></div>
-      <div class="item-button-right" @click="selected? on_order() : orderItem({ids: [item_id]})"><div>Вывести</div></div>
+    <div :class="`item-buttons-${status === 'В инвентаре'? 'shown': 'hidden'}`">
+      <div class="item-button-left" @click="status === 'В инвентаре'? (selected? on_sell() : sellItem({ids: [item_id]})) : null"><div>Продать</div></div>
+      <div class="item-button-right" @click="status === 'В инвентаре'? (selected? on_order() : orderItem({ids: [item_id]})) : null"><div>Вывести</div></div>
     </div>
   </div>
 </template>
@@ -263,6 +263,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
     display: flex;
     margin-left: 0px; 
     margin-right: 10px;
+
     @media ((max-width: $medium_large) and (min-width: $medium_small)) or (max-width: $small)  {
       margin-right: 10px; 
       margin-left: auto;
@@ -270,6 +271,18 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
       height: 100%;
       align-items: center;
       justify-content: space-between;
+    }
+
+    &-shown {
+      @extend .item-buttons;
+      opacity: 1;
+    }
+    &-hidden {
+      @extend .item-buttons;
+      opacity: 0;
+      & div {
+        cursor: default;
+      }
     }
   }
   &-image {
