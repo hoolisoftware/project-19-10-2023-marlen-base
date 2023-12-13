@@ -156,7 +156,7 @@ let theme = useThemeStore();
             </span>
 
           </div>
-          <div class="inventory-top_actions" v-if="!is_mobile()" @click="sell_all()">
+          <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="!is_mobile()" @click="sell_all()">
               Продать всё
           </div>
         </div>
@@ -177,7 +177,7 @@ let theme = useThemeStore();
             </div>
           </template>
 
-          <div class="inventory-top_actions" v-if="is_mobile()" @click="sell_all()">
+          <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="is_mobile()" @click="sell_all()">
               Продать всё
           </div>
         </div>
@@ -371,7 +371,7 @@ export default {
 
     },
     orderSelected() {
-
+      this.modals.showModal('order')
     },
     sell_all() {
 
@@ -1111,8 +1111,8 @@ $medium: 660px;
         &-left {
           @extend .inventory-top-selected-button;
           border-radius: 5px 0px 0px 5px;
-          background-color: var(--button-background);
-          color: #000000;
+          background-image: linear-gradient(to right, var(--profile-item-selected-border-gradient-left), var(--profile-item-selected-border-gradient-right));
+          color: var(--profile-item-background);
         }
         &-right {
           @extend .inventory-top-selected-button;
@@ -1145,9 +1145,18 @@ $medium: 660px;
       margin-right: 0px;
       margin-left: auto;
       z-index: 2;
+      transition: all 0.3s;
       background-color: var(--loader-background);
       @media(max-width: $very_small) {
         font-size: 10px;
+      }
+      &-hidden {
+        @extend .inventory-top_actions;
+        opacity: 0;
+      }
+      &-shown {
+        @extend .inventory-top_actions;
+        opacity: 1;
       }
     }
 
