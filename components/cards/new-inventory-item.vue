@@ -32,7 +32,7 @@ function sellItem(data: {ids: Number[]}) {
         {{ status }}  
       </div>
     </div>
-    <div class="item-buttons">
+    <div class="item-buttons" v-if="status === 'В инвентаре'">
       <div class="item-button-left" @click="selected? on_sell() : sellItem({ids: [item_id]})"><div>Продать</div></div>
       <div class="item-button-right" @click="selected? on_order() : orderItem({ids: [item_id]})"><div>Вывести</div></div>
     </div>

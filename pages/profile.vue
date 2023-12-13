@@ -165,9 +165,9 @@ let theme = useThemeStore();
               <div class="inventory-tabs" :class="`inventory-tabs-${selected.length > 0? 'hidden' : 'shown'}`">
                   <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
                   <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
-                    v-on:click="selected.length === 0? activeTab = 0 : null">Все предметы</div>
+                    v-on:click="change_tab(0)">Все предметы</div>
                   <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
-                    v-on:click="selected.length === 0? activeTab = 1 : null">Выведено</div>
+                    v-on:click="change_tab(1)">Выведено</div>
               </div>
             </template>
 
@@ -428,6 +428,13 @@ export default {
     sell_all() {
       console.log('sell all')
       this.modals.showModal('sell')
+    },
+    async change_tab(tab: number) {
+      if (this.selected.length === 0) {
+        this.activeTab = tab
+        await new Promise(r => setTimeout(r, 20)); 
+        this.define()
+      }
     }
   },
   async mounted() {
