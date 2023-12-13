@@ -7,6 +7,7 @@
   <new-modal-review/>
   <modal-sign-in/>
   <modal-order/>
+  <modal-sell/>
 </template>
 
 <script>
@@ -15,10 +16,11 @@ import ModalOpenCase from "./ModalOpenCase"
 import NewModalReview from "./NewModalReview"
 import ModalSignIn from "./ModalSignIn"
 import ModalOrder from "./ModalOrder"
+import ModalSell from "./ModalSell"
 
 export default {
   name: "modal",
-  components: {ModalDeposit, ModalOpenCase, NewModalReview, ModalSignIn, ModalOrder}
+  components: {ModalDeposit, ModalOpenCase, NewModalReview, ModalSignIn, ModalOrder, ModalSell}
 }
 </script>
 

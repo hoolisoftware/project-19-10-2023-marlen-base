@@ -46,6 +46,7 @@ const auth = useAuthStore()
       </div>
     </div>
     <div class="about-right">
+      <nuxt-img format="webp" alt="Девушка" class="about-right_girl-shadow" src="/img/klee-shadow.png"/>
       <nuxt-img format="webp" alt="Девушка" class="about-right_girl" src="/img/Klee.png"/>
       <div class="about-right_text" v-if="!auth.kwt">А ты всё еще не с нами?</div>
       <medium-button v-if="!auth.kwt" text="Присоединиться"/>
@@ -177,6 +178,15 @@ export default {
       @media(max-width: 724px)
       {
         display: none;
+      }
+      &-shadow {
+        position: absolute;
+        right: -2px;
+        top: -20px;
+        @media(max-width: 724px)
+        {
+          display: none;
+        }
       }
     }
     &_text {

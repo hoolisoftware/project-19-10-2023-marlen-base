@@ -419,6 +419,7 @@ export default {
     },
     sellSelected() {
       console.log('sell selected')
+      this.modals.showModal('sell')
     },
     orderSelected() {
       console.log('order selected')
@@ -426,6 +427,7 @@ export default {
     },
     sell_all() {
       console.log('sell all')
+      this.modals.showModal('sell')
     }
   },
   async mounted() {
@@ -1471,6 +1473,7 @@ $medium: 660px;
     overflow: auto;
     box-sizing: border-box;
     padding-right: 5px;
+    scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
 
     &-text {
       color: #767676;

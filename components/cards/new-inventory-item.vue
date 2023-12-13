@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { useSellItemCreate } from "~/hooks/use-query/profile";
+import { modalStore } from "~/store/modal";
+let modals = modalStore()
 
-const {mutate: sellItem, data: sellItemData, isSuccess: isSuccessSellItem, isLoading: isLoadingSellItem, error: errorSellItem} = useSellItemCreate()
+const {mutate: sellItemAPI, data: sellItemData, isSuccess: isSuccessSellItem, isLoading: isLoadingSellItem, error: errorSellItem} = useSellItemCreate()
 function orderItem (data: {ids: Number[]}) {
-
+  modals.showModal('order')
+}
+function sellItem(data: {ids: Number[]}) {
+  modals.showModal('sell')
+  //sellItemAPI(data)
 }
 </script>
 
