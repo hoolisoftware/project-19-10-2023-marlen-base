@@ -282,6 +282,9 @@ let theme = useThemeStore();
                 </div>
               </div>
             </div>
+            <div class="profile-referral-stats-small_text">
+              Спасибо что доверяете нам!
+            </div>
           </div>
         </div>
       </div>
@@ -466,7 +469,7 @@ $large: 1100px;
     flex-direction: column;
     height: 544px;
     @media (max-width: $large) {
-      height: 640px;
+      height: 665px;
     }
   }
 
@@ -526,6 +529,7 @@ $large: 1100px;
       padding-right: 11px;
       padding-left: 20px;
       justify-content: center;
+      align-items: center;
       @media (max-width: $large) {
         width: 100%;
         padding-right: 20px;
@@ -586,6 +590,15 @@ $large: 1100px;
       height: fit-content;
       white-space: nowrap;
       justify-content: center;
+      &-small_text {
+        font-size: 10px;
+        font-weight: 500;
+        text-align: center;
+        width: 162px;
+        margin-top: 8px;
+        margin-bottom: 0px;
+        color: var(--profile-stat-color);
+      }
       &-left {
         display: flex;
         color: var(--profile-stat-color);
