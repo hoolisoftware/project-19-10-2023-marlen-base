@@ -63,7 +63,6 @@ let theme = useThemeStore();
             </div>
           </div>
         </div>
-        <br>
         <div class="profile-uid_input">
           <div class="profile-uid_input-text">
             <div class="profile-uid_input-text-div">Ваш UID</div>
@@ -1144,6 +1143,7 @@ $large: 1100px;
     width: 100%;
     min-width: 240px;
     gap: 15px;
+    padding-top: 20px;
 
     & h2 {
       font-style: normal;
@@ -1195,6 +1195,7 @@ $medium: 660px;
   flex-direction: column;
   width: 644px;
   height: max-content;
+  height: 100%;
   max-height: 410px;
   box-sizing: border-box;
   padding: 20px;
