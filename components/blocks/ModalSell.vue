@@ -90,7 +90,13 @@ export default {
         gap: 15px;
         align-items: center;
         &-warning {
-            transform: translate(0px, -60px)
+            transform: translate(0px, -60px);
+            & circle {
+                fill: var(--sell-modal-warning-color);
+            }
+            & path {
+                fill: var(--sell-modal-exclamation-mark-color);
+            }
         }
         &-button {
             display: flex;
@@ -99,7 +105,7 @@ export default {
             height: 45px;
             width: 92px;
             border-style: solid;
-            border-color: #CBAA8C;
+            border-color: var(--sell-modal-warning-color);
             transition: 0.3s;
             &:hover {
                 opacity: 0.8;
@@ -114,8 +120,8 @@ export default {
             &-left {
                 @extend .modal-content_body-button;
                 border-radius: 10px 0px 0px 10px;
-                background-color: #CBAA8C;
-                color: #ffffff;
+                background-color: var(--sell-modal-warning-color);
+                color: var(--sell-modal-exclamation-mark-color);
             }
             &-right {
                 @extend .modal-content_body-button;

@@ -223,6 +223,11 @@ $scrollThumbColorDark: #343434;
 $scrollThumbHoveredColorDark: #4d4d4d;
 $scrollTrackColorDark: #000000;
 
+$sellModalWarningColor: #DBC1AB;
+$sellModalExclamationMarkColor: #ffffff;
+$sellModalWarningColorDark: #ffffff;
+$sellModalExclamationMarkColorDark: #000000;
+
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
   --loader-box: #{$loaderBoxLight};
@@ -332,6 +337,9 @@ $scrollTrackColorDark: #000000;
   --scroll-thumb-color: #{$scrollThumbColor};
   --scroll-thumb-hovered-color: #{$scrollThumbHoveredColor};
   --scroll-track-color: #{$scrollTrackColor};
+
+  --sell-modal-warning-color: #{$sellModalWarningColor};
+  --sell-modal-exclamation-mark-color: #{$sellModalExclamationMarkColor};
 }
 
 [data-theme='dark'] {
@@ -444,4 +452,7 @@ $scrollTrackColorDark: #000000;
   --scroll-thumb-color: #{$scrollThumbColorDark};
   --scroll-thumb-hovered-color: #{$scrollThumbHoveredColorDark};
   --scroll-track-color: #{$scrollTrackColorDark};
+
+  --sell-modal-exclamation-mark-color: #{$sellModalExclamationMarkColorDark};
+  --sell-modal-warning-color: #{$sellModalWarningColorDark};
 }
