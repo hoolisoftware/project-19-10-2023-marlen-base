@@ -1,5 +1,14 @@
+<script setup>
+import { usePayment } from "~/hooks/use-query/shop";
+const { id } = useRoute().params
+
+const { data, isLoading } = usePayment(id)
+
+</script>
+
 <template>
-    <div class="purchase">
+    <loader v-if="isLoading"/>
+    <div class="purchase" v-else>
         <div class="purchase-title">
             Покупка прошла успешна!
         </div>
@@ -7,30 +16,35 @@
             <img class="purchase-body-image" src="https://api.kleewish.hoolisoftware.xyz/media/items/glowing-lines-human-heart-3d-shape-dark-background-generative-ai.jpg">
             <div class="purchase-body-info">
                 <div class="purchase-body-name">
-                    Название предмета
+                    {{ data.data.payment.item.name }}
                 </div>
                 <div class="purchase-body-description">
-                    Сайт рыбатекст поможет дизайнеру, верстальщику, вебмастеру сгенерировать несколько абзацев более менее осмысленного текста рыбы на русском языке, а начинающему оратору отточить навык публичных выступлений в домашних условиях.
+                    {{ data.data.payment.item.description }}
                 </div>
                 <div class="purchase-body-price">
                     <div class="purchase-body-price-text">
                         Цена
                     </div>
                     <div class="purchase-body-price-number">
-                        456 руб
+                        {{ data.data.payment.item.price }} руб
                     </div>
                 </div>
             </div>
         </div>
-        <medium-button color="orange" text="На главную" class="purchase-body-button"/>
+        <center>
+            <a href="/">
+                <medium-button color="orange" text="На главную" class="purchase-body-button"/>
+            </a>
+        </center>
     </div>
 </template>
 
 <script>
+import Loader from "~/components/loaders/Loader.vue";
 import mediumButton from "@/components/buttons/medium-button.vue";
 export default {
   name: "successful-purchase",
-  components: {mediumButton}
+  components: {mediumButton, Loader}
 }
 </script>
 

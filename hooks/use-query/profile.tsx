@@ -45,6 +45,10 @@ export function useUserSelf() {
     return useBaseKwtQuery<APIResponse<{user: UserInformation}>>(['user-self'], `user/details/`)
 }
 
+export function useUserSelfUpdate() {
+    return useBaseKwtMutation('user/settings/', 'patch')
+}
+
 export function useInventorySelf() {
     return useBaseKwtQuery<APIResponse<{items: InventoryItem[]}>>(['inventory-self'], `user/inventory/`)
 }

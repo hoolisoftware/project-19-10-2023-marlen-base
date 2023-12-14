@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { useShopItem } from "~/hooks/use-query/shop";
+import { ref } from "vue";
+import { useShopItem, useShopBuyItem } from "~/hooks/use-query/shop";
+import { useUserSelf } from '~/hooks/use-query/profile';
 
 const { id } = useRoute().params
+
 const { data: itemData, isLoading: itemIsLoading, isError: itemIsError } = useShopItem(String(id))
+const { data: userData } = useUserSelf()
+const { data, mutate, isSuccess: buyIsSuccess } = useShopBuyItem()
+
+const genshin_uid = ref(null)
 </script>
 
 
 <template>
   <div class="purchase">
+    <div v-if="buyIsSuccess">
+      {{ this.$router.push(`/purchase/successfull${data.data.payment_id}`) }}
+    </div>
     <h1 class="heading1 purchase__title">Покупка</h1>
     <loader v-if="itemIsLoading"/>
     <div v-else-if="itemIsError">
@@ -21,10 +31,10 @@ const { data: itemData, isLoading: itemIsLoading, isError: itemIsError } = useSh
           :price="itemData?.data ? itemData?.data.item.price : -1" />
         <PurchaseAdvantages />
         <PurchasePayment />
-        <PurchaseUser />
+        <PurchaseUser @change-genshin-uid="(data) => genshin_uid = data "/>
       </div>
       <div class="purchase__button-box">
-        <Button color="green" text="Подтвердить покупку" class="purchase__button" />
+        <Button color="green" @click="() => mutate({id, genshin_uid: genshin_uid||userData.data.user.genshin_uid})" text="Подтвердить покупку" class="purchase__button" />
       </div>
     </div>
   </div>
