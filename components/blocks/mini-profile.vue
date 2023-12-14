@@ -39,6 +39,7 @@ export default {
     width: 44px;
     height: 44px;
     border-radius: 50px;
+    object-fit: cover;
   }
 
   &-cash {

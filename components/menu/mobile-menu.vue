@@ -34,9 +34,6 @@ const theme = useThemeStore()
       <div class="menu-item_border"></div>
     </nuxt-link>
     <br><br>
-    <div class="menu-item logout-button">
-      <medium-button text="Выйти" @click="auth.removeKwt"/>
-    </div>
 
     <div class="theme" v-on:click="theme.toggleTheme">
       <div :class="'theme-active ' + (theme.darkTheme ? 'theme-active_dark' : '')"></div>

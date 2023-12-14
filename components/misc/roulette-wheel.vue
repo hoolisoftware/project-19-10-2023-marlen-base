@@ -30,7 +30,7 @@ async function startSpin() {
 <template>
     <div class="roulette-parent">
         <div class="roulette-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 64 64" xml:space="preserve"><path d="M30.926 60.575V31.369L5.232 19.419zm2.244-29.217v29.183l25.436-41.335zm0-26.783v24.292l25.818-12.331zm-2.244 24.314V4.575L4.962 16.816z" fill="#dbc1ab" data-original="#000000"/></svg>
+            <img src="@/assets/icons/roulette-arrow.svg">
         </div>
         <div class="roulette-overflow">
             <roulette-items class="roulette-items" />
@@ -98,7 +98,7 @@ export default {
         display: flex;
         width: 100%;
         justify-content: center;
-        & svg {
+        & img {
             width: 32px;
             height: 32px;
         }
