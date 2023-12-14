@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/store/authNew";
-import { useInventorySelf, useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
+import {ref, toRaw} from 'vue'
+import { useInventorySelf, useUserSelf, useUserSelfUpdate, useUserStatsSelf } from "~/hooks/use-query/profile";
 import { useThemeStore } from "~/store/themeNew";
 
-const auth = useAuthStore()
 const { data, isLoading } = useUserSelf()
 const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
 const { data: inventoryData } = useInventorySelf()
+const { data: updateData, mutate } = useUserSelfUpdate()
 let theme = useThemeStore();
+
+const userGenshinUID = ref('') 
+console.dir(data.value)
+
+const updateProfile = (value: object) => {
+  mutate(value)
+}
+
 </script>
 
 <template>
@@ -70,7 +78,13 @@ let theme = useThemeStore();
             <div :style="show_uid_info? 'opacity:1;':'opacity:0'" class="profile-uid_input-info">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
           </div>
           <div class="profile-uid_input-field">
-            <input inputmode="numeric" pattern="\d*" placeholder="Не указан">
+            <input
+              inputmode="numeric"
+              pattern="\d*"
+              placeholder="Не указан"
+              @change="(e) => updateProfile({genshin_uid: e.currentTarget.value})"
+              :value="data.data.user.genshin_uid"
+            >
           </div>
         </div>
       </div>

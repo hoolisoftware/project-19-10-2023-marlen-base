@@ -1,9 +1,20 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useUserSelf } from '~/hooks/use-query/profile';
+
+const {data} = useUserSelf()
+
+</script>
 
 <template>
   <div class="purchase-user">
     <h3 class="purchase-user__title">Введите UID</h3>
-    <input type="text" class="purchase-user__input" v-model="code" required>
+    <input
+      v-if="data?.data"
+      type="text"
+      class="purchase-user__input"
+      :value="data.data.user.genshin_uid" required
+      @change="(e) => $emit('change-genshin-uid', e.currentTarget.value)"
+    >
     <div class="purchase-user__box">
       <img
           src=""
@@ -101,17 +112,3 @@
   }
 }
 </style>
-
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const code = ref('245856879')
-
-    return {
-      code
-    }
-  }
-}
-</script>
