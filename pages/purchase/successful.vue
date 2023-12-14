@@ -22,11 +22,16 @@
                 </div>
             </div>
         </div>
+        <medium-button color="orange" text="На главную" class="purchase-body-button"/>
     </div>
 </template>
 
 <script>
-
+import mediumButton from "@/components/buttons/medium-button.vue";
+export default {
+  name: "successful-purchase",
+  components: {mediumButton}
+}
 </script>
 
 <style lang="scss" scoped>
@@ -45,11 +50,30 @@
         flex-direction: row;
         margin-top: 35px;
         justify-content: center;
+        @media (max-width: 850px) {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        &-button {
+            width: fit-content;
+            height: fit-content;
+            margin-top: 35px;
+            align-self: center;
+            @media (max-width: 850px) {
+                margin-top: 10px;
+                align-self: center;
+            }
+        }
         &-name {
             font-size: 26px;
             font-weight: 600;
             text-align: left;
-
+            @media (max-width: 850px) {
+                text-align: center;
+                font-size: 18px;
+                margin-top: 25px
+            }
         }
         &-description {
             font-size: 14px;
@@ -59,28 +83,45 @@
             padding-top: 15px;
             line-height: 16.98px;
             color: var(--profile-stat-color);
+            @media (max-width: 850px) {
+                text-align: center;
+                padding-left: 0px;
+            }
         }
         &-price {
             display: flex;
             flex-direction: column;
             justify-content: left;
-            padding-top: 50px;
+            padding-top: 40px;
+            @media (max-width: 850px) {
+                justify-content: center;
+            }
             &-text {
                 font-size: 14px;
                 font-weight: 500;
                 text-align: left;
+                @media (max-width: 850px) {
+                    text-align: center;
+                }
             }
             &-number {
                 font-size: 32px;
                 font-weight: 700;
                 text-align: left;
                 padding-top: 12px;
+                @media (max-width: 850px) {
+                    text-align: center;
+                }
             }
         }
         &-info {
             display: flex;
             flex-direction: column;
             padding-left: 37px;
+            @media (max-width: 850px) {
+                text-align: center;
+                padding-left: 0px;
+            }
         }
         &-image {
             width: 261px;
