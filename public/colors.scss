@@ -131,6 +131,102 @@ $modalTextDark: #ffffff;
 $modalInputDark: #151515;
 $modalInputBorderDark: 1px solid #313131;
 
+$profileStatColor: #767676;
+$profileStatColorDark: #ffffff;
+
+$profileInputColor: #767676;
+$profileInputColorDark: #ffffff;
+
+$profileCopiedBorder: #686868;
+$profileCopiedBackground: #ffffff;
+$profileCopiedColor: #000000;
+
+$profileCopiedBorderDark: #ffffff;
+$profileCopiedBackgroundDark: #000000;
+$profileCopiedColorDark: #ffffff;
+
+$profileInputBorder: #DFDFDF;
+$profileInputBackground: #F9F9F9;
+$profileInputColor: #929292;
+
+$profileInputBorderDark: #3C3C3C;
+$profileInputBackgroundDark: #171717;
+$profileInputColorDark: #979797;
+
+$profileSaveButtonColor: #000000;
+$profileSaveButtonBorder: #000000;
+
+$profileSaveButtonColorDark: #ffffff;
+$profileSaveButtonBorderDark: #ffffff;
+
+$profileUidInfoBorder: #9e9e9e;
+$profileUidInfoBackground: #dfdfdf;
+$profileUidInfoColor: #000000;
+
+$profileUidInfoBorderDark: #464646;
+$profileUidInfoBackgroundDark: #242424;
+$profileUidInfoColorDark: #ffffff;
+
+$profileUidInfoEllipse: #F5F5F5;
+$profileUidInfoQuestionmark: #A5A5A5;
+
+$profileUidInfoEllipseDark: #171717;
+$profileUidInfoQuestionmarkDark: #7a7a7a;
+
+$profileItemBackground: #ffffff;
+$profileItemBackgroundDark: #0C0C0C;
+
+$profileItemStatusColor: #CBAA8C;
+$profileItemStatusColorDark: #A8A8A8;
+
+$profileItemOrderButtonColor: #CBAA8C;
+$profileItemOrderButtonColorDark: #ffffff;
+
+$profileMobileContainerBorder: #dfdfdf;
+$profileMobileContainerBorderDark: #1D1D1D;
+
+$profileItemSelectedBorderGradientRight: #caa889;
+$profileItemSelectedBorderGradientLeft: #dac0aa;
+$profileItemSelectedBorderGradientRightDark: #FFFFFF;
+$profileItemSelectedBorderGradientLeftDark: #FFFFFF;
+
+$orderItemCostBackground: #F2F2F2;
+$orderItemCostBackgroundDark: #3a3a3a;
+
+$orderItemTextColor: #000000;
+$orderItemTextColorDark: #ffffff;
+
+$orderSupportLinkColor: #606060;
+$orderSupportLinkColorDark: #a3a3a3;
+
+$profleReferralTextSideColor: #94725B;
+$profleReferralTextCenterColor: #C9A788;/* 
+$profleReferralTextSideColor: #DDC8B5;
+$profleReferralTextCenterColor: #CBAA8B; */
+$profleReferralTextSideColorDark: #ffffff;
+$profleReferralTextCenterColorDark: #ffffff;
+
+$profileReferralTitleColor: #3B180E;
+$profileReferralTitleColorDark: #ffffff;
+
+$infoCircleBackground: #ffffff;
+$infoCircleBorder: #DFDFDF;
+$infoCircleQuestionmark: #DFDFDF;
+$infoCircleBackgroundDark: #2B2B2B;
+$infoCircleBorderDark: #2B2B2B;
+$infoCircleQuestionmarkDark: #A5A5A5;
+
+$scrollThumbColor: #C9A788;
+$scrollThumbHoveredColor: #927a63;
+$scrollTrackColor: #F0F0F0;
+$scrollThumbColorDark: #343434;
+$scrollThumbHoveredColorDark: #4d4d4d;
+$scrollTrackColorDark: #000000;
+
+$sellModalWarningColor: #DBC1AB;
+$sellModalExclamationMarkColor: #ffffff;
+$sellModalWarningColorDark: #ffffff;
+$sellModalExclamationMarkColorDark: #000000;
 
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
@@ -194,6 +290,56 @@ $modalInputBorderDark: 1px solid #313131;
   --modal-text: #{$modalText};
   --modal-input: #{$modalInput};
   --modal-input-border: #{$modalInputBorder};
+
+  --profile-stat-color: #{$profileStatColor};
+  --profile-input-color: #{$profileInputColor};
+
+  --profile-copied-border: #{$profileCopiedBorder};
+  --profile-copied-background: #{$profileCopiedBackground};
+  --profile-copied-color: #{$profileCopiedColor};
+
+  --profile-input-border: #{$profileInputBorder};
+  --profile-input-background: #{$profileInputBackground};
+  --profile-input-color: #{$profileInputColor};
+
+  --profile-save-button-color: #{$profileSaveButtonColor};
+  --profile-save-button-border: #{$profileSaveButtonBorder};
+
+  --profile-uid-info-border: #{$profileUidInfoBorder};
+  --profile-uid-info-background: #{$profileUidInfoBackground};
+  --profile-uid-info-color: #{$profileUidInfoColor};
+
+  --profile-uid-info-ellipse: #{$profileUidInfoEllipse};
+  --profile-uid-info-questionmark: #{$profileUidInfoQuestionmark};
+
+  --profile-item-background: #{$profileItemBackground};
+
+  --profile-item-status-color: #{$profileItemStatusColor};
+  --profile-item-order-button-color: #{$profileItemOrderButtonColor};
+
+  --profile-mobile-container-border: #{$profileMobileContainerBorder};
+
+  --profile-item-selected-border-gradient-right: #{$profileItemSelectedBorderGradientRight};
+  --profile-item-selected-border-gradient-left: #{$profileItemSelectedBorderGradientLeft};
+
+  --order-item-cost-background: #{$orderItemCostBackground};
+  --order-item-text-color: #{$orderItemTextColor};
+  --order-support-link-color: #{$orderSupportLinkColor};
+
+  --profle-referral-text-color-center: #{$profleReferralTextCenterColor};
+  --profle-referral-text-color-side: #{$profleReferralTextSideColor};
+
+  --profile-referral-title-color: #{$profileReferralTitleColor};
+
+  --info-circle-background: #{$infoCircleBackground};
+  --info-circle-border: #{$infoCircleBorder};
+  --info-circle-questionmark: #{$infoCircleQuestionmark};
+  --scroll-thumb-color: #{$scrollThumbColor};
+  --scroll-thumb-hovered-color: #{$scrollThumbHoveredColor};
+  --scroll-track-color: #{$scrollTrackColor};
+
+  --sell-modal-warning-color: #{$sellModalWarningColor};
+  --sell-modal-exclamation-mark-color: #{$sellModalExclamationMarkColor};
 }
 
 [data-theme='dark'] {
@@ -259,4 +405,54 @@ $modalInputBorderDark: 1px solid #313131;
   --modal-input: #{$modalInputDark};
   --modal-input-border: #{$modalInputBorderDark};
 
+  --profile-stat-color: #{$profileStatColorDark};
+  --profile-input-color: #{$profileInputColorDark};
+
+  --profile-copied-border: #{$profileCopiedBorderDark};
+  --profile-copied-background: #{$profileCopiedBackgroundDark};
+  --profile-copied-color: #{$profileCopiedColorDark};
+
+  --profile-input-border: #{$profileInputBorderDark};
+  --profile-input-background: #{$profileInputBackgroundDark};
+  --profile-input-color: #{$profileInputColorDark};
+
+  --profile-save-button-color: #{$profileSaveButtonColorDark};
+  --profile-save-button-border: #{$profileSaveButtonBorderDark};
+
+  --profile-uid-info-border: #{$profileUidInfoBorderDark};
+  --profile-uid-info-background: #{$profileUidInfoBackgroundDark};
+  --profile-uid-info-color: #{$profileUidInfoColorDark};
+
+  --profile-uid-info-ellipse: #{$profileUidInfoEllipseDark};
+  --profile-uid-info-questionmark: #{$profileUidInfoQuestionmarkDark};
+
+  --profile-item-background: #{$profileItemBackgroundDark};
+
+  --profile-item-status-color: #{$profileItemStatusColorDark};
+  --profile-item-order-button-color: #{$profileItemOrderButtonColorDark};
+
+  --profile-mobile-container-border: #{$profileMobileContainerBorderDark};
+
+  --profile-item-selected-border-gradient-right: #{$profileItemSelectedBorderGradientRightDark};
+  --profile-item-selected-border-gradient-left: #{$profileItemSelectedBorderGradientLeftDark};
+
+  --order-item-cost-background: #{$orderItemCostBackgroundDark};
+  --order-item-text-color: #{$orderItemTextColorDark};
+  --order-support-link-color: #{$orderSupportLinkColorDark};
+
+  --profle-referral-text-color-center: #{$profleReferralTextCenterColorDark};
+  --profle-referral-text-color-side: #{$profleReferralTextSideColorDark};
+
+  --profile-referral-title-color: #{$profileReferralTitleColorDark};
+
+  --info-circle-background: #{$infoCircleBackgroundDark};
+  --info-circle-border: #{$infoCircleBorderDark};
+  --info-circle-questionmark: #{$infoCircleQuestionmarkDark};
+
+  --scroll-thumb-color: #{$scrollThumbColorDark};
+  --scroll-thumb-hovered-color: #{$scrollThumbHoveredColorDark};
+  --scroll-track-color: #{$scrollTrackColorDark};
+
+  --sell-modal-exclamation-mark-color: #{$sellModalExclamationMarkColorDark};
+  --sell-modal-warning-color: #{$sellModalWarningColorDark};
 }

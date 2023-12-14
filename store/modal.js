@@ -8,6 +8,7 @@ export const modalStore = defineStore({
             deposit: false,
             review: false,
             caseOpen: false,
+            order: false,
         }
     }),
     actions: {

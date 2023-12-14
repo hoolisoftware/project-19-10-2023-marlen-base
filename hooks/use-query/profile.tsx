@@ -1,4 +1,4 @@
-import useBaseQuery, { useBaseKwtQuery } from ".";
+import useBaseQuery, { useBaseKwtQuery, useBaseKwtMutation } from ".";
 import type { APIResponse } from '@/types/api'
 import type { Model } from "@/types/models";
 import type { Item } from "./case";
@@ -26,6 +26,16 @@ export interface InventoryItem extends Model {
     owner: number
 }
 
+export interface ItemSold extends Model {
+    success: boolean,
+    heading: string,
+    message: string,
+    data: {
+        sold_items: number[],
+        total_price: number, 
+    }
+}
+
 
 export function useUserProfile(id: string|number) {
     return useBaseQuery<APIResponse<{user: UserInformation}>>(['user', id], `user/details/${id}`)
@@ -33,6 +43,10 @@ export function useUserProfile(id: string|number) {
 
 export function useUserSelf() {
     return useBaseKwtQuery<APIResponse<{user: UserInformation}>>(['user-self'], `user/details/`)
+}
+
+export function useUserSelfUpdate() {
+    return useBaseKwtMutation('user/settings/', 'patch')
 }
 
 export function useInventorySelf() {
@@ -49,4 +63,8 @@ export function useUserStatsSelf() {
 
 export function useUserInventory(id: string|number) {
     return useBaseQuery<APIResponse<{items: InventoryItem[]}>>(['inventory', id], `user/inventory/${id}`)
+}
+
+export function useSellItemCreate() {
+    return useBaseKwtMutation('history/sell/')
 }

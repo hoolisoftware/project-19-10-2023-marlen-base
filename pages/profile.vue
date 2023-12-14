@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { useAuthStore } from "~/store/authNew";
-import { useInventorySelf, useUserSelf, useUserStatsSelf } from "~/hooks/use-query/profile";
+import {ref, toRaw} from 'vue'
+import { useInventorySelf, useUserSelf, useUserSelfUpdate, useUserStatsSelf } from "~/hooks/use-query/profile";
+import { useThemeStore } from "~/store/themeNew";
 
-const auth = useAuthStore()
 const { data, isLoading } = useUserSelf()
 const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
 const { data: inventoryData } = useInventorySelf()
+const { data: updateData, mutate } = useUserSelfUpdate()
+let theme = useThemeStore();
+
+const userGenshinUID = ref('') 
+console.dir(data.value)
+
+const updateProfile = (value: object) => {
+  mutate(value)
+}
+
 </script>
 
 <template>
   <loader v-if="isLoading || isLoadingStats"/>
   <div class="page" v-else-if="data?.data?.user">
+    <div :class="(show_copied_modal? 'profile-copied-show' : 'profile-copied-hide')">Скопировано!</div>
     <title-section text="Профиль" />
     <div class="profile">
-      <div class="profile-info">
+      <div class="profile-info" v-if="!is_mobile()">
         <div class="profile-avatar">
           <img
             v-if="data?.data?.user.photo_url"
@@ -21,57 +32,22 @@ const { data: inventoryData } = useInventorySelf()
             alt="Аватар"
           />
           <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-avatar"/>
+          <img class="profile-avatar-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme">
+          <img v-else class="profile-avatar-edit" src="@/assets/icons/edit-pen-light.svg">
         </div>
         <div class="profile-name">
           {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
         </div>
-        <!-- <div class="profile-contacts" v-if="$route.params.otherProfile">
-          <div>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_214_6157)">
-                <path
-                  d="M0 15.3333C0 8.10512 0 4.491 2.2455 2.2455C4.491 0 8.10512 0 15.3333 0H16.6666C23.8948 0 27.5089 0 29.7544 2.2455C32 4.491 32 8.10512 32 15.3333V16.6666C32 23.8948 32 27.5089 29.7544 29.7544C27.509 32 23.8949 32 16.6667 32H15.3334C8.10519 32 4.49106 32 2.24556 29.7545C0 27.509 0 23.8949 0 16.6667V15.3333Z"
-                  fill="#2787F5" />
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M8.66727 10H6.33339C5.66658 10 5.5332 10.3139 5.5332 10.6599C5.5332 11.2779 6.32445 14.3432 9.21733 18.3972C11.146 21.1659 13.8631 22.6666 16.3357 22.6666C17.8193 22.6666 18.0028 22.3333 18.0028 21.7591V19.6666C18.0028 18.9999 18.1433 18.8669 18.613 18.8669C18.9592 18.8669 19.5526 19.0399 20.9373 20.3748C22.5197 21.9569 22.7806 22.6666 23.6706 22.6666H26.0045C26.6714 22.6666 27.0048 22.3333 26.8125 21.6755C26.602 21.0199 25.8465 20.0686 24.8439 18.9411C24.2999 18.2984 23.484 17.6062 23.2367 17.2601C22.8906 16.8152 22.9895 16.6174 23.2367 16.2219C23.2367 16.2219 26.0802 12.2172 26.3769 10.8577C26.5252 10.3633 26.3769 10 25.6711 10H23.3372C22.7438 10 22.4702 10.3139 22.3218 10.6599C22.3218 10.6599 21.135 13.5521 19.4537 15.4309C18.9097 15.9747 18.6625 16.1478 18.3657 16.1478C18.2174 16.1478 18.0026 15.9747 18.0026 15.4804V10.8577C18.0026 10.2644 17.8305 10 17.3358 10H13.6683C13.2975 10 13.0745 10.2753 13.0745 10.5363C13.0745 11.0987 13.9151 11.2284 14.0018 12.8105V16.2466C14.0018 16.9999 13.8656 17.1366 13.569 17.1366C12.7778 17.1366 10.8531 14.2314 9.7117 10.9071C9.48814 10.261 9.26377 10 8.66727 10Z"
-                  fill="white" />
-              </g>
-              <defs>
-                <clipPath id="clip0_214_6157">
-                  <rect width="32" height="32" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-          </div>
-          <div>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_214_6161)">
-                <path
-                  d="M0 15.3333C0 8.10512 0 4.491 2.2455 2.2455C4.491 0 8.10512 0 15.3333 0H16.6666C23.8948 0 27.5089 0 29.7544 2.2455C32 4.491 32 8.10512 32 15.3333V16.6666C32 23.8948 32 27.5089 29.7544 29.7544C27.509 32 23.8949 32 16.6667 32H15.3334C8.10519 32 4.49106 32 2.24556 29.7545C0 27.509 0 23.8949 0 16.6667V15.3333Z"
-                  fill="#26A5E4" />
-                <path fill-rule="evenodd" clip-rule="evenodd"
-                  d="M7.24335 15.8309C11.9077 13.7988 15.018 12.459 16.5742 11.8118C21.0175 9.96363 21.9409 9.64257 22.5426 9.63195C22.675 9.62963 22.9709 9.66245 23.1626 9.81801C23.447 10.0488 23.4486 10.5496 23.417 10.8811C23.1762 13.4111 22.1344 19.5507 21.6043 22.3843C21.38 23.5833 20.9384 23.9854 20.5109 24.0247C19.5817 24.1102 18.8762 23.4106 17.9762 22.8208C16.568 21.8976 15.7725 21.323 14.4055 20.4223C12.8259 19.3813 13.8499 18.8091 14.7502 17.8741C14.9858 17.6294 19.0796 13.9057 19.1589 13.5679C19.1688 13.5256 19.178 13.3681 19.0844 13.285C18.9909 13.2019 18.8528 13.2303 18.7532 13.2529C18.6119 13.2849 16.3623 14.7719 12.0043 17.7136C11.3657 18.1521 10.7874 18.3658 10.2692 18.3546C9.69785 18.3423 8.59898 18.0316 7.78204 17.766C6.78004 17.4403 5.98367 17.2681 6.05304 16.7149C6.08917 16.4268 6.48592 16.1321 7.24335 15.8309Z"
-                  fill="white" />
-              </g>
-              <defs>
-                <clipPath id="clip0_214_6161">
-                  <rect width="32" height="32" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-
-          </div>
-        </div> -->
-        <div class="profile-cash" v-if="!$route.params.otherProfile">
+        <div class="profile-cash">
           <div class="profile-cash_left">
-            <div>Баланс</div>
+            <div style="white-space: nowrap;">Ваш баланс</div>
             <div>
               <img alt="moon" src="/img/icons/moon.png" />
-              <span>{{ data?.data.user.balance }}</span>
+              <span style="font-size: 20px; font-weight: 700;">{{ data?.data.user.balance }}</span>
             </div>
           </div>
-          <div class="profile-cash-button" v-on:click="modals.showModal('deposit')">
-            <medium-button color="green" text="Пополнить" />
+          <div>
+            <medium-button class="profile-cash-button" @click="modals.showModal('deposit')" color="green" text="Пополнить" />
           </div>
         </div>
         <div class="profile-stat">
@@ -95,33 +71,232 @@ const { data: inventoryData } = useInventorySelf()
             </div>
           </div>
         </div>
-        <br>
-        <medium-button text="Выйти" @click="() => {auth.removeKwt(); navigateTo('/')}"/>
+        <div class="profile-uid_input">
+          <div class="profile-uid_input-text">
+            <div class="profile-uid_input-text-div">Ваш UID</div>
+            <info-circle @mouseover="show_uid_info=true" @mouseleave="show_uid_info=false"/>
+            <div :style="show_uid_info? 'opacity:1;':'opacity:0'" class="profile-uid_input-info">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
+          </div>
+          <div class="profile-uid_input-field">
+            <input
+              inputmode="numeric"
+              pattern="\d*"
+              placeholder="Не указан"
+              @change="(e) => updateProfile({genshin_uid: e.currentTarget.value})"
+              :value="data.data.user.genshin_uid"
+            >
+          </div>
+        </div>
       </div>
-      <div class="inventory">
-        <div class="inventory-top">
-          <div class="inventory-top_title">
-            <h2>Инвентарь</h2>
-            <span>
-              {{ inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length }} 
-              {{ getNoun(inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1)).length, "предмет", "предмета", "предметов") }}
-            </span>
 
+
+      <div v-else :class="`profile-mobile-info-${show_mobile_profile? 'long' : 'short'}`">
+        <div class="profile-mobile-top">
+          <div class="profile-mobile-avatar">
+            <img
+              v-if="data?.data?.user.photo_url"
+              :src="data?.data?.user.photo_url"
+              alt="Аватар"
+            />
+            <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-mobile-avatar"/>
+            <img @click="change_mobile_profile()" class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme" :style="show_mobile_profile? 'opacity: 1' : 'opacity: 0'">
+            <img @click="change_mobile_profile()" v-else class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-light.svg">
           </div>
-          <div class="inventory-top_actions" v-if="!$route.params.otherProfile">
-            Продать всё
+          <div class="profile-mobile-side_info">
+            <div class="profile-mobile-side_info-name">
+              {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
+            </div>
+            <div class="profile-mobile-side_info-balance">
+              <span style="font-size: 18px; font-weight: 400; padding-right: 5px;">{{ data?.data.user.balance }}</span> 
+              <img alt="moon" src="/img/icons/moon.png" style="width: 14px; height: 14px;"/>
+            </div>
+          </div>
+          <img src="@/assets/icons/chevron-down.svg" class="profile-mobile-arrow" @click="change_mobile_profile_visibility()" :style="show_mobile_profile? 'transform: rotate(-180deg)' : 'transform: rotate(0deg)'">
+        </div>
+        <div class="profile-mobile-stat" :style="show_mobile_profile? 'opacity: 1' : 'opacity: 0'">
+          <h2>Статистика</h2>
+          <div class="profile-mobile-stat_item">
+            <div>Открыто кейсов</div>
+            <div>{{ statsData?.data.stats.cases_opened }}</div>
+          </div>
+          <div class="profile-mobile-stat_item">
+            <div>Выбито на сумму</div>
+            <div>
+              <img src="/img/icons/moon.png" alt="Мун" />
+              {{ statsData?.data.stats.case_opened_mora }}
+            </div>
+          </div>
+          <div class="profile-mobile-stat_item">
+            <div>Выбито кристаллов</div>
+            <div>
+              <img src="/img/icons/crystall.png" alt="Кристаллов" />
+              {{ statsData?.data.stats.crystals_obtained }}
+            </div>
           </div>
         </div>
-        <div class="inventory-tabs">
-          <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
-          <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
-            v-on:click="activeTab = 0">Все предметы</div>
-          <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
-            v-on:click="activeTab = 1">Выведено</div>
+        <div class="profile-mobile-uid_input">
+          <div class="profile-mobile-uid_input-text">
+            <div class="profile-mobile-uid_input-text-div">UID</div>
+          </div>
+          <div class="profile-mobile-uid_input-field">
+            <input inputmode="numeric" pattern="\d*" placeholder="Не указан" v-model="UIDInput">
+            <img src="@/assets/icons/copy.svg" class="profile-mobile-uid_input-field-copy" @click="copyUIDInput()" >
+          </div>
         </div>
-        <div class="inventory-items">
-          <div v-for="profile_item in inventoryData?.data.items.filter((item) => activeTab === 0 || (item.is_ordered && activeTab === 1))">
-            <inventory-item :image="SERVER_URL + profile_item.item.photo_url"/>
+        <button :class="`profile-mobile-save_button`">Сохранить</button>
+        <div class="profile-mobile-referral_link">
+          <div class="profile-mobile-referral_link-text">Реферальная ссылка</div>
+          <div class="profile-mobile-referral_link-field">
+            <input placeholder="Не указан" v-model="ReferralInput" disabled>
+            <img src="@/assets/icons/copy.svg" class="profile-mobile-referral_link-field-copy" @click="copyReferealInput()">
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-side">
+        <div class="inventory">
+          <div class="inventory-top">
+            <div class="inventory-top_title">
+              <h2>Инвентарь</h2>
+              <span>
+                {{ inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length }} 
+                {{ getNoun(inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length, "предмет", "предмета", "предметов") }}
+              </span>
+
+            </div>
+            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="!is_mobile()" @click="(selected.length == 0 && !is_mobile())? sell_all(): null">
+                Продать всё
+            </div>
+          </div>
+          <div class="inventory-top-buttons">
+            <template v-if="true">
+              <div class="inventory-top-selected-buttons" :class="`inventory-top-selected-buttons-${selected.length > 0? 'shown' : 'hidden'}`">
+                <div class="inventory-top-selected-button-left" @click="selected.length > 0? sellSelected() : null"><div>Продать выделенное</div></div>
+                <div class="inventory-top-selected-button-right" @click="selected.length > 0? orderSelected() : null"><div>Вывести выделенное</div></div>
+              </div>
+            </template>
+            <template v-if="true">
+              <div class="inventory-tabs" :class="`inventory-tabs-${selected.length > 0? 'hidden' : 'shown'}`">
+                  <div :class="'inventory-tabs_active inventory-tabs_active__' + activeTab"></div>
+                  <div :class="'inventory-tabs_item' + (activeTab === 0 ? ' inventory-tabs_item__active' : '')"
+                    v-on:click="change_tab(0)">Все предметы</div>
+                  <div :class="'inventory-tabs_item' + (activeTab === 1 ? ' inventory-tabs_item__active' : '')"
+                    v-on:click="change_tab(1)">Выведено</div>
+              </div>
+            </template>
+
+            <div :class="`inventory-top_actions-${selected.length > 0? 'hidden' : 'shown'}`" v-if="is_mobile()" @click="(selected.length == 0 && is_mobile())? sell_all(): null">
+                Продать всё
+            </div>
+          </div>
+          <div class="inventory-items-text">
+            Выберите один или несколько предметов
+          </div>
+          <div class="inventory-items-container" v-if="is_mobile()">
+            <div class="inventory-sections">
+              <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
+                Название
+              </div>
+              <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+                Стоимость
+              </div>
+              <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+                Статус
+              </div>
+            </div>
+            <div class="inventory-items">
+                <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
+                  :image="SERVER_URL + profile_item.item.photo_url" 
+                  :title="profile_item.item.name" 
+                  :cost="`${profile_item.item.price}`"
+                  :id="`inv-item-${index}`"
+                  :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                  :item_id="Number(profile_item.id)"
+                  :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                  :selected="selected.includes(Number(profile_item.id))"
+                  :on_sell="sellSelected"
+                  :on_order="orderSelected"
+                />
+            </div>
+          </div>
+          <template v-else>
+            <div class="inventory-sections">
+              <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
+                Название
+              </div>
+              <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
+                Цена
+              </div>
+              <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
+                Статус
+              </div>
+            </div>
+            <div class="inventory-items">
+                <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
+                  :image="SERVER_URL + profile_item.item.photo_url" 
+                  :title="profile_item.item.name" 
+                  :cost="`${profile_item.item.price}`"
+                  :id="`inv-item-${index}`"
+                  :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                  :item_id="Number(profile_item.id)"
+                  :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                  :selected="selected.includes(Number(profile_item.id))"
+                  :on_sell="sellSelected"
+                  :on_order="orderSelected"
+                />
+            </div>
+          </template>
+        </div>
+        <div class="profile-referral" v-if="!is_mobile()">
+          <div class="profile-referral-left">
+            <div class="profile-referral-title">
+              <div class="profile-referral-title-text">
+                Реферальная ссылка
+              </div>
+              <info-circle class="profile-referral-title-info-circle" @mouseover="show_referral_info=true" @mouseleave="show_referral_info=false"/>
+              <div :style="show_referral_info? 'opacity:1;':'opacity:0'" class="profile-referral-title-info">Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!</div>
+            </div>
+            <div class="profile-referral-field" @click="copyReferealInput()">
+              <div class="profile-referral-field-text">{{ ReferralInput }}</div>
+            </div>
+          </div>
+          <svg class="profile-referral-line-vertical" width="2" height="121" viewBox="0 0 2 121" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 0L0.999997 59.9646L0.999995 121" :stroke="theme.darkTheme? `rgba(255, 255, 255, 0.08)`: `rgba(0, 0, 0, 0.08)`"/>
+          </svg>
+          <svg class="profile-referral-line-horizontal" width="calc(100%+100px)" height="5" viewBox="0 0 500 2" fill="black" xmlns="http://www.w3.org/2000/svg">
+              <line y1="0.5" x2="500" y2="0.5" :stroke="theme.darkTheme? `rgba(255, 255, 255, 0.08)`: `rgba(0, 0, 0, 0.08)`"/>
+          </svg>
+          <div class="profile-referral-right">
+            <div class="profile-referral-stats">
+              <div class="profile-referral-stat">
+                <div class="profile-referral-stats-left">
+                  Кол-во приглашённых
+                </div>
+                <div class="profile-referral-stats-right">
+                  1000
+                </div>
+              </div>
+              <div class="profile-referral-stat">
+                <div class="profile-referral-stats-left">
+                  Получено моры
+                </div>
+                <div class="profile-referral-stats-right">
+                  1000
+                  <img alt="moon" src="/img/icons/moon.png" style="width: 14px; height: 14px; margin-left: 4px; align-self: center;"/>
+                </div>
+              </div>
+              <div class="profile-referral-stat">
+                <div class="profile-referral-stats-left">
+                  До подарка
+                </div>
+                <div class="profile-referral-stats-right">
+                  5 пользователей
+                </div>
+              </div>
+            </div>
+            <div class="profile-referral-stats-small_text">
+              Спасибо что доверяете нам!
+            </div>
           </div>
         </div>
       </div>
@@ -131,7 +306,9 @@ const { data: inventoryData } = useInventorySelf()
 
 <script lang="ts">
 import mediumButton from "@/components/buttons/medium-button.vue";
+import infoCircle from "@/components/images/info-circle.vue";
 import inventoryItem from "@/components/cards/inventory-item.vue";
+import newInventoryItem from "@/components/cards/new-inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import { modalStore } from "~/store/modal";
 import Loader from "~/components/loaders/Loader.vue";
@@ -150,14 +327,140 @@ export default {
   components: {
     mediumButton,
     inventoryItem,
-    titleSection
+    titleSection,
+    newInventoryItem,
+    infoCircle,
   },
   data() {
+    let selected: Number[] = [];
     return {
       activeTab: 0,
-      otherProfile: 0,
       modals: modalStore(),
+      relative_title_pos: 0,
+      relative_cost_pos: 0,
+      relative_status_pos: 0,
+      show_uid_info: false,
+      show_mobile_profile: false,
+      UIDInput: "1234567890",
+      ReferralInput: "https://kleewish.com/?ref=5044436150",
+      show_copied_modal: false,
+      selected: selected,
+      show_referral_info: false,
     }
+  },
+  methods: {
+    define() {
+      let item = document.getElementById("inv-item-0")
+      if (item === null) {
+        return
+      }
+      let title = item.querySelector(".item-title")
+      let cost = item.querySelector(".item-cost")
+      let status = item.querySelector(".item-status")
+      let abs_inv_pos = Number(item?.getBoundingClientRect().x);
+      let abs_title_pos = Number(title?.getBoundingClientRect().x)+Number(title?.getBoundingClientRect().width)/2;
+      let abs_cost_pos = Number(cost?.getBoundingClientRect().x)+Number(cost?.getBoundingClientRect().width)/2;;
+      let abs_status_pos = Number(status?.getBoundingClientRect().x)+Number(status?.getBoundingClientRect().width)/2;;
+      let relative_title_pos = abs_title_pos-abs_inv_pos
+      let relative_cost_pos = abs_cost_pos-abs_inv_pos
+      let relative_status_pos = abs_status_pos-abs_inv_pos
+      this.relative_title_pos = relative_title_pos
+      this.relative_cost_pos = relative_cost_pos
+      this.relative_status_pos = relative_status_pos
+    },
+    is_mobile() {
+      return window.innerWidth < 850
+    },
+    change_mobile_profile() {
+      if (this.show_mobile_profile) {
+        console.log('edit time')
+      }
+    },
+    change_mobile_profile_visibility() {
+      this.show_mobile_profile = !this.show_mobile_profile
+    },
+    async copyUIDInput() {
+      if (this.UIDInput) {
+        let textToCopy = this.UIDInput;
+        
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        await new Promise((res, rej) => {
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
+        this.show_copied_modal = true;
+        await new Promise(r => setTimeout(r, 200))
+        this.show_copied_modal = false
+      }
+    },
+    async copyReferealInput() {
+      if (this.ReferralInput) {
+        let textToCopy = this.ReferralInput;
+        
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        await new Promise((res, rej) => {
+          document.execCommand("copy") ? res() : rej();
+          textArea.remove();
+        });
+        this.show_copied_modal = true;
+        await new Promise(r => setTimeout(r, 200))
+        this.show_copied_modal = false
+      }
+    },
+    select(id: number) {
+      if (this.selected.includes(id)) {
+        const index = this.selected.indexOf(id);
+        if (index > -1) {
+          this.selected.splice(index, 1);
+        }
+      } else {
+        this.selected.push(id)
+      }
+    },
+    sellSelected() {
+      console.log('sell selected')
+      this.modals.showModal('sell')
+    },
+    orderSelected() {
+      console.log('order selected')
+      this.modals.showModal('order')
+    },
+    sell_all() {
+      console.log('sell all')
+      this.modals.showModal('sell')
+    },
+    async change_tab(tab: number) {
+      if (this.selected.length === 0) {
+        this.activeTab = tab
+        await new Promise(r => setTimeout(r, 20)); 
+        this.define()
+      }
+    }
+  },
+  async mounted() {
+    while (document.getElementById("inv-item-0") === null) {
+      await new Promise(r => setTimeout(r, 60))
+    }
+    this.define()
+    window.addEventListener('resize', this.define)
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('resize', this.define)
   }
 }
 
@@ -165,10 +468,33 @@ export default {
 
 <style lang="scss" scoped>
 @import '../static/colors.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+$medium_small: 850px;
+$medium_large: 950px;
+$large: 1100px;
 
 .page {
   width: 100%;
   max-width: 1300px;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--scroll-track-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--scroll-thumb-color);
+    border-radius: 5px;
+    min-height: 20px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scroll-thumb-hovered-color);
 }
 
 .profile {
@@ -177,9 +503,545 @@ export default {
   justify-content: space-evenly;
   width: 100%;
 
-  @media(max-width: 1100px) {
+  @media(max-width: $medium_small) {
     flex-direction: column;
     gap: 25px;
+  }
+  &-side {
+    display: flex;
+    flex-direction: column;
+    height: 544px;
+    @media (max-width: $large) {
+      height: 665px;
+    }
+  }
+
+  &-referral {
+    display: flex;
+    margin-top: 13px;
+    border-width: 1px;
+    border-style: solid;
+    background: var(--profile-background);
+    border: var(--profile-border);
+    height: 121px;
+    width: 644px;
+    border-radius: 10px;
+    overflow: hidden;
+    @media(max-width: $large) {
+      width: 500px;
+      height: 242px;
+    }
+    @media(max-width: $medium_large) {
+      width: 410px;
+    }
+
+    @media (max-width: $large) {
+      flex-direction: column;
+      justify-content: left;
+    }
+
+    &-line-vertical {
+      @media (max-width: $large) {
+        position: absolute;
+        opacity: 0;
+      }
+    }
+    &-line-horizontal {
+      @media (min-width: $large) {
+        position: absolute;
+        opacity: 0;
+        align-self: center;
+      }
+    }
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      height: 100%;
+      padding-right: 20px;
+      padding-bottom: 20px;
+      @media (max-width: $large) {
+        width: 100%;
+      }
+    }
+    &-right {
+      display: flex;
+      flex-direction: column;
+      width: 40%;
+      height: 100%;
+      padding-right: 11px;
+      padding-left: 20px;
+      justify-content: center;
+      align-items: center;
+      @media (max-width: $large) {
+        width: 100%;
+        padding-right: 20px;
+      }
+    }
+    &-field {
+      display: flex;
+      cursor: pointer;
+      &-text {
+        display: flex;
+        background: radial-gradient(var(--profle-referral-text-color-center), var(--profle-referral-text-color-side));
+        font-weight: 700;
+        font-size: 14px;
+        font-family: 'Roboto Mono', monospace;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: underline;
+      }
+      border-width: 1px;
+      border-style: solid;
+      background: var(--profile-background);
+      border: var(--profile-border);
+      width: 335px;
+      height: 46px;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-left: 20px;
+      @media (max-width: $large) {
+        width: calc(100% - 20px);
+      }
+    }
+    &-title {
+      display: flex;
+      flex-direction: row;
+      margin-top: 14px;
+      margin-left: 20px;
+      @media (max-width: $large) {
+        align-self: center;
+        margin-left: 0px;
+      }
+      &-text {
+        color: var(--profile-referral-title-color);
+        font-weight: 700;
+        font-size: 24px;
+        margin-right: 8px;
+      }
+      &-info {
+        position: absolute;
+        @media (max-width: $large) {
+          transform: translate(20%, -100%);
+        }
+        transform: translate(140%, -100%);
+        font-size: 14px;
+        border-radius: 5px;
+        padding: 10px;
+        width: 200px;
+        transition: opacity 0.4s ease;
+        background: var(--profile-uid-info-background);
+        border-color: var(--profile-uid-info-border);
+        color: var(--profile-uid-info-color);
+        border-width: 1px;
+        border-style: solid;
+        &-circle {
+          transform: translate(0px, 2px);
+        }
+      }
+    }
+    &-stat {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 9px;
+    }
+    &-stats {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-self: center;
+      height: fit-content;
+      white-space: nowrap;
+      justify-content: center;
+      &-small_text {
+        font-size: 10px;
+        font-weight: 500;
+        text-align: center;
+        width: 162px;
+        margin-top: 8px;
+        margin-bottom: 0px;
+        color: var(--profile-stat-color);
+      }
+      &-left {
+        display: flex;
+        color: var(--profile-stat-color);
+        font-weight: 500;
+        font-size: 14px;
+        width: fit-content;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin-left: 0px;
+      }
+      &-right {
+        display: flex;
+        flex-direction: row;
+        color: var(--profile-stat-color);
+        width: fit-content;
+        height: fit-content;
+        font-weight: 600;
+        font-size: 14px;
+        height: 100%;
+        display: flex;
+        margin-right: 0px;
+        margin-left: auto;
+        justify-content: center;
+        align-items: center;
+        & img {
+          transform: translate(0%, -1.4px);
+        }
+      }
+    }
+  }
+
+  &-copied {
+    border-radius: 5px;
+    border-style: solid;
+    padding: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    border-width: 1px;
+    border-color: var(--profile-copied-border);
+    background-color: var(--profile-copied-background);
+    color:  var(--profile-copied-color);
+    z-index: 100;
+    &-show {
+      @extend .profile-copied;
+      transition: all 0s ease;
+      opacity: 1;
+    }
+    &-hide {
+      @extend .profile-copied;
+      transition: all 0.9s ease;
+      opacity: 0;
+    }
+  }
+
+  &-mobile {
+    &-referral_link {
+      display: flex;
+      flex-direction: column;
+      padding-left: 72px;
+      width: 100%;
+
+      &-text {
+        display: inline-block;
+        height: fit-content;
+        width: fit-content;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: var(--profile-input-color);
+        font-weight: 600;
+      }
+      &-field {
+        display: flex;
+        &-copy {
+          width: 20px; 
+          height: 20px;
+          position: relative;
+          transform: translate(-150%, 54%);
+          cursor: pointer;
+        }
+        & input {
+          border-color: var(--profile-input-border);
+          background-color: var(--profile-input-background);
+          color: var(--profile-input-color);
+          width: 100%;
+          height: 43px;
+          border-radius: 8px;
+          padding-left: 12px;
+          border-style: solid;
+          border-width: 1px;
+          font-weight: 500;
+          font-size: 18px;
+          letter-spacing: 3px;
+          &:focus{
+            outline: none;
+          }
+        }
+      }
+    }
+
+    &-save_button {
+      margin-left: 72px;
+      margin-right: auto;
+      width: 99px!important;
+      height: 37px!important;
+      font-size: 14px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-weight: 500;
+      border-width: 1px;
+      border-style: solid;
+      background-color: var(--profile-background);
+      border-radius: 10px;
+      border-color: var(--profile-save-button-border);
+      color: var(--profile-save-button-color);
+    }
+
+    &-uid_input {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding-left: 72px;
+
+      &-text {
+        display: flex;
+        height: 27px;
+        align-items: center;
+        margin-bottom: 3px;
+
+        &-div {
+          display: inline-block;
+          height: fit-content;
+          width: fit-content;
+          margin-right: 10px;
+          margin-top: 3px;
+          font-size: 16px;
+          color: var(--profile-input-color);
+          font-weight: 600;
+        }
+      }
+      &-field {
+        display: flex;
+        &-copy {
+          width: 20px; 
+          height: 20px;
+          position: relative;
+          transform: translate(-150%, 54%);
+          cursor: pointer;
+        }
+        & input {
+          border-color: var(--profile-input-border);
+          background-color: var(--profile-input-background);
+          color: var(--profile-input-color);
+          width: 100%;
+          height: 43px;
+          border-radius: 8px;
+          padding-left: 12px;
+          border-style: solid;
+          border-width: 1px;
+          font-weight: 500;
+          font-size: 18px;
+          letter-spacing: 3px;
+          &:focus{
+            outline: none;
+          }
+        }
+      }
+    }
+
+    &-stat {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-width: 240px;
+      gap: 15px;
+      padding-left: 72px;
+      transition: all 0.4s ease;
+
+      & h2 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        color: var(--profile-h2);
+        margin: 0;
+      }
+
+      &_item {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        & div:nth-child(1) {
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 16px;
+          color: var(--profile-stat-color);
+        }
+
+        & div:nth-child(2) {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-style: normal;
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 17px;
+          color: var(--profile-stat-color);
+
+          & img {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+
+    &-arrow {
+      width: 24px;
+      height: 24px;
+      align-self: center;
+      transition: all 0.4s ease;
+    }
+
+    &-top {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    &-side_info {
+      display: flex;
+      flex-direction: column;
+      margin-right: auto;
+      margin-left: 10px;
+      justify-content: center;
+      &-name {
+        display: flex;
+        width: fit-content;
+        justify-content: center;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        color: var(--profile-name);
+      }
+      &-balance {
+        padding-top: 4px;
+        color: #A8A8A8;
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
+
+    &-avatar {
+      display: flex;
+      width: 62px;
+      height: 62px;
+      object-fit: cover;
+      margin-left: 0px;
+      margin-right: 0px;
+
+      &-edit {
+        width: 25px!important;
+        height: 25px!important;
+        position: absolute;
+        transform: translate(21px, 50px);
+        transition: all 0.4s ease;
+      }
+
+      & img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 120px;
+      }
+    }
+    &-info {
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      padding: 20px 20px;
+      align-items: center;
+      gap: 15px;
+      background: var(--profile-background);
+      border: var(--profile-border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+
+      &-long {
+        @extend .profile-mobile-info;
+        height: 467px;
+      }
+      &-short {
+        @extend .profile-mobile-info;
+        height: 104px;
+      }
+    }
+  }
+
+  &-uid_input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &-info {
+      position: absolute;
+      transform: translate(50%, -50%);
+      font-size: 14px;
+      border-radius: 5px;
+      padding: 10px;
+      width: 200px;
+      transition: opacity 0.4s ease;
+      background: var(--profile-uid-info-background);
+      border-color: var(--profile-uid-info-border);
+      color: var(--profile-uid-info-color);
+      border-width: 1px;
+      border-style: solid;
+    }
+
+    &-text {
+      display: flex;
+      height: 27px;
+      align-items: center;
+      margin-bottom: 3px;
+
+      &-info {
+        & ellipse {
+          fill: var(--profile-uid-info-ellipse);
+        }
+        & path {
+          fill: var(--profile-uid-info-questionmark);
+        }
+      }
+
+      &-div {
+        display: inline-block;
+        height: fit-content;
+        width: fit-content;
+        margin-right: 10px;
+        margin-top: 3px;
+        font-size: 14px;
+        color: #767676;
+        font-weight: 500;
+      }
+    }
+    &-field {
+      display: flex;
+      & input {
+        border-color: var(--profile-input-border);
+        background-color: var(--profile-input-background);
+        color: var(--profile-input-color);
+        width: 256px;
+        height: 56px;
+        border-radius: 8px;
+        padding-left: 10px;
+        border-style: solid;
+        border-width: 1px;
+        &:focus{
+          outline: none;
+        }
+      }
+      &-edit {
+        padding-left: 10px;
+        width: 55px;
+        height: 55px;
+      }
+    }
   }
 
   &-info {
@@ -192,6 +1054,10 @@ export default {
     background: var(--profile-background);
     border: var(--profile-border);
     border-radius: 10px;
+    @media(min-width: $medium_small) {
+      width: 386px;
+      height: 544px;
+    }
   }
 
   &-avatar {
@@ -199,6 +1065,13 @@ export default {
     width: 120px;
     height: 120px;
     object-fit: cover;
+
+    &-edit {
+      width: 30px!important;
+      height: 30px!important;
+      position: absolute;
+      transform: translate(90px, 90px);
+    }
 
     & img {
       object-fit: cover;
@@ -244,6 +1117,14 @@ export default {
     justify-content: space-between;
     gap: 20px;
 
+    &-button {
+      border-radius: 8px;
+      height: 45px;
+      width: 157px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
     &_left {
       display: flex;
       flex-direction: column;
@@ -284,7 +1165,8 @@ export default {
     flex-direction: column;
     width: 100%;
     min-width: 240px;
-    gap: 7px;
+    gap: 15px;
+    padding-top: 20px;
 
     & h2 {
       font-style: normal;
@@ -327,22 +1209,63 @@ export default {
   }
 }
 
+$very_small: 340px;
+$small: 500px;
+$medium: 660px;
 
 .inventory {
   display: flex;
   flex-direction: column;
   width: 644px;
   height: max-content;
-  max-height: 420px;
+  height: 100%;
+  max-height: 410px;
   box-sizing: border-box;
   padding: 20px;
   gap: 15px;
   background: var(--profile-background);
   border: var(--profile-border);
   border-radius: 10px;
+  overflow: hidden;
 
-  @media(max-width: 1100px) {
+  @media(max-width: $large) {
+    width: 500px;
+  }
+  @media(max-width: $medium_large) {
+    width: 410px;
+  }
+  @media(max-width: $medium_small) {
     width: 100%;
+    padding: 0px;
+    background-color: var(--loader-background);
+    border: 0px;
+  }
+  @media((max-width: $large) and (min-width: $medium_large)){
+    max-height: 410px;
+  }
+  @media((max-width: $medium_large) and (min-width: $medium_small)){
+    max-height: 410px;
+  }
+  @media(max-width: $medium_small) and (min-width: $medium) {
+    max-height: 441px;
+  }
+  @media(max-width: $medium) {
+    max-height: 417px;
+  }
+  @media(max-width: $small) {
+    max-height: 459px;
+  }
+
+  &-sections {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    padding-bottom: 6px;
+    & div {
+      font-weight: 500;
+      font-size: 12px;
+      color: #767676;
+    }
   }
 
   &-tabs {
@@ -350,14 +1273,27 @@ export default {
     position: relative;
     flex-direction: row;
     background: var(--profile-tab-background);
-    border-radius: 10px;
+    border-radius: 5px;
     width: max-content;
-    height: max-content;
+    height: 40px;
     box-sizing: border-box;
     padding: 2px;
+    transition: 0.3s;
 
-    @media(max-width: 436px) {
-      align-self: center;
+    &-hidden {
+      transform: translate(-100%, 0%);
+      opacity: 0;
+      & div {
+        cursor: default;
+      }
+    }
+    &-shown {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
+
+    @media(max-width: $very_small) {
+      height: 30px;
     }
 
     &_item {
@@ -376,6 +1312,10 @@ export default {
       color: var(--profile-tab-inactive);
       transition: 0.2s;
       cursor: pointer;
+      @media(max-width: $very_small) {
+        font-size: 10px;
+        line-height: 9px;
+      }
 
       &__active {
         color: var(--button-color);
@@ -389,16 +1329,26 @@ export default {
       height: 36px;
       background: var(--button-background);
       color: #ffffff;
-      border-radius: 10px;
+      border-radius: 5px;
       transition: 0.2s;
+      @media(max-width: $very_small) {
+        height: 27px;
+      }
 
       &__0 {
         width: 110px;
+        @media(max-width: $very_small) {
+          width: 93px;
+        }
       }
 
       &__1 {
         transform: translateX(110px);
         width: 88px;
+        @media(max-width: $very_small) {
+          transform: translateX(92px);
+          width: 74px;
+        }
       }
     }
   }
@@ -409,10 +1359,75 @@ export default {
     justify-content: space-between;
     align-items: center;
 
-    @media(max-width: 436px) {
-      flex-direction: column;
+    &-selected {
+      &-buttons {
+        position: absolute;
+        display: flex;
+        margin-left: 0px; 
+        margin-right: 10px;
+        height: 40px;
+        align-items: center;
+        margin-left: 2px;
+        transition: 0.3s;
+        z-index: 0;
+        &-hidden {
+          transform: translate(100%, 0%);
+          opacity: 0;
+          & div {
+            cursor: default;
+          }
+        }
+        &-shown {
+          transform: translate(0%, 0%);
+          opacity: 1;
+          & div {
+            cursor: pointer;
+          }
+        }
+      }
+      &-button {
+        display: flex;
+        font-size: 13px;
+        border-width: 0px;
+        height: 40px;
+        width: 100px;
+        transition: 0.3s;
+        &:hover {
+          opacity: 0.9;
+        }
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: row;
+        font-weight: 500;
+        @media(max-width: $very_small) {
+          font-size: 10px;
+          height: 30px;
+          width: 83.5px;
+        }
+        &-left {
+          @extend .inventory-top-selected-button;
+          border-radius: 5px 0px 0px 5px;
+          background-image: linear-gradient(to right, var(--profile-item-selected-border-gradient-left), var(--profile-item-selected-border-gradient-right));
+          color: var(--profile-item-background);
+        }
+        &-right {
+          @extend .inventory-top-selected-button;
+          border-radius: 0px 5px 5px 0px;
+          background-color: var(--profile-tab-background);
+          color: var(--profile-tab-inactive);
+        }
+      }
+    }
+
+    &-buttons {
+      display: flex;
+      flex-direction: row;
       align-items: center;
-      gap: 10px;
+      height: 40px;
+      @media(max-width: $very_small) {
+        height: 30px;
+      }
     }
 
     &_actions {
@@ -424,6 +1439,26 @@ export default {
       font-size: 14px;
       cursor: pointer;
       border: 2px solid #C9A788;
+      margin-right: 0px;
+      margin-left: auto;
+      z-index: 2;
+      transition: all 0.3s;
+      background-color: var(--loader-background);
+      @media(max-width: $very_small) {
+        font-size: 10px;
+      }
+      &-hidden {
+        @extend .inventory-top_actions;
+        opacity: 0;
+        cursor: default;
+        & div {
+          cursor: default;
+        }
+      }
+      &-shown {
+        @extend .inventory-top_actions;
+        opacity: 1;
+      }
     }
 
     &_title {
@@ -459,15 +1494,27 @@ export default {
     overflow: auto;
     box-sizing: border-box;
     padding-right: 5px;
+    scrollbar-color: var(--scroll-thumb-color) var(--scroll-track-color);
 
-    &::-webkit-scrollbar {
-      width: 2px;
+    &-text {
+      color: #767676;
+      font-size: 12px;
+      font-weight: 500;
     }
 
-    @media(max-width: 436px) {
-      align-self: center;
-      align-items: center;
-      justify-content: center;
+    &-container {
+      @extend .inventory;
+      height: max-content;
+      overflow: hidden;
+      border-color: var(--profile-mobile-container-border);
+      border-style: solid;
+      border-width: 1px;
+      transition: 0.3s;
+      background-color: var(--profile-background);
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 15px;  
+      padding-bottom: 15px
     }
   }
 }</style>
