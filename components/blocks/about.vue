@@ -1,6 +1,8 @@
 <script setup>
 import { useAuthStore } from "~/store/authNew";
+import { modalStore } from "~/store/modal";
 
+const modals = modalStore()
 const auth = useAuthStore()
 </script>
 
@@ -49,7 +51,7 @@ const auth = useAuthStore()
       <nuxt-img format="webp" alt="Девушка" class="about-right_girl-shadow" src="/img/klee-shadow.png"/>
       <nuxt-img format="webp" alt="Девушка" class="about-right_girl" src="/img/Klee.png"/>
       <div class="about-right_text" v-if="!auth.kwt">А ты всё еще не с нами?</div>
-      <medium-button v-if="!auth.kwt" text="Присоединиться"/>
+        <medium-button v-if="!auth.kwt" v-on:click="modals.showModal('signIn')" text="Присоединиться"/>
     </div>
   </div>
 </template>
