@@ -17,8 +17,8 @@ const { data, isLoading } = useReviewsStats()
         </span></div>
     </div>
     <div class="stat-line">
-      <div></div>
-      <div></div>
+      <div :style="`width: ${(data?.data.positive_reviews+data?.data.negative_reviews)/data?.data.negative_reviews*100}%;`"></div>
+      <div :style="`width: ${(data?.data.positive_reviews+data?.data.negative_reviews)/data?.data.positive_reviews*100}%;`"></div>
     </div>
 
     <div class="stat-description">
@@ -110,15 +110,13 @@ export default {
     & div:nth-child(1) {
       display: flex;
       height: 100%;
-      width: 30%;
-      background: #48B75A;
+      background: #E17474;
     }
-
+    
     & div:nth-child(2) {
       display: flex;
       height: 100%;
-      flex-grow: 1;
-      background: #E17474;
+      background: #48B75A;
     }
   }
 
