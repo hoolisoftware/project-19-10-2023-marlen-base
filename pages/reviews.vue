@@ -3,6 +3,7 @@ import { useAuthStore } from '~/store/authNew'
 import { ref } from 'vue'
 import { useReviews, type Review } from "~/hooks/use-query/review";
 import { useUserSelf } from '~/hooks/use-query/profile';
+import {getNoun} from '~/languageCorrecter';
 
 const auth = useAuthStore()
 const filter = ref('all')
@@ -29,7 +30,7 @@ const { data: userData, isLoading: userIsLoading } = useUserSelf()
 <template>
   <div class="page">
     {{ auth.user }}
-    <title-section text="Отзывы" :info="`${data?.pages[0].data.count} отзывов`" />
+    <title-section text="Отзывы" :info="`${data?.pages[0].data.count} ${getNoun(data?.pages[0].data.count, 'отзыв', 'отзыва', 'отзывов')}`" />
     <div class="reviews">
       <loader v-if="isLoading || userIsLoading"/>
       <div class="reviews-list" v-else-if="data?.pages">
