@@ -6,7 +6,7 @@ import { useReviewCreate } from '@/hooks/use-query/review'
 
 let modals = modalStore();
 let theme = useThemeStore();
-const { mutate, data, isSuccess, isLoading, error } = useReviewCreate()
+const { mutate, data, isSuccess, isLoading, isError, error } = useReviewCreate()
 
 const formData = ref({
   text: '',
@@ -23,26 +23,42 @@ const handleSubmit = () => {
   <!-- review -->
   <Transition name="fade">
     <div class="modal" v-if="modals.isModalShown('review')">
-      <div v-if="isSuccess && data" class="modal-content">
+      <div v-if="isSuccess && data" class="modal-content-success">
         <div class="modal-content_top">
-          <p>Отзыв успешно оставлен!&nbsp;&nbsp;</p>
           <div class="modal-content_close" v-on:click="modals.hideModal('review')">
-            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M2.34315 2.34315C0 4.68629 0 8.45753 0 16V18C0 25.5425 0 29.3137 2.34315 31.6569C4.68629 34 8.45753 34 16 34H18C25.5425 34 29.3137 34 31.6569 31.6569C34 29.3137 34 25.5425 34 18V16C34 8.45753 34 4.68629 31.6569 2.34315C29.3137 0 25.5425 0 18 0H16C8.45753 0 4.68629 0 2.34315 2.34315ZM22.3525 10L23.9995 11.647L18.6468 16.9997L23.9997 22.3526L22.3527 23.9996L16.9998 18.6467L11.647 23.9995L10 22.3525L15.3528 16.9997L10.0001 11.647L11.6471 10L16.9998 15.3527L22.3525 10Z"
-                :fill="theme.darkTheme ? 'white' : 'black'" />
-            </svg>
+            <img src="@/assets/icons/x.svg"/>
           </div>
         </div>
+        <div class="modal-content_body-success">
+          <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path style="transform: translate(0px, 30px)" d="M49.25 33.75C49.25 35.1203 48.7057 36.4344 47.7367 37.4034C46.7678 38.3723 45.4536 38.9167 44.0833 38.9167H13.0833L2.75 49.25V7.91667C2.75 6.54638 3.29434 5.23222 4.26328 4.26328C5.23222 3.29434 6.54638 2.75 7.91667 2.75H44.0833C45.4536 2.75 46.7678 3.29434 47.7367 4.26328C48.7057 5.23222 49.25 6.54638 49.25 7.91667V33.75Z" :stroke="theme.darkTheme? 'white' : '#C9A788'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path style="transform: translate(31px, 29px);" d="M1.99951 2.5C1.99951 17 9.99951 26.5 19.4998 30.5" :stroke="theme.darkTheme? 'black' : 'white'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path style="transform: translate(35px, 7px);" d="M26.4583 50.7917C39.8973 50.7917 50.7917 39.8973 50.7917 26.4583C50.7917 13.0194 39.8973 2.125 26.4583 2.125C13.0194 2.125 2.125 13.0194 2.125 26.4583C2.125 39.8973 13.0194 50.7917 26.4583 50.7917Z" :stroke="theme.darkTheme? 'white' : '#C9A788'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path style="transform: translate(76px, 48px);" d="M28 26.5L2.64355 2.6438" :stroke="theme.darkTheme? 'white' : '#C9A788'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="modal-content_title-success">Спасибо!</div>
+          <div class="modal-content_body-success-text">Прежде чем опубликовать, Ваш отзыв будет проверен модератором</div>
+          <medium-button @click="navigateTo('/'); modals.hideModal('review')" class="modal-content_body-success-button" text="На главную" color="orange"/>
+        </div>
+      </div>
+      <div class="modal-content-error" v-else-if="isError && error?.response?.data?.heading">
+          <div class="modal-content_top">
+            <div class="modal-content_close" v-on:click="modals.hideModal('review')">
+              <img src="@/assets/icons/x.svg"/>
+            </div>
+          </div>
+          <div class="modal-content_body-error">
+              <svg class="modal-content_body-warning" width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="42" cy="42" r="42" fill="#DBC1AB"/>
+                  <path style="transform: translate(37px, 20px);" d="M7.72375 30.92H2.28375L0.87575 13V0.199997H9.19575V13L7.72375 30.92ZM5.03575 36.168C6.35842 36.168 7.48908 36.6373 8.42775 37.576C9.36642 38.5147 9.83575 39.6453 9.83575 40.968C9.83575 42.2907 9.36642 43.4213 8.42775 44.36C7.48908 45.2987 6.35842 45.768 5.03575 45.768C3.71308 45.768 2.58242 45.2987 1.64375 44.36C0.705084 43.4213 0.23575 42.2907 0.23575 40.968C0.23575 39.6453 0.68375 38.5147 1.57975 37.576C2.51842 36.6373 3.67042 36.168 5.03575 36.168Z" fill="white"/>
+              </svg>
+              <div class="modal-content_title-error">{{ error?.response?.data?.heading }}</div>
+              <medium-button @click="navigateTo('/'); modals.hideModal('review')" class="modal-content_body-error-button" text="На главную" color="orange"/>
+          </div>
       </div>
       <div v-else class="modal-content">
         <div class="modal-content_top">
           <div class="modal-content_close" v-on:click="modals.hideModal('review')">
-            <!-- <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                d="M2.34315 2.34315C0 4.68629 0 8.45753 0 16V18C0 25.5425 0 29.3137 2.34315 31.6569C4.68629 34 8.45753 34 16 34H18C25.5425 34 29.3137 34 31.6569 31.6569C34 29.3137 34 25.5425 34 18V16C34 8.45753 34 4.68629 31.6569 2.34315C29.3137 0 25.5425 0 18 0H16C8.45753 0 4.68629 0 2.34315 2.34315ZM22.3525 10L23.9995 11.647L18.6468 16.9997L23.9997 22.3526L22.3527 23.9996L16.9998 18.6467L11.647 23.9995L10 22.3525L15.3528 16.9997L10.0001 11.647L11.6471 10L16.9998 15.3527L22.3525 10Z"
-                :fill="theme.darkTheme ? 'white' : 'black'" />
-            </svg> -->
             <img src="@/assets/icons/x.svg"/>
           </div>
           <div class="modal-content_title">Оставить отзыв</div>
@@ -253,6 +269,27 @@ export default {
       padding-bottom: 5px;
     }
 
+    &-error {
+      display: flex;
+      flex-direction: column;
+      background: var(--modal-background);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 17px;
+      box-sizing: border-box;
+      padding: 25px;
+      gap: 35px;
+      overflow: hidden;
+      width: 400px;
+      height: 300px;
+    }
+
+    &-success {
+      @extend .modal-content;
+      height: 585px;
+      gap: 0px;
+      justify-content: center;
+    }
+
     &_body {
       display: flex;
       flex-direction: column;
@@ -261,6 +298,56 @@ export default {
       padding-right: 20px;
       padding-top: 0px;
       padding-bottom: 30px;
+      &-warning {
+          transform: translate(0px, -60px);
+          & circle {
+              fill: var(--sell-modal-warning-color);
+          }
+          & path {
+              fill: var(--sell-modal-exclamation-mark-color);
+          }
+      }
+      &-error {
+        @extend .modal-content_body;
+        justify-content: center;
+        align-items: center;
+        &-button {
+          width: 155px;
+          height: 49px;
+          border-radius: 14px;
+          margin-top: 26px;
+          transform: translate(0px, -34px);
+          margin-bottom: 0px;
+          margin-top: auto;
+          &:hover {
+            transform: translate(0px, -34px);
+          }
+        }
+      }
+      
+      &-success {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin-bottom: 33px;
+        &-button {
+          width: 155px;
+          height: 49px;
+          border-radius: 14px;
+          margin-top: 26px;
+        }
+        &-text {
+          font-size: 18px;
+          font-weight: 500;
+          line-height: 22px;
+          letter-spacing: 0em;
+          text-align: center;
+          margin-top: 6px;
+          color: var(--profile-stat-color);
+        }
+      }
     }
 
     &_top {
@@ -276,6 +363,24 @@ export default {
       font-size: 36px;
       line-height: 41px;
       color: var(--modal-text);
+
+      &-error {
+        display: flex;
+        font-size: 22px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 25px;
+        transform: translate(0px, -47px);
+        margin-top: auto;
+        margin-bottom: auto;
+        color: var(--modal-text);
+      }
+
+      &-success {
+        @extend .modal-content_title;
+        text-align: center;
+        width: 100%;
+      }
 
       @media(max-width: 400px) {
         font-size: 30px;
