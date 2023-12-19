@@ -47,9 +47,9 @@ const { data: userData, isLoading: userIsLoading } = useUserSelf()
       <div>
         <div class="reviews-stat">
           <review-stats />
-          <div><medium-button @click="() => setFilter('all')" text="Все" :border="filter==='all'" /></div>
-          <div><medium-button @click="() => setFilter('positive')" text="Только положительные" :border="filter==='positive'" /></div>
-          <div><medium-button @click="() => setFilter('negative')" text="Только отрицательные" :border="filter==='negative'" /></div>
+          <div><medium-button @click="() => setFilter('all')" text="Все" :border="filter!=='all'" /></div>
+          <div><medium-button @click="() => setFilter('positive')" text="Только положительные" :border="filter!=='positive'" /></div>
+          <div><medium-button @click="() => setFilter('negative')" text="Только отрицательные" :border="filter!=='negative'" /></div>
         </div>
       </div>
     </div>
