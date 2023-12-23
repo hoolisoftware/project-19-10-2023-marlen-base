@@ -8,6 +8,7 @@ const {data: itemsData, isLoading: itemsIsLoading, isError: itemsIsError} = useS
 <template>
   <div class="page">
     <title-section text="Магазин"/>
+    <shop-slider class="shop-slider"/>
     <loader v-if="itemsIsLoading"/>
     <div v-else-if="itemsIsError">
         Error...
@@ -25,6 +26,7 @@ const {data: itemsData, isLoading: itemsIsLoading, isError: itemsIsError} = useS
 <script lang="ts">
 import shopCard from "@/components/cards/shop-card.vue";
 import titleSection from "@/components/blocks/title-section.vue";
+import shopSlider from "@/components/blocks/shop-slider.vue";
 import Loader from "@/components/loaders/Loader.vue";
 import { SERVER_URL } from "~/config";
 
@@ -35,7 +37,8 @@ export default {
   },
   components: {
     shopCard,
-    titleSection
+    titleSection,
+    shopSlider,
   }
 }
 </script>
@@ -48,5 +51,9 @@ export default {
   width: 100%;
   gap: 34px;
   flex-wrap: wrap;
+  &-slider {
+    margin-top: 22px;
+    margin-bottom: 92px;
+  }
 }
 </style>

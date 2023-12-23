@@ -228,6 +228,31 @@ $sellModalExclamationMarkColor: #ffffff;
 $sellModalWarningColorDark: #ffffff;
 $sellModalExclamationMarkColorDark: #000000;
 
+$shopBackground: #ffffff;
+$shopBackgroundDark: rgb(19, 18, 18);
+
+$sliderBorder: #EDE6E0;
+$sliderBorderDark: #1D1D1D;
+
+$sliderFillColor: #E5E5E5;
+$sliderFillColorDark: #1B1B1B;
+
+$sliderFillBorderColor: #E5E5E5;
+$sliderFillBorderColorDark: #3D3D3D;
+
+$sliderBackground: linear-gradient(90deg, #77605A 1.74%, #C9A788 79.56%);
+$sliderBackgroundDark: linear-gradient(90deg, #ffffff 1.74%, #ffffff 79.56%);
+
+$sliderLeftEdgeBackground: #606060;
+$sliderLeftEdgeBorder: #DBC1AB;
+$sliderRightEdgeBackground: #ffffff;
+$sliderRightEdgeBorder: #DBC1AB;
+
+$sliderLeftEdgeBackgroundDark: #606060;
+$sliderLeftEdgeBorderDark:  #ffffff;
+$sliderRightEdgeBackgroundDark: #ffffff;
+$sliderRightEdgeBorderDark: #606060;
+
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
   --loader-box: #{$loaderBoxLight};
@@ -340,6 +365,19 @@ $sellModalExclamationMarkColorDark: #000000;
 
   --sell-modal-warning-color: #{$sellModalWarningColor};
   --sell-modal-exclamation-mark-color: #{$sellModalExclamationMarkColor};
+
+  --shop-background: #{$shopBackground};
+  --slider-border: #{$sliderBorder};
+
+  --slider-background: #{$sliderBackground};
+  --slider-fill-color: #{$sliderFillColor};
+
+  --slider-fill-border-color: #{$sliderFillBorderColor};
+
+  --slider-left-edge-background: #{$sliderLeftEdgeBackground};
+  --slider-left-edge-border: #{$sliderLeftEdgeBorder};
+  --slider-right-edge-background: #{$sliderRightEdgeBackground};
+  --slider-right-edge-border: #{$sliderRightEdgeBorder};
 }
 
 [data-theme='dark'] {
@@ -455,4 +493,17 @@ $sellModalExclamationMarkColorDark: #000000;
 
   --sell-modal-exclamation-mark-color: #{$sellModalExclamationMarkColorDark};
   --sell-modal-warning-color: #{$sellModalWarningColorDark};
+  
+  --shop-background: #{$shopBackgroundDark};
+  --slider-border: #{$sliderBorderDark};
+
+  --slider-background: #{$sliderBackgroundDark};
+  --slider-fill-color: #{$sliderFillColorDark};
+
+  --slider-fill-border-color: #{$sliderFillBorderColorDark};
+
+  --slider-left-edge-background: #{$sliderLeftEdgeBackgroundDark};
+  --slider-left-edge-border: #{$sliderLeftEdgeBorderDark};
+  --slider-right-edge-background: #{$sliderRightEdgeBackgroundDark};
+  --slider-right-edge-border: #{$sliderRightEdgeBorderDark};
 }
