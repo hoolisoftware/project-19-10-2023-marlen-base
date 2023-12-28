@@ -1,7 +1,7 @@
 <template>
-    <div :class="`faq-block`" :style="`max-height: ${show_answer? `${height}px` : '100px'}`">
+    <div :class="`faq-block`" :style="`max-height: ${show_answer? `${height}px` : '100px'}`" @click="change_answer()">
         <div class="faq-block-question" ref="faq_block_question">
-            <img class="faq-block-arrow" src="@/assets/icons/chevron-down.svg" @click="change_answer()" :style="show_answer? 'transform: rotate(-180deg)' : 'transform: rotate(0deg)'">
+            <img class="faq-block-arrow" src="@/assets/icons/chevron-down.svg" :style="show_answer? 'transform: rotate(-180deg)' : 'transform: rotate(0deg)'">
             <div class="faq-block-question-text">
                 {{ question }}
             </div>
