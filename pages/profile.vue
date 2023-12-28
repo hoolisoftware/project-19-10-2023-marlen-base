@@ -75,7 +75,7 @@ const updateProfile = (value: object) => {
           <div class="profile-uid_input-text">
             <div class="profile-uid_input-text-div">Ваш UID</div>
             <info-circle @mouseover="show_uid_info=true" @mouseleave="show_uid_info=false"/>
-            <div :style="show_uid_info? 'opacity:1;':'opacity:0'" class="profile-uid_input-info">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
+            <div :style="show_uid_info? 'opacity:1;':'opacity:0; z-index: -1;'" class="profile-uid_input-info">Тут вот где-то должно быть объяснение что такое UID и как его достать, но т.к. я не знаю, что это такое, я оставлю этот текст</div>
           </div>
           <div class="profile-uid_input-field">
             <input
@@ -254,7 +254,7 @@ const updateProfile = (value: object) => {
                 Реферальная ссылка
               </div>
               <info-circle class="profile-referral-title-info-circle" @mouseover="show_referral_info=true" @mouseleave="show_referral_info=false"/>
-              <div :style="show_referral_info? 'opacity:1;':'opacity:0'" class="profile-referral-title-info">Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!</div>
+              <div :style="show_referral_info? 'opacity:1;':'opacity:0; z-index: -1;'" class="profile-referral-title-info">Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!Скиньте эту ссылку для бонусов!!!</div>
             </div>
             <div class="profile-referral-field" @click="copyReferealInput()">
               <div class="profile-referral-field-text">{{ ReferralInput }}</div>
@@ -340,12 +340,12 @@ export default {
       relative_cost_pos: 0,
       relative_status_pos: 0,
       show_uid_info: false,
+      show_referral_info: false,
       show_mobile_profile: false,
       UIDInput: "1234567890",
       ReferralInput: "https://kleewish.com/?ref=5044436150",
       show_copied_modal: false,
       selected: selected,
-      show_referral_info: false,
     }
   },
   methods: {
@@ -720,11 +720,13 @@ $large: 1100px;
       @extend .profile-copied;
       transition: all 0s ease;
       opacity: 1;
+      z-index: 5;
     }
     &-hide {
       @extend .profile-copied;
       transition: all 0.9s ease;
       opacity: 0;
+      z-index: -1;
     }
   }
 

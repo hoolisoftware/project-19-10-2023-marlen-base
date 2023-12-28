@@ -253,6 +253,13 @@ $sliderLeftEdgeBorderDark:  #ffffff;
 $sliderRightEdgeBackgroundDark: #ffffff;
 $sliderRightEdgeBorderDark: #606060;
 
+$faqBlockBackground: #ffffff;
+$faqBlockBackgroundDark: #000000;
+$faqAnswerColor: #3D3D3D;
+$faqAnswerColorDark: #E2E2E2;
+$faqBlockBorder: 1px #DBC1AB solid;
+$faqBlockBorderDark: 1px #000000 solid;
+
 [data-theme='light'] {
   --loader-background: #{$loaderBackgroundLight};
   --loader-box: #{$loaderBoxLight};
@@ -378,6 +385,10 @@ $sliderRightEdgeBorderDark: #606060;
   --slider-left-edge-border: #{$sliderLeftEdgeBorder};
   --slider-right-edge-background: #{$sliderRightEdgeBackground};
   --slider-right-edge-border: #{$sliderRightEdgeBorder};
+
+  --faq-block-background: #{$faqBlockBackground};
+  --faq-answer-color: #{$faqAnswerColor};
+  --faq-block-border: #{$faqBlockBorder};
 }
 
 [data-theme='dark'] {
@@ -506,4 +517,8 @@ $sliderRightEdgeBorderDark: #606060;
   --slider-left-edge-border: #{$sliderLeftEdgeBorderDark};
   --slider-right-edge-background: #{$sliderRightEdgeBackgroundDark};
   --slider-right-edge-border: #{$sliderRightEdgeBorderDark};
+
+  --faq-block-background: #{$faqBlockBackgroundDark};
+  --faq-answer-color: #{$faqAnswerColorDark};
+  --faq-block-border: #{$faqBlockBorderDark};
 }
