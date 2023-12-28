@@ -64,6 +64,7 @@ export default {
     height: auto;
     max-height: 100px;
     border: var(--faq-block-border);
+    cursor: pointer;
     &-short {
         @extend .faq-block;
         max-height: 100px;
@@ -105,7 +106,7 @@ export default {
         color: var(--faq-answer-color);
         margin-left: 63px;
         margin-right: 63px;
-        margin-bottom: 72px;
+        margin-bottom: 37px;
         transition: 0.3s;
         @media (max-width: 500px) {
             margin-right: 19px;
