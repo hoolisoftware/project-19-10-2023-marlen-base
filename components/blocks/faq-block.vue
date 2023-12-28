@@ -40,7 +40,7 @@ export default {
         this.$refs.faq_block_question.style["margin-top"] = `${question_margin_top}px`
         let faq_answer = document.querySelector(".faq-block-answer")?.getBoundingClientRect()
         let faq_block = document.querySelector(".faq-block")?.getBoundingClientRect()
-        this.height = faq_answer.bottom-faq_block.top+72+1
+        this.height = faq_answer.bottom-faq_block.top+37+1
     },
   },
   mounted() {
