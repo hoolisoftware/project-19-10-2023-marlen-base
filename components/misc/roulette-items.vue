@@ -43,7 +43,7 @@ export default {
             animationDuration: null,
             clicked: false,
             instantly: false,
-            bufferItems: 2,
+            bufferItems: 3,
             min_items: 21,
             max_items: 41,
             min_animation_duration: 6000,
