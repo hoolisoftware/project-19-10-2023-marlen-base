@@ -53,6 +53,12 @@ export default {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  height: fit-content;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
 
   @media (min-width: 1024px) {
     display: grid;
@@ -65,6 +71,7 @@ export default {
   &__img-box {
     width: 261px;
     margin-bottom: 28px;
+    height: fit-content;
 
     @media (min-width: 1024px) {
       margin-bottom: 0;
@@ -115,6 +122,12 @@ export default {
   &__price {
     font-size: 32px;
     font-weight: 700;
+    &-box {
+      display: flex;
+      flex-direction: column;
+      margin-top: auto;
+      margin-bottom: 0px;
+    }
   }
 }
 </style>
