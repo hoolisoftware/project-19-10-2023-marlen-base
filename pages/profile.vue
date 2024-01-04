@@ -42,8 +42,8 @@ const updateProfile = (value: object) => {
           <div class="profile-cash_left">
             <div class="profile-cash_left-text" style="white-space: nowrap;">Ваш баланс</div>
             <div>
-              <animated-number :value="data?.data.user.balance" style="font-size: 20px; font-weight: 700;"/>
-              <img alt="moon" src="/img/icons/moon.png" />
+              <animated-number :value="data?.data.user.balance" :style="`font-size: 20px; font-weight: 700; color: ${theme.darkTheme? 'white':'black'};`"/>
+              <nuxt-img alt="moon" src="/img/mor.png" />
             </div>
           </div>
           <div>
@@ -60,7 +60,7 @@ const updateProfile = (value: object) => {
             <div>Выбито на сумму</div>
             <div>
               <div style="height: 14px;">{{ statsData?.data.stats.case_opened_mora }}</div>
-              <img src="/img/icons/moon.png" alt="Мун" />
+              <nuxt-img alt="moon" src="/img/mor.png" />
             </div>
           </div>
           <div class="profile-stat_item">
@@ -108,7 +108,7 @@ const updateProfile = (value: object) => {
             </div>
             <div class="profile-mobile-side_info-balance">
               <span style="font-size: 18px; font-weight: 400; padding-right: 5px;">{{ data?.data.user.balance }}</span> 
-              <img alt="moon" src="/img/icons/moon.png" style="width: 14px; height: 14px;"/>
+              <nuxt-img alt="moon" src="/img/mor.png" style="width: 14px; height: 14px;"/>
             </div>
           </div>
           <img src="@/assets/icons/chevron-down.svg" class="profile-mobile-arrow" @click="change_mobile_profile_visibility()" :style="show_mobile_profile? 'transform: rotate(-180deg)' : 'transform: rotate(0deg)'">
@@ -123,7 +123,7 @@ const updateProfile = (value: object) => {
             <div>Выбито на сумму</div>
             <div>
               {{ statsData?.data.stats.case_opened_mora }}
-              <img src="/img/icons/moon.png" alt="Мун" />
+              <nuxt-img alt="moon" src="/img/mor.png" />
             </div>
           </div>
           <div class="profile-mobile-stat_item">
@@ -282,7 +282,7 @@ const updateProfile = (value: object) => {
                 </div>
                 <div class="profile-referral-stats-right">
                   1000
-                  <img alt="moon" src="/img/icons/moon.png" style="width: 14px; height: 14px; margin-left: 4px; align-self: center;"/>
+                  <nuxt-img alt="moon" src="/img/mor.png" style="width: 14px; height: 14px; margin-left: 4px; align-self: center;"/>
                 </div>
               </div>
               <div class="profile-referral-stat">
