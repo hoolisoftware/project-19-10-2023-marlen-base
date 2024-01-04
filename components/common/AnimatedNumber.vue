@@ -4,7 +4,7 @@
 
 <template>
     <div id="odometer" class="odometer" :style="`height: ${height}px;`">
-        <div v-for="digit in String(value)" class="odometer-num" :style="`height: ${height*10}px;width: ${width[Number(digit)]}px; transform: translateY(${-Number(digit)*height}px); transition: ${animation? 0.5:0}s`">
+        <div v-for="digit in String(value)" class="odometer-num" :style="`height: ${height*10}px;width: ${width[Number(digit)]}px; transform: translateY(${-Number(digit)*height}px); transition: ${animation? 0.5:0}s !important;`">
             <div class="odometer-num-component" :style="`height: ${height}px;`">0</div>
             <div class="odometer-num-component" :style="`height: ${height}px;`">1</div>
             <div class="odometer-num-component" :style="`height: ${height}px;`">2</div>

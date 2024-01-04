@@ -25,9 +25,7 @@ const handleSubmit = () => {
     <div class="modal" v-if="modals.isModalShown('review')">
       <div v-if="isSuccess && data" class="modal-content-success">
         <div class="modal-content_top">
-          <div class="modal-content_close" v-on:click="modals.hideModal('review')">
-            <img src="@/assets/icons/x.svg"/>
-          </div>
+          <close-button class="modal-content_close" v-on:click="modals.hideModal('review')"/>
         </div>
         <div class="modal-content_body-success">
           <svg width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,9 +41,7 @@ const handleSubmit = () => {
       </div>
       <div class="modal-content-error" v-else-if="isError && error?.response?.data?.heading">
           <div class="modal-content_top">
-            <div class="modal-content_close" v-on:click="modals.hideModal('review')">
-              <img src="@/assets/icons/x.svg"/>
-            </div>
+            <close-button class="modal-content_close" v-on:click="modals.hideModal('review')"/>
           </div>
           <div class="modal-content_body-error">
               <svg class="modal-content_body-warning" width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,12 +54,10 @@ const handleSubmit = () => {
       </div>
       <div v-else class="modal-content">
         <div class="modal-content_top">
-          <div class="modal-content_close" v-on:click="modals.hideModal('review')">
-            <img src="@/assets/icons/x.svg"/>
-          </div>
+          <close-button class="modal-content_close" v-on:click="modals.hideModal('review')"/>
           <div class="modal-content_title">Оставить отзыв</div>
         </div>
-        <form @submit.prevent="onSubmit" class="modal-content_body">
+        <form @submit.prevent="() => {onSubmit(() => {handleSubmit()})}" class="modal-content_body">
             <div class="review-opinion">
                 <div class="review-opinion-choose">
                     <div class="review-opinion-positive" @click="() => formData.isPositive = true">
@@ -108,9 +102,11 @@ const handleSubmit = () => {
 
 <script>
 import MediumButton from "@/components/buttons/medium-button.vue";
+import CloseButton from '@/components/common/CloseButton'
 
 export default {
   name: "new-modal-review",
+  components: {CloseButton},
   data() {
     return {
       reviewText: null,
@@ -125,10 +121,10 @@ export default {
   },
 
   methods: {
-    async onSubmit() {
+    async onSubmit(handleSubmit) {
       try {
         const token = await this.$recaptcha.execute('login')
-        //handleSubmit()
+        handleSubmit()
         console.log('ReCaptcha token:', token)
       } catch (error) {
         console.log('Review error:', error)
@@ -421,17 +417,9 @@ export default {
     }
 
     &_close {
-      display: flex;
-      opacity: 1;
-      transition: opacity 0.3s ease;
-      cursor: pointer;
       margin-right: 0px;
       margin-left: auto;
       width: fit-content;
-
-      &:hover {
-        opacity: 0.7;
-      }
     }
 
     &_capcha {
