@@ -18,8 +18,8 @@ const theme = useThemeStore()
       <div class="case-cost">
         <div>Стоимость</div>
         <div>
+          <span style="height: min-content;">{{ cost }}</span>
           <nuxt-img alt="moon" src="/img/mor.png" />
-          <span>{{ cost }}</span>
         </div>
       </div>
       <medium-button style="width: 155px;" text="Открыть" v-on:click="!inCase ? false : modals.showModal('caseOpen')" />

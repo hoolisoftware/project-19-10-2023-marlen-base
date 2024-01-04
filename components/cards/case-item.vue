@@ -1,8 +1,8 @@
 <template>
   <div class="item">
     <div class="item-cost">
+      <div style="height: 15px;">{{cost}}</div>
       <nuxt-img format="webp" src="/img/mor.png"/>
-      <div>{{cost}}</div>
     </div>
     <div class="item-image">
       <nuxt-img format="webp" :src="image"/>

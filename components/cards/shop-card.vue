@@ -15,9 +15,9 @@ const theme = useThemeStore()
       <div class="case-cost">
         <div>Стоимость</div>
         <div>
+          <span>{{ cost }}</span>
           <img alt="moon"
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKrSURBVHgBTZLNTxNBGMaf2Zn9XpZtqSKosVHESgjGoImJGjEa9WiI8WRiwBhvHPDGyYSrCd70hvgPePHjwsEEJSIq8hW+LIIUKf2i3ZbtbtttHQ8QJ5lkMnmed+b5vS/Bf2thYqLBOGT2qZJ/hyB50sktEsXUZjf/lMamZueHenqere1pyd5henz0QUv7macicy1vdwWKsYGKayPz6xvUBg1UPp7+PC08vnmzf2TfOPVx5H5b5/WXmbUZMKyjrqkOTnYZTHbgFRzktuOwcx6OnTmLxZ+B3otd/cPk/evn4a4bVyfjC+Oh+mABcr0BUfGRWf0BQWS8bA1KkMJO5hFbSOD4ua5seruhhYXD1b7d1HAIXh6S2YRyMc+NMiBwS7UGQVFQcor86zqYRLGzNmMJ0oE+FrScK5loAgdaGrExuQSByAhfbOUhBEhGEOnYFrLROHyfAmUXqysZHI6wbqFc2u3wHB+EVnGo4yCIpMKO2/A9BYnoNuJz65DUemS3UihkbFSKJbiZbCtz8imUSy6HUELND/G9jJVPq/CcCoSqD9d2UdhIwDraxIHZ8HJFXqRAWXxxK0prlVO5GOUXX7EVTfJsPhipoeRWUHbKCDWb2NlMQLUM3gYflPhz9FZHsNlQzMtuNontWAZWUOYvAdlUHjJn1Nga4MIqRE1GjVTAGEVVk9/S8+2RhYDoPNxNpWVaq2KH50tz9JougYgCCjkHii5Cs2RQRkBU3QtGmu/S0S+r+UijXqQl71YuX4Z5UIXBapBVCk0TYSgURK6HFDRAJQK7enrg0u0X7/ZH7sm9toHIUX3wSDgg6KYISZEgqgxag85pD8Kxv7ux3/GBts5HQ//0dM/4YSY5dq3dfOUxEtAtKSRpsqlYTRDqDid88cTw/BLp7bzQ/WZP/xcxCyDDiOREJwAAAABJRU5ErkJggg==" />
-          <span>{{ cost }}</span>
         </div>
       </div>
       <NuxtLink :to="`/purchase/${id}/`">

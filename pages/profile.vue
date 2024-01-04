@@ -40,10 +40,10 @@ const updateProfile = (value: object) => {
         </div>
         <div class="profile-cash">
           <div class="profile-cash_left">
-            <div style="white-space: nowrap;">Ваш баланс</div>
+            <div class="profile-cash_left-text" style="white-space: nowrap;">Ваш баланс</div>
             <div>
-              <img alt="moon" src="/img/icons/moon.png" />
               <animated-number :value="data?.data.user.balance" style="font-size: 20px; font-weight: 700;"/>
+              <img alt="moon" src="/img/icons/moon.png" />
             </div>
           </div>
           <div>
@@ -59,15 +59,15 @@ const updateProfile = (value: object) => {
           <div class="profile-stat_item">
             <div>Выбито на сумму</div>
             <div>
+              <div style="height: 14px;">{{ statsData?.data.stats.case_opened_mora }}</div>
               <img src="/img/icons/moon.png" alt="Мун" />
-              {{ statsData?.data.stats.case_opened_mora }}
             </div>
           </div>
           <div class="profile-stat_item">
             <div>Выбито кристаллов</div>
             <div>
+              <div style="height: 14px;">{{ statsData?.data.stats.crystals_obtained }}</div>
               <img src="/img/icons/crystall.png" alt="Кристаллов" />
-              {{ statsData?.data.stats.crystals_obtained }}
             </div>
           </div>
         </div>
@@ -122,15 +122,15 @@ const updateProfile = (value: object) => {
           <div class="profile-mobile-stat_item">
             <div>Выбито на сумму</div>
             <div>
-              <img src="/img/icons/moon.png" alt="Мун" />
               {{ statsData?.data.stats.case_opened_mora }}
+              <img src="/img/icons/moon.png" alt="Мун" />
             </div>
           </div>
           <div class="profile-mobile-stat_item">
             <div>Выбито кристаллов</div>
             <div>
-              <img src="/img/icons/crystall.png" alt="Кристаллов" />
               {{ statsData?.data.stats.crystals_obtained }}
+              <img src="/img/icons/crystall.png" alt="Кристаллов" />
             </div>
           </div>
         </div>
@@ -1135,7 +1135,7 @@ $large: 1100px;
       flex-direction: column;
       gap: 5px;
 
-      & div:nth-child(1) {
+      &-text {
         display: flex;
         font-style: normal;
         font-weight: 500;
@@ -1152,6 +1152,7 @@ $large: 1100px;
         font-weight: 700;
         font-size: 18px;
         line-height: 22px;
+        color: black;
 
         & img {
           width: 22px;

@@ -4,8 +4,8 @@
     
   >
     <div class="item-cost">
+      <div style="height: 15px;">{{cost}}</div>
       <nuxt-img format="webp" src="/img/mor.png" :style="(instantly? 'transition: 0.0s;' : '')"/>
-      <div>{{cost}}</div>
     </div>
     <div class="item-image">
       <nuxt-img format="webp" :src="image" :style="(instantly? 'transition: 0.0s;' : '')"/>

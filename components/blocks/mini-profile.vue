@@ -10,8 +10,8 @@ const { data, isLoading } = useUserSelf()
   <div class="mini-profile">
     <div class="profile">
       <div class="profile-cash" v-on:click="modals.showModal('deposit')">
-        <nuxt-img alt="moon" src="/img/mor.png" />
         <div>{{ data?.data.user ? `${data?.data.user.balance}` : "Загрузка..." }}</div>
+        <nuxt-img alt="moon" src="/img/mor.png" />
       </div>
       <nuxt-link :to="{ name: 'profile' }">
         <img v-if="data?.data.user.photo_url" :src="data?.data.user.photo_url" alt="" class="profile-avatar">
