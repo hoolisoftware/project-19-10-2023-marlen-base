@@ -63,7 +63,7 @@ const handleSubmit = () => {
           </div>
           <div class="modal-content_title">Оставить отзыв</div>
         </div>
-        <form @submit.prevent="handleSubmit" class="modal-content_body">
+        <form @submit.prevent="onSubmit" class="modal-content_body">
             <div class="review-opinion">
                 <div class="review-opinion-choose">
                     <div class="review-opinion-positive" @click="() => formData.isPositive = true">
@@ -96,7 +96,7 @@ const handleSubmit = () => {
           {{ error?.response?.data?.heading }}
           <!--<input type="checkbox" name="is_positive" v-model="formData.isPositive" hidden>-->
           <div class="modal-content_bottom">
-            <img src="@/assets/images/capcha.png" class="modal-content_capcha"/>
+            <!--<img src="@/assets/images/capcha.png" class="modal-content_capcha"/>-->
             <medium-button class="modal-content_button" color="#DBC1AB" :text="isLoading ? 'Отправляется...' : 'Отправить'" type="submit" style="padding: 0px"
                 :disabled="isLoading" />
           </div>
@@ -115,6 +115,28 @@ export default {
     return {
       reviewText: null,
     }
+  },
+  async mounted() {
+    try {
+      await this.$recaptcha.init()
+    } catch (e) {
+      console.log(e);
+    }
+  },
+
+  methods: {
+    async onSubmit() {
+      try {
+        const token = await this.$recaptcha.execute('login')
+        //handleSubmit()
+        console.log('ReCaptcha token:', token)
+      } catch (error) {
+        console.log('Review error:', error)
+      }
+    },
+  },
+  beforeDestroy() {
+    this.$recaptcha.destroy()
   }
 }
 </script>

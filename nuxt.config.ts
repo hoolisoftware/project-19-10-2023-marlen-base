@@ -25,6 +25,16 @@ export default defineNuxtConfig({
       linkExactActiveClass: "exact-active"
     }
   },
+  runtimeConfig: {
+    public: {
+      grecaptcha: {
+        hideBadge: true,
+        mode: "enterprise",
+        siteKey: "6LeREkEpAAAAAHMzA9yMY_ybkrhRBqeRCTK4Qwiq",
+        version: 3,
+      },
+    },
+  },
   // image: {
   //   dir: 'assets'
   // }

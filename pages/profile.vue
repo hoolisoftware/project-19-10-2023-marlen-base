@@ -43,7 +43,7 @@ const updateProfile = (value: object) => {
             <div style="white-space: nowrap;">Ваш баланс</div>
             <div>
               <img alt="moon" src="/img/icons/moon.png" />
-              <span style="font-size: 20px; font-weight: 700;">{{ data?.data.user.balance }}</span>
+              <animated-number :value="data?.data.user.balance" style="font-size: 20px; font-weight: 700;"/>
             </div>
           </div>
           <div>
@@ -310,6 +310,7 @@ import infoCircle from "@/components/images/info-circle.vue";
 import inventoryItem from "@/components/cards/inventory-item.vue";
 import newInventoryItem from "@/components/cards/new-inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
+import AnimatedNumber from "@/components/common/AnimatedNumber.vue"
 import { modalStore } from "~/store/modal";
 import Loader from "~/components/loaders/Loader.vue";
 
@@ -330,6 +331,7 @@ export default {
     titleSection,
     newInventoryItem,
     infoCircle,
+    AnimatedNumber,
   },
   data() {
     let selected: Number[] = [];
@@ -346,6 +348,7 @@ export default {
       ReferralInput: "https://kleewish.com/?ref=5044436150",
       show_copied_modal: false,
       selected: selected,
+      test: 2999,
     }
   },
   methods: {
