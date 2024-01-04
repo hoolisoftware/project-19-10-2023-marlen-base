@@ -64,9 +64,13 @@ export default {
     box-sizing: border-box;
     padding: 25px;
     gap: 35px;
-      overflow: hidden;
+    width: 550px;
+    overflow: hidden;
     @media(max-width: 400px) {
       gap: 20px;
+    }
+    @media(max-width: 600px) {
+      width: 90%;
     }
 
     &_body {

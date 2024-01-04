@@ -155,12 +155,12 @@ export default {
         position: relative;
         display: flex;
         flex-direction: row;
-        width: 550px;
+        width: 100%;
         height: 180px;
-        justify-content: center;
-        @media(max-width: 620px) {
-            max-width: 90vw;
+        @media (max-width: 620px) {
+            height: 140px;
         }
+        justify-content: center;
     }
     &-overflow {
       overflow: hidden;
