@@ -6,15 +6,15 @@ const theme = useThemeStore()
 </script>
 
 <template>
-  <div :class="'case' + (!showBorder ? ' case-wb' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
-    <div>
-      <div :class="'case-image' + (!showBorder ? ' case-image_wb' : '')">
-        <img format="webp" :quality="showBorder ? 90 : 100" :width="showBorder ? 190 : 300" :height="showBorder ? 190 : 300"
+  <div :class="'case' + (inCase ? ' case-ic' : '')" :data-theme="theme.darkTheme ? 'dark' : 'light'">
+    <div :class="`case-top${inCase? '-ic':''}`">
+      <div :class="'case-image' + (inCase ? ' case-image_ic' : '')">
+        <img format="webp" :quality="!inCase ? 90 : 100"
           :src="image" alt="Кейс" />
       </div>
     </div>
-    <div class="case-title">{{ title }}</div>
-    <div class="case-bottom">
+    <div class="case-title" v-if="!inCase">{{ title }}</div>
+    <div class="case-bottom" :style="`margin-top: ${inCase? 30 : 0}px;`">
       <div class="case-cost">
         <div>Стоимость</div>
         <div>
@@ -22,7 +22,7 @@ const theme = useThemeStore()
           <span>{{ cost }}</span>
         </div>
       </div>
-      <medium-button text="Открыть" v-on:click="showBorder ? false : modals.showModal('caseOpen')" />
+      <medium-button style="width: 155px;" text="Открыть" v-on:click="!inCase ? false : modals.showModal('caseOpen')" />
     </div>
   </div>
 </template>
@@ -35,11 +35,11 @@ export default {
     title: String,
     image: String,
     cost: Number,
-    showBorder: {
+    inCase: {
       type: Boolean,
       required: false,
-      default: true
-    }
+      default: false
+    },
   },
   components: { mediumButton },
   name: "card",
@@ -73,11 +73,7 @@ export default {
     color: var(--modal-text);
   }
 
-  &:hover>.case-image>img {
-    transform: scale(1.06);
-  }
-
-  &-wb {
+  &-ic {
     background: none;
     border: none;
     width: auto;
@@ -102,6 +98,11 @@ export default {
     flex-direction: row;
     justify-content: space-between;
   }
+  &-top {
+    &-ic {
+      height: 240px;
+    }
+  }
 
   &-image {
     display: inline-block;
@@ -116,15 +117,21 @@ export default {
       max-width: 190px;
       max-height: 190px;
       transition: 0.3s;
+      &:hover {
+        transform: scale(1.06);
+      }
     }
 
-    &_wb {
-      width: 340px;
-      height: 340px;
+    &_ic {
+      width: 320px;
+      height: 240px;
 
       & img {
-        max-width: 340px;
-        max-height: 340px;
+        max-width: 280px;
+        max-height: 280px;
+        &:hover {
+          transform: scale(1);
+        }
       }
     }
   }

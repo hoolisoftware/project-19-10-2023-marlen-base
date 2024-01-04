@@ -45,18 +45,18 @@ export default {
   width: 200px;
   height: 200px;
   transition: 0.3s;
-  cursor: pointer;
 
   background: var(--case-background);
   border: var(--case-border);
   border-radius: 28px;
 
-  &:hover > .item-image > img {
+  /* &:hover > .item-image > img {
     transform: scale(1.1);
   }
+  cursor: pointer;
   &:hover {
     transform: scale(0.98);
-  }
+  } */
 
   &-cost {
     display: flex;

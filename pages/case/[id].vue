@@ -24,7 +24,7 @@ const { data: SimilarCasesData, isLoading: isLoadingSimilarCases } = useSimilarC
           :title='data?.data.case.name'
           :image='SERVER_URL+data?.data.case.photo_url'
           :cost="data?.data.case.price"
-          :show-border="false"/>
+          :in-case="true"/>
       </div>
       <h2 class="page-items">Что может выпасть?</h2>
       <div class="page-items">
