@@ -30,10 +30,10 @@ const { data: userData, isLoading: userIsLoading } = useUserSelf()
 <template>
   <div class="page">
     {{ auth.user }}
-    <title-section text="Отзывы" :info="`${data?.pages[0].data.count} ${getNoun(data?.pages[0].data.count, 'отзыв', 'отзыва', 'отзывов')}`" />
+    <title-section id="title" style="width: fit-content; align-self: center;" text="Отзывы" :info="`${data?.pages[0].data.count} ${getNoun(data?.pages[0].data.count, 'отзыв', 'отзыва', 'отзывов')}`" />
     <div class="reviews">
       <loader v-if="isLoading || userIsLoading"/>
-      <div class="reviews-list" v-else-if="data?.pages">
+      <div :style="`margin-right: ${margin_right}px;`" id="reviews-list" class="reviews-list" v-else-if="data?.pages">
         <review-user v-if="auth.kwt"/>
         <template v-for="page in data.pages">
           <template v-for="review in filteredReviews(page.data.reviews, userData?.data?.user?.id)" :key="review.id">
@@ -74,6 +74,30 @@ export default {
     reviewItem,
     reviewStats,
     titleSection
+  },
+  data() {
+    return {
+      margin_right: 0,
+    }
+  },
+  methods: {
+    async get_margin() {
+      let title = document.querySelector("#title")
+      let reviews_list = document.querySelector("#reviews-list")
+      while (reviews_list === null) {
+        await new Promise(r => setTimeout(r, 30));
+        reviews_list = document.querySelector("#reviews-list")
+      } 
+      if (window.innerWidth <= 1100) {
+        this.margin_right = 0
+      } else {
+        this.margin_right = Number(reviews_list?.getBoundingClientRect().right)-Number(title?.getBoundingClientRect().right)+this.margin_right
+      }
+    }
+  },
+  mounted() {
+    this.get_margin()
+    window.addEventListener('resize', this.get_margin)
   }
 }
 </script>
@@ -130,6 +154,8 @@ select {
     display: flex;
     flex-direction: column;
     gap: 7px;
+    margin-right: 0px;
+    margin-left: auto;
 
     @media(max-width: 1100px) {
       width: 100%;
