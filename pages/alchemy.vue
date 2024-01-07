@@ -2,8 +2,8 @@
   <div class="alchemy">
     <h1 class="heading1 alchemy__title">Алхимия</h1>
     <div class="alchemy__grid">
-      <AlchemyCircle/>
-      <AlchemyPrizes/>
+      <AlchemyCircle :percent="60" class="alchemy__circle"/>
+      <AlchemyPrizes class="alchemy__prizes"/>
     </div>
   </div>
 </template>
@@ -13,6 +13,15 @@
   padding-top: 67px;
   padding-bottom: 20px;
   margin: 0 auto;
+
+  &__circle {
+    min-height: 580px;
+    min-width: 460px;
+  }
+
+  &__prizes {
+    width: fit-content;
+  }
 
   @media (min-width: 1024px) {
     max-width: 980px;
@@ -25,20 +34,14 @@
   }
 
   &__grid {
-    display: grid;
-    grid-gap: 50px 20px;
-    max-width: 400px;
-    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    grid-gap: 50px 210px;
+    width: fit-content;
 
-    @media (min-width: 1024px) {
-      grid-template: auto / 1.2fr 1fr;
-      max-width: unset;
-      margin: 0;
-    }
-
-    @media (min-width: 1200px) {
-      grid-template: auto / 1.2fr 1fr;
-      grid-gap: 50px 92px;
+    @media (max-width: 1200px) {
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

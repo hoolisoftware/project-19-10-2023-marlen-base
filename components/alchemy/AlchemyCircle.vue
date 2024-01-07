@@ -45,7 +45,9 @@
                 :y="cy"
                 class="circle__percent-text"
                 :style="{'transform-origin':cx+'px '+cy+'px'}"
-                fill="white">
+                fill="white"
+                text-anchor="middle"
+                dominant-baseline="middle">
               {{ percent }}%
             </text>
           </svg>
@@ -220,7 +222,7 @@
   }
 
   &__percent-text {
-    transform: translate(4px, 10px) rotate(-90deg);
+    transform: translateX(1px) rotate(-90deg);
     font-size: 12px;
     stroke: #fff;
     stroke-width: 0.3px;
@@ -235,21 +237,43 @@ import {useWindowSize} from 'vue-window-size';
 export default {
   components: {Button},
 
-  setup() {
-    const {width} = useWindowSize();
-    const radius = (width < 1024) ? 91 : 136;
-    const percent = 33;
-    const angle = (360 / 100) * percent;
-    const circumference = 2 * Math.PI * radius;
-    const strokeDasharray = (angle / 360) * circumference;
-    const strokeArray = `${strokeDasharray}, ${circumference - strokeDasharray}`
-    const cx = 160 + Math.cos((angle * Math.PI) / 180) * radius
-    const cy = 160 + Math.sin((angle * Math.PI) / 180) * radius
+  props: {
+    percent: {
+      type: Number,
+      required: true,
+    }
+  },
+
+  methods: {
+    define(percent) {
+      const {width} = useWindowSize();
+      const radius = (width < 1024) ? 91 : 136;
+      const angle = (360 / 100) * percent;
+      const circumference = 2 * Math.PI * radius;
+      const strokeDasharray = (angle / 360) * circumference;
+      const strokeArray = `${strokeDasharray}, ${circumference - strokeDasharray}`
+      const cx = 160 + Math.cos((angle * Math.PI) / 180) * radius
+      const cy = 160 + Math.sin((angle * Math.PI) / 180) * radius
+      this.strokeArray = strokeArray
+      this.cx = cx
+      this.cy = cy
+    }
+  },
+
+  data() {
     return {
-      strokeArray,
-      cx,
-      cy,
-      percent,
+      strokeArray: [],
+      cx: 0,
+      cy: 0,
+    }
+  },
+  mounted() {
+    this.define(this.percent)
+  },
+
+  watch: {
+    percent(newValue) {
+      this.define(newValue)
     }
   }
 }
