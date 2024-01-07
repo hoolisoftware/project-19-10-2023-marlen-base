@@ -142,7 +142,7 @@
       border: 1px solid #242424;
       border-radius: 30px;
       gap: 4px;
-      z-index: 2;
+      z-index: 20;
       & img {
         display: flex;
         height: 12px;
