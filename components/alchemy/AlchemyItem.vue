@@ -55,7 +55,7 @@
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    padding: 17px 0;
+    padding-top: 12px;
     width: 108px;
     height: 108px;
     transition: 0.3s;
@@ -90,7 +90,7 @@
       display: flex;
       position: absolute;
       align-items: center;
-      width: 46px;
+      padding: 0px 6px;
       height: 22px;
       right: 8px;
       top: 8px;
@@ -121,15 +121,14 @@
       align-items: center;
       font-style: normal;
       font-weight: 600;
-      font-size: 8px;
-      line-height: 9px;
+      font-size: 10px;
+      line-height: 12px;
       color: #FFFFFF;
-      max-width: 56px;
+      max-width: 108px;
       text-align: center;
     }
     &-image {
       display: flex;
-      margin-bottom: 2px;
       & img {
         max-width: 100%;
         max-height: 100%;
