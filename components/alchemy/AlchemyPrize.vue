@@ -1,7 +1,7 @@
 <template>
   <div
       class="prize"
-      :class="{'prize--checked':isChecked,'prize--selected':isSelected}"
+      :class="{'prize--checked':isChecked,'prize--selected':isSelected, 'prize--active':isActive}"
   >
     <img
       src=""
@@ -19,17 +19,23 @@
   width: 108px;
   height: 108px;
   border: 1px solid var(--color-prize-border);
+  background-color: #000000;
   border-radius: 8px;
   user-select: none;
   cursor: pointer;
 
   &--checked {
-    border-color: #18C529;
     background-color: var(--color-prize-checked-bg);
+    border-color: var(--color-prize-checked-border);
   }
 
   &--selected {
     background-color: var(--color-prize-selected-bg);
+    border-color: var(--color-prize-selected-border);
+  }
+
+  &--active {
+    border-color: #18C529;
   }
 
   &__img {
@@ -60,6 +66,10 @@ export default {
       default: false
     },
     isChecked: {
+      type: Boolean,
+      default: false
+    },
+    isActive: {
       type: Boolean,
       default: false
     },
