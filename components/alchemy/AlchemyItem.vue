@@ -6,14 +6,16 @@
       </div>
       <div class="item-image">
         <nuxt-img format="webp" :src="image"
-        width="64"
-         height="64"/>
+        width="84"
+         height="84"/>
       </div>
-      <div class="item-title">{{title}}</div>
+    <div class="blur" :class="{'blur--checked':isChecked,'blur--selected':isSelected, 'blur--active':isActive}">
+      <div class="blur-title">{{title}}</div>
+    </div>
     </div>
   </template>
   
-  <script>
+<script>
   export default {
     name: "alchemy-item",
     props: {
@@ -48,6 +50,46 @@
   <style lang="scss" scoped>
   
   @import '../../public/colors.scss';
+  .blur {
+    position: absolute;
+    width: 108px;
+    height: 108px;
+    display: flex;
+    backdrop-filter: blur(2.5px);
+    z-index: 10;
+    border-radius: 8px;
+    transition: 0.3s;
+    opacity: 0;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+        opacity: 1;
+    }
+    border: var(--case-border);
+    &--checked {
+        border: 1px solid var(--color-prize-checked-border);
+    }
+
+    &--selected {
+        border-color: 1px solid var(--color-prize-selected-border);
+    }
+
+    &--active {
+        border: 1px solid  #18C529;
+    }
+    &-title {
+      display: flex;
+      width: 100%;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 12px;
+      color: #FFFFFF;
+      max-width: 90px;
+      text-align: center;
+      text-shadow: 0 0 3px #000000, 0 0 5px #000000;
+    }
+  }
   
   .item {
     display: flex;
@@ -55,7 +97,7 @@
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    padding-top: 12px;
+    justify-content: center;
     width: 108px;
     height: 108px;
     transition: 0.3s;
