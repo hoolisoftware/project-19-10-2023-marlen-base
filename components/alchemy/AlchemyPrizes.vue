@@ -1,16 +1,16 @@
 <template>
   <div class="prizes__prize-list">
     <div class="prizes__prize-grid">
-      <template v-for="i in 9">
+      <template v-for="i in 12">
         <AlchemyPrize
-            :img="'prize'+i+'.png'"
+            :img="'/img/prizes/prize'+i+'.png'"
             :isSelected="i===1"
             :isChecked="(i===7 || i===8)"
             :isActive="(i===8)"
         />
       </template>
-      <template v-for="i in 9">
-        <AlchemyPrize :img="'prize'+i+'.png'"/>
+      <template v-for="i in 12">
+        <AlchemyPrize :img="'/img/prizes/prize'+i+'.png'"/>
       </template>
     </div>
   </div>

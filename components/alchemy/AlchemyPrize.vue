@@ -3,9 +3,13 @@
       class="prize"
       :class="{'prize--checked':isChecked,'prize--selected':isSelected, 'prize--active':isActive}"
   >
-    <img
-      src=""
-      class="lottery-prize__img"
+    <nuxt-img
+      :src="img"
+      class="prize__img"
+      format="avif,webp"
+      densities="x1 x2"
+      width="84"
+      height="84"
     />
   </div>
 </template>
@@ -39,8 +43,8 @@
   }
 
   &__img {
-    width: 84px;
-    height: 84px;
+    width: 84px !important;
+    height: 84px !important;
   }
 
   &__check-icon {

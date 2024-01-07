@@ -11,7 +11,7 @@
           <span class="circle__panel-text">Положите предмет</span>
           <div class="circle__panel-img-box">
             <nuxt-img
-                src="/img/prize2.png"
+                src="/img/prizes/prize7.png"
                 format="avif,webp"
                 densities="x1 x2"
                 width="84"
@@ -23,6 +23,16 @@
         <div class="circle__panel circle__panel--right">
           <nuxt-icon name="plus" class="circle__panel-plus"/>
           <span class="circle__panel-text">Положите предмет</span>
+          <div class="circle__panel-img-box">
+            <nuxt-img
+                src="/img/prizes/prize8.png"
+                format="avif,webp"
+                densities="x1 x2"
+                width="84"
+                height="84"
+                class="circle__panel-img"
+            />
+          </div>
         </div>
         <div class="circle__center">
           <svg class="circle__svg">
@@ -52,7 +62,7 @@
             </text>
           </svg>
           <img
-              src=""
+              src="/img/prizes/prize1.png"
               format="avif,webp"
               densities="x1 x2"
               class="circle__img"
@@ -121,7 +131,8 @@
     border-radius: 8px;
     border: 1px solid var(--color-page-alchemy-panel-border);
     box-shadow: 0 0 25px rgba(0, 0, 0, .1);
-    background-color: var(--color-bg);
+    background-color: var(--color-alchemy-circle-selected-bg);
+    z-index: 5;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-page-alchemy-panel-text);
@@ -183,7 +194,7 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    background-color: var(--color-bg);
+    background-color: var(--color-alchemy-circle-selected-bg);
   }
 
   &__center {
