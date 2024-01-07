@@ -2,11 +2,13 @@
   <div class="prizes__prize-list">
     <div class="prizes__prize-grid">
       <template v-for="i in 12">
-        <AlchemyPrize
-            :img="'/img/prizes/prize'+i+'.png'"
+        <alchemy-item
+            :image="'/img/prizes/prize'+i+'.png'"
             :isSelected="i===1"
             :isChecked="(i===7 || i===8)"
             :isActive="(i===8)"
+            title="Набор начала путешествия"
+            :cost="120"
         />
       </template>
       <template v-for="i in 12">
@@ -56,8 +58,9 @@
 
 <script>
 import AlchemyPrize from "../../components/alchemy/AlchemyPrize.vue";
+import AlchemyItem from "../../components/alchemy/AlchemyItem.vue";
 
 export default {
-  components: {AlchemyPrize}
+  components: {AlchemyPrize, AlchemyItem}
 }
 </script>

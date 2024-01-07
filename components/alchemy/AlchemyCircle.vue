@@ -75,6 +75,10 @@
 </template>
 
 <style lang="scss" scoped>
+
+$shrink_width: 600px;
+$shrink_more_width: 500px;
+
 .circle {
   text-align: center;
 
@@ -82,12 +86,11 @@
     position: relative;
     width: 100%;
     max-width: 443px;
-    margin: 0 auto;
     overflow: hidden;
+    display: flex;
 
     &::before {
       display: block;
-      width: 100%;
       padding-top: 100%;
       content: "";
     }
@@ -96,9 +99,14 @@
       margin-bottom: 20px;
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: $shrink_width) {
       margin-bottom: 97px;
       overflow: unset;
+    }
+    @media (max-width: $shrink_more_width) {
+      width: 300px;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -115,8 +123,11 @@
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(.7);
 
-    @media (min-width: 1024px) {
+    @media (min-width: $shrink_width) {
       transform: translate(-50%, -50%);
+    }
+    @media (max-width: $shrink_more_width) {
+      transform: translate(-50%, -50%) scale(.6);
     }
   }
 
@@ -147,7 +158,7 @@
         left: -70px;
       }
 
-      @media (min-width: 1024px) {
+      @media (min-width: $shrink_width) {
         top: 56px;
         left: -40px;
       }
@@ -162,7 +173,7 @@
         right: -70px;
       }
 
-      @media (min-width: 1024px) {
+      @media (min-width: $shrink_width) {
         top: 56px;
         right: -40px;
       }
@@ -173,7 +184,7 @@
       left: 50%;
       transform: translateX(-50%);
 
-      @media (min-width: 1024px) {
+      @media (min-width: $shrink_width) {
         bottom: -53px;
       }
     }

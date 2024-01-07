@@ -15,7 +15,6 @@
   margin: 0 auto;
 
   &__circle {
-    min-height: 580px;
     min-width: 460px;
   }
 
@@ -28,7 +27,7 @@
   }
 
   &__title {
-    @media (min-width: 1024px) {
+    @media (min-width: 600px) {
       margin-bottom: 64px;
     }
   }
