@@ -107,14 +107,14 @@ const updateProfileData = async () => {
             />
             <nuxt-img v-else src="/img/avatars/no-avatar.png" format="webp" class="profile-mobile-avatar"/>
             <img @click="change_mobile_profile()" class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-dark.svg" v-if="theme.darkTheme" :style="show_mobile_profile? 'opacity: 1' : 'opacity: 0'">
-            <img @click="change_mobile_profile()" v-else class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-light.svg">
+            <img @click="change_mobile_profile()" v-else class="profile-mobile-avatar-edit" src="@/assets/icons/edit-pen-light.svg" :style="show_mobile_profile? 'opacity: 1' : 'opacity: 0'">
           </div>
           <div class="profile-mobile-side_info">
             <div class="profile-mobile-side_info-name">
               {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
             </div>
             <div class="profile-mobile-side_info-balance">
-              <animated-number font_size="20px" :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" style="font-size: 18px; font-weight: 400; padding-right: 5px; color: #A8A8A8; width: min-content;"/>
+              <animated-number font_size="18px" :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" style="font-size: 18px; font-weight: 400; padding-right: 5px; color: #A8A8A8; width: min-content;"/>
               <nuxt-img alt="moon" src="/img/mor.png" style="width: 14px; height: 14px;"/>
             </div>
           </div>
@@ -376,19 +376,13 @@ export default {
       return false
     },
     async updateMaterialInventory(ids: Number[]) {
-      let parent = document.querySelector(`#inventory-items`)?.getBoundingClientRect()
       this.items.filter((item) => (ids.includes(item.id))).forEach((item) => {
         this.items.splice(this.items.indexOf(item), 1)
         if (this.selected.includes(item.id)) {
           this.selected.splice(this.selected.indexOf(item.id), 1)
         }
         let element = document.getElementById(`${item.id}`)
-        let from_top = element?.getBoundingClientRect().y - parent.y
-/*         console.log(from_top)
-        
-        element.style.transition = `all 0.0s`
-        element.style['margin-top'] = `${from_top}px`
-        element.style.transition = `all 0.5s` */
+        element.style['top'] = `${element?.getBoundingClientRect().y}px`
       })
     },
     async updateInventory(ids: Number[], update_inventory_data: Function, update_profile_data: Function) {
@@ -563,7 +557,7 @@ $large: 1100px;
 }
 
 .items-leave-active {
-  position: absolute;
+  position: fixed;
 }
 
 ::-webkit-scrollbar {
