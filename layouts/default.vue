@@ -97,6 +97,8 @@ body[data-theme="dark"] {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  width: 100vw;
 }
 
 .wrapper[data-theme="dark"] {
@@ -108,9 +110,10 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   box-sizing: border-box;
   padding: 80px 40px 40px 40px;
+  overflow-x: hidden;
+  width: 100vw;
 
   @media(max-width: 1100px) {
     padding: 80px 15px 15px 15px;

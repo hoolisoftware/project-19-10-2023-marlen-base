@@ -551,7 +551,7 @@ $medium_large: 950px;
 $large: 1100px;
 
 .page {
-  width: min(100%, 97vw);
+  width: 100%;
   max-width: 1300px;
   overflow-x: hidden;
 }
