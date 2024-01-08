@@ -10,7 +10,7 @@ const { data, isLoading } = useUserSelf()
   <div class="mini-profile">
     <div class="profile">
       <div class="profile-cash" v-on:click="modals.showModal('deposit')">
-        <div>{{ data?.data.user ? `${data?.data.user.balance}` : "Загрузка..." }}</div>
+        <animated-number class="profile-cash-text" :value="data?.data.user ? data?.data.user.balance : 0" font_size="16px"/>
         <nuxt-img alt="moon" src="/img/mor.png" />
       </div>
       <nuxt-link :to="{ name: 'profile' }">
@@ -23,9 +23,10 @@ const { data, isLoading } = useUserSelf()
 
 <script lang="ts">
 import MediumButton from "@/components/buttons/medium-button.vue";
+import AnimatedNumber from "@/components/common/AnimatedNumber.vue"
 export default {
   name: "mini-profile",
-  components: { MediumButton },
+  components: { MediumButton, AnimatedNumber},
 }
 </script>
 
@@ -63,7 +64,7 @@ export default {
       height: 14px;
     }
 
-    & div {
+    &-text {
       display: flex;
       font-style: normal;
       font-weight: 600;

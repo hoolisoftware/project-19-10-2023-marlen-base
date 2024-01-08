@@ -1,7 +1,3 @@
-<script setup>
-</script>
-
-
 <template>
     <div id="odometer" class="odometer" :style="`height: ${height}px;`">
         <div v-for="digit in String(value)" class="odometer-num" :style="`height: ${height*10}px;width: ${width[Number(digit)]}px; transform: translateY(${-Number(digit)*height}px); transition: ${animation? 0.5:0}s !important;`">
@@ -28,6 +24,10 @@ export default {
         value: {
             type: Number,
             required: true,
+        },
+        font_size: {
+            type: String,
+            required: true,
         }
     },
     methods: {
@@ -47,7 +47,7 @@ export default {
         }
     },
     async mounted() {
-        let font_size = getComputedStyle(document.querySelector('.odometer-num-component'))['font-size']
+        let font_size = this.font_size
         let font_family = getComputedStyle(document.querySelector('.odometer-num-component'))['font-family']
         this.width = [
             this.getTextWidth('0', `${font_size} ${font_family}`),

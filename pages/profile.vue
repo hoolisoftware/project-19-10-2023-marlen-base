@@ -49,7 +49,7 @@ const updateProfileData = async () => {
           <div class="profile-cash_left">
             <div class="profile-cash_left-text" style="white-space: nowrap;">Ваш баланс</div>
             <div>
-              <animated-number :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" :style="`font-size: 20px; font-weight: 700; color: ${theme.darkTheme? 'white':'black'};`"/>
+              <animated-number font_size="20px" :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" :style="`font-size: 20px !important; font-weight: 700 !important; color: ${theme.darkTheme? 'white':'black'};`"/>
               <nuxt-img alt="moon" src="/img/mor.png" />
             </div>
           </div>
@@ -114,7 +114,7 @@ const updateProfileData = async () => {
               {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
             </div>
             <div class="profile-mobile-side_info-balance">
-              <animated-number :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" style="font-size: 18px; font-weight: 400; padding-right: 5px; color: #A8A8A8; width: min-content;"/>
+              <animated-number font_size="20px" :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" style="font-size: 18px; font-weight: 400; padding-right: 5px; color: #A8A8A8; width: min-content;"/>
               <nuxt-img alt="moon" src="/img/mor.png" style="width: 14px; height: 14px;"/>
             </div>
           </div>
@@ -211,9 +211,9 @@ const updateProfileData = async () => {
                 Статус
               </div>
             </div>
-            <transition-group name="items" tag="div" class="inventory-items" v-if="activeTab===0">
+            <transition-group name="items" tag="div" class="inventory-items" id="inventory-items" v-if="activeTab===0">
               <div class="inventory-item-container" v-for="(profile_item, index) in ((exclude_items.length !== 0 || selected.length !== 0)? items : (get_inventory(inventoryData?.data.items) || items))"
-              :key="profile_item.id"
+              :key="profile_item.id" :id="`${profile_item.id}`"
               >
                 <new-inventory-item @updateInventory="(val) => {updateInventory(val, updateInventoryData, updateProfileData); updateMaterialInventory(val)}"  
                   :image="SERVER_URL + profile_item.item.photo_url" 
@@ -376,11 +376,19 @@ export default {
       return false
     },
     async updateMaterialInventory(ids: Number[]) {
+      let parent = document.querySelector(`#inventory-items`)?.getBoundingClientRect()
       this.items.filter((item) => (ids.includes(item.id))).forEach((item) => {
         this.items.splice(this.items.indexOf(item), 1)
         if (this.selected.includes(item.id)) {
           this.selected.splice(this.selected.indexOf(item.id), 1)
         }
+        let element = document.getElementById(`${item.id}`)
+        let from_top = element?.getBoundingClientRect().y - parent.y
+        console.log(from_top)
+        
+        element.style.transition = `all 0.0s`
+        element.style['margin-top'] = `${from_top}px`
+        element.style.transition = `all 0.5s`
       })
     },
     async updateInventory(ids: Number[], update_inventory_data: Function, update_profile_data: Function) {
@@ -549,9 +557,18 @@ $large: 1100px;
 /* .items-leave-to {
 } */
 
+@keyframes onlyTranslate {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(var(--ttt));
+  }
+}
+
 .items-leave-to {
+  opacity: 0; 
   transform: translateX(100%);
-  opacity: 0;
 }
 
 .items-leave-active {
