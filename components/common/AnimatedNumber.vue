@@ -65,23 +65,6 @@ export default {
         await new Promise(r => setTimeout(r, 100));
         this.animation = true
     },
-    updated() {
-        let font_size = getComputedStyle(document.querySelector('.odometer-num-component'))['font-size']
-        let font_family = getComputedStyle(document.querySelector('.odometer-num-component'))['font-family']
-        this.height = Number(font_size.replace("px", ''))
-        this.width = [
-            this.getTextWidth('0', `${font_size} ${font_family}`),
-            this.getTextWidth('1', `${font_size} ${font_family}`),
-            this.getTextWidth('2', `${font_size} ${font_family}`),
-            this.getTextWidth('3', `${font_size} ${font_family}`),
-            this.getTextWidth('4', `${font_size} ${font_family}`),
-            this.getTextWidth('5', `${font_size} ${font_family}`),
-            this.getTextWidth('6', `${font_size} ${font_family}`),
-            this.getTextWidth('7', `${font_size} ${font_family}`),
-            this.getTextWidth('8', `${font_size} ${font_family}`),
-            this.getTextWidth('9', `${font_size} ${font_family}`)
-        ]
-    }
 }
 </script>
 

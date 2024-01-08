@@ -7,9 +7,9 @@ const {mutate: sellItemAPI, data: sellItemData, isSuccess: isSuccessSellItem, is
 function orderItem (data: {ids: Number[]}) {
   modals.showModal('order')
 }
-function sellItem(data: {ids: Number[]}) {
-  modals.showModal('sell')
-  //sellItemAPI(data)
+function sellItem(data: {ids: Number[]}, update_function: Function) {
+  update_function(data.ids)
+  sellItemAPI(data)
 }
 </script>
 
@@ -33,7 +33,7 @@ function sellItem(data: {ids: Number[]}) {
       </div>
     </div>
     <div :class="`item-buttons-${status === 'В инвентаре'? 'shown': 'hidden'}`">
-      <div class="item-button-left" @click="status === 'В инвентаре'? (selected? on_sell() : sellItem({ids: [item_id]})) : null"><div>Продать</div></div>
+      <div class="item-button-left" @click="status === 'В инвентаре'? (selected? on_sell() : sellItem({ids: [item_id]}, update_parent)) : null"><div>Продать</div></div>
       <div class="item-button-right" @click="status === 'В инвентаре'? (selected? on_order() : orderItem({ids: [item_id]})) : null"><div>Вывести</div></div>
     </div>
   </div>
@@ -84,6 +84,11 @@ export default {
   },
   components: {
     mediumButton
+  },
+  methods: {
+    update_parent(ids: Number[]) {
+      this.$emit('updateInventory', ids)
+    }
   }
 }
 </script>

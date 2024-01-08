@@ -46,8 +46,8 @@ export default {
             bufferItems: 3,
             min_items: 21,
             max_items: 41,
-            min_animation_duration: 6000,
-            max_animation_duration: 10000,
+            min_animation_duration: 0,
+            max_animation_duration: 0,
         }
     },
     methods: {

@@ -5,15 +5,22 @@ import { useThemeStore } from "~/store/themeNew";
 
 const { data, isLoading } = useUserSelf()
 const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
-const { data: inventoryData } = useInventorySelf()
+let { data: inventoryData } = useInventorySelf()
 const { data: updateData, mutate } = useUserSelfUpdate()
 let theme = useThemeStore();
 
+
 const userGenshinUID = ref('') 
-console.dir(data.value)
 
 const updateProfile = (value: object) => {
   mutate(value)
+}
+
+const updateInventoryData = async () => {
+  return await inventoryData._object.refetch()
+}
+const updateProfileData = async () => {
+  return await data._object.refetch()
 }
 
 </script>
@@ -42,7 +49,7 @@ const updateProfile = (value: object) => {
           <div class="profile-cash_left">
             <div class="profile-cash_left-text" style="white-space: nowrap;">Ваш баланс</div>
             <div>
-              <animated-number :value="data?.data.user.balance" :style="`font-size: 20px; font-weight: 700; color: ${theme.darkTheme? 'white':'black'};`"/>
+              <animated-number :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" :style="`font-size: 20px; font-weight: 700; color: ${theme.darkTheme? 'white':'black'};`"/>
               <nuxt-img alt="moon" src="/img/mor.png" />
             </div>
           </div>
@@ -159,8 +166,8 @@ const updateProfile = (value: object) => {
             <div class="inventory-top_title">
               <h2>Инвентарь</h2>
               <span>
-                {{ inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length }} 
-                {{ getNoun(inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).length, "предмет", "предмета", "предметов") }}
+                {{ (exclude_items.length !== 0? items : (inventoryData? inventoryData.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)) : [])).filter((item) => (!exclude_items.includes(item.id))).length }}
+                {{ getNoun((exclude_items.length !== 0? items : (inventoryData? inventoryData.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)) : [])).filter((item) => (!exclude_items.includes(item.id))).length, "предмет", "предмета", "предметов") }} 
               </span>
 
             </div>
@@ -205,18 +212,22 @@ const updateProfile = (value: object) => {
               </div>
             </div>
             <div class="inventory-items">
-                <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
-                  :image="SERVER_URL + profile_item.item.photo_url" 
-                  :title="profile_item.item.name" 
-                  :cost="`${profile_item.item.price}`"
-                  :id="`inv-item-${index}`"
-                  :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
-                  :item_id="Number(profile_item.id)"
-                  :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
-                  :selected="selected.includes(Number(profile_item.id))"
-                  :on_sell="sellSelected"
-                  :on_order="orderSelected"
-                />
+                <transition-group name="items">
+                  <new-inventory-item @updateInventory="updateInventory" v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).filter((item) => (!exclude_items.includes(item.id)))" 
+                    :image="SERVER_URL + profile_item.item.photo_url" 
+                    :title="profile_item.item.name" 
+                    :cost="`${profile_item.item.price}`"
+                    :id="`inv-item-${index}`"
+                    :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                    :item_id="Number(profile_item.id)"
+                    :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                    :selected="selected.includes(Number(profile_item.id))"
+                    :on_sell="sellSelected"
+                    :on_order="orderSelected"
+                    style="display: inline-block; transition: all 0.5s;"
+                    :key="`inv-item-container-${index}`"
+                  />
+                </transition-group>
             </div>
           </div>
           <template v-else>
@@ -231,8 +242,11 @@ const updateProfile = (value: object) => {
                 Статус
               </div>
             </div>
-            <div class="inventory-items">
-                <new-inventory-item v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold))" 
+            <transition-group name="items" tag="div" class="inventory-items" v-if="activeTab===0">
+              <div class="inventory-item-container" v-for="(profile_item, index) in ((exclude_items.length !== 0 || selected.length !== 0)? items : (get_inventory(inventoryData?.data.items) || items))"
+              :key="profile_item.id"
+              >
+                <new-inventory-item @updateInventory="(val) => {updateInventory(val, updateInventoryData, updateProfileData); updateMaterialInventory(val)}"  
                   :image="SERVER_URL + profile_item.item.photo_url" 
                   :title="profile_item.item.name" 
                   :cost="`${profile_item.item.price}`"
@@ -244,6 +258,25 @@ const updateProfile = (value: object) => {
                   :on_sell="sellSelected"
                   :on_order="orderSelected"
                 />
+              </div>
+            </transition-group>
+            <div class="inventory-items" v-else>
+              <div class="inventory-item-container" v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && this.activeTab === 0 && !item.is_sold) || (item.is_ordered && this.activeTab === 1 && !item.is_sold))"
+              :key="profile_item.id"
+              >
+                <new-inventory-item @updateInventory="(val) => {updateInventory(val, updateInventoryData, updateProfileData); updateMaterialInventory(val)}"  
+                  :image="SERVER_URL + profile_item.item.photo_url" 
+                  :title="profile_item.item.name" 
+                  :cost="`${profile_item.item.price}`"
+                  :id="`inv-item-${index}`"
+                  :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
+                  :item_id="Number(profile_item.id)"
+                  :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
+                  :selected="selected.includes(Number(profile_item.id))"
+                  :on_sell="sellSelected"
+                  :on_order="orderSelected"
+                />
+              </div>
             </div>
           </template>
         </div>
@@ -335,6 +368,7 @@ export default {
   },
   data() {
     let selected: Number[] = [];
+    let exclude_items: Number[] = [];
     return {
       activeTab: 0,
       modals: modalStore(),
@@ -348,10 +382,66 @@ export default {
       ReferralInput: "https://kleewish.com/?ref=5044436150",
       show_copied_modal: false,
       selected: selected,
-      test: 2999,
+      exclude_items: exclude_items,
+      items: [],
+      balance: 0,
+      extra_balance: 0,
     }
   },
   methods: {
+    get_balance(balance) {
+      if (!balance) {
+        return false
+      }
+      this.balance = balance
+      return false
+    },
+    get_inventory(items) {
+      if (!items) {
+        return false
+      }
+      if (this.items.length == items.filter((item) => (!item.is_ordered && this.activeTab === 0 && !item.is_sold) || (item.is_ordered && this.activeTab === 1 && !item.is_sold)).length) {
+        return false
+      }
+      this.items = items.filter((item) => (!item.is_ordered && this.activeTab === 0 && !item.is_sold) || (item.is_ordered && this.activeTab === 1 && !item.is_sold))
+      return false
+    },
+    async updateMaterialInventory(ids: Number[]) {
+      this.items.filter((item) => (ids.includes(item.id))).forEach((item) => {
+        this.items.splice(this.items.indexOf(item), 1)
+        if (this.selected.includes(item.id)) {
+          this.selected.splice(this.selected.indexOf(item.id), 1)
+        }
+      })
+    },
+    async updateInventory(ids: Number[], update_inventory_data: Function, update_profile_data: Function) {
+      let extra = 0;
+      this.items.filter((item) => (ids.includes(item.id))).forEach((item) => {
+        extra += item.item.price
+      })
+      this.extra_balance += extra
+      this.exclude_items = this.exclude_items.concat(ids)
+      await new Promise(r => setTimeout(r, 600)).then(async () => {
+        await update_profile_data()
+        await this.$nextTick().then(() => {
+          this.extra_balance -= extra
+          this.balance += extra
+        })
+      })
+      
+      await update_inventory_data().then(async () => {
+      await new Promise(r => setTimeout(r, 500)).then(async () => {
+        await this.$nextTick().then(async () => {
+          ids.forEach(async (id) => {
+            while (this.items.filter((item) => item.id === id).length !== 0) {
+              await new Promise(r => setTimeout(r, 100))
+            }
+            this.exclude_items.splice(this.exclude_items.indexOf(id), 1)
+          })
+        })
+      })
+      })
+    },
     define() {
       let item = document.getElementById("inv-item-0")
       if (item === null) {
@@ -480,6 +570,18 @@ $large: 1100px;
 .page {
   width: 100%;
   max-width: 1300px;
+}
+
+.items-leave-to {
+  opacity: 0;
+}
+
+.items-leave-to {
+  transform: translateX(100%);
+}
+
+.items-leave-active {
+  position: absolute;
 }
 
 ::-webkit-scrollbar {
@@ -988,7 +1090,7 @@ $large: 1100px;
       position: absolute;
       transform: translate(50%, -50%);
       font-size: 14px;
-      border-radius: 5px;
+      border-radius: 8px;
       padding: 10px;
       width: 200px;
       transition: opacity 0.4s ease;
@@ -1260,6 +1362,13 @@ $medium: 660px;
   }
   @media(max-width: $small) {
     max-height: 459px;
+  }
+
+  &-item {
+    &-container {
+      display: inline-block; 
+      transition: all 0.5s;
+    }
   }
 
   &-sections {
