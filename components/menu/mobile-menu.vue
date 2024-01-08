@@ -159,8 +159,8 @@ export default {
 
 .theme {
   display: flex;
-  position: absolute;
-  bottom: 25vw;
+  position: fixed;
+  bottom: 6vh;
   left: 50%;
   transform: translateX(-50%);
   justify-content: space-evenly;
