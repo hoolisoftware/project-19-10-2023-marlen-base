@@ -5,7 +5,7 @@ import { useThemeStore } from "~/store/themeNew";
 
 const { data, isLoading } = useUserSelf()
 const { data: statsData, isLoading: isLoadingStats } = useUserStatsSelf()
-let { data: inventoryData } = useInventorySelf()
+let { data: inventoryData, isLoading: isLoadingInventory } = useInventorySelf()
 const { data: updateData, mutate } = useUserSelfUpdate()
 let theme = useThemeStore();
 
@@ -26,7 +26,7 @@ const updateProfileData = async () => {
 </script>
 
 <template>
-  <loader v-if="isLoading || isLoadingStats"/>
+  <loader v-if="isLoading || isLoadingStats || isLoadingInventory"/>
   <div class="page" v-else-if="data?.data?.user">
     <div :class="(show_copied_modal? 'profile-copied-show' : 'profile-copied-hide')">Скопировано!</div>
     <title-section text="Профиль" />
