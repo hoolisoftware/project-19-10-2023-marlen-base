@@ -551,8 +551,9 @@ $medium_large: 950px;
 $large: 1100px;
 
 .page {
-  width: 100%;
+  width: min(100%, 97vw);
   max-width: 1300px;
+  overflow-x: hidden;
 }
 
 /* .items-leave-to {

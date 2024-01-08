@@ -78,6 +78,8 @@ body {
   background: #FFFFFF;
   color: #000000;
   transition: 0.3s;
+  overflow-x: hidden;
+  width: 100vw;
 }
 
 body[data-theme="dark"] {
