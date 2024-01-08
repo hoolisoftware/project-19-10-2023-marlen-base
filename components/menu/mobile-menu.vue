@@ -160,7 +160,7 @@ export default {
 .theme {
   display: flex;
   position: absolute;
-  bottom: 6vh;
+  bottom: 25vw;
   left: 50%;
   transform: translateX(-50%);
   justify-content: space-evenly;
