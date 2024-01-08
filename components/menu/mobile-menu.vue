@@ -83,8 +83,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  top: 0;
-  bottom: 0;
+  
   gap: 20px;
   box-sizing: border-box;
   padding: 0;
@@ -160,8 +159,9 @@ export default {
 
 .theme {
   display: flex;
-  position: absolute;
+  position: fixed;
   bottom: 10vh;
+  top: auto;
   left: 50%;
   transform: translateX(-50%);
   justify-content: space-evenly;
