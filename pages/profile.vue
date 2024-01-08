@@ -384,11 +384,11 @@ export default {
         }
         let element = document.getElementById(`${item.id}`)
         let from_top = element?.getBoundingClientRect().y - parent.y
-        console.log(from_top)
+/*         console.log(from_top)
         
         element.style.transition = `all 0.0s`
         element.style['margin-top'] = `${from_top}px`
-        element.style.transition = `all 0.5s`
+        element.style.transition = `all 0.5s` */
       })
     },
     async updateInventory(ids: Number[], update_inventory_data: Function, update_profile_data: Function) {
@@ -556,15 +556,6 @@ $large: 1100px;
 
 /* .items-leave-to {
 } */
-
-@keyframes onlyTranslate {
-  0% {
-    transform: translateX(0px);
-  }
-  100% {
-    transform: translateX(var(--ttt));
-  }
-}
 
 .items-leave-to {
   opacity: 0; 

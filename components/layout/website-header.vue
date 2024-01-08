@@ -200,13 +200,13 @@ export default {
   left: 0;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  width: 100vw;
   height: 70px;
   background: var(--header-background);
   border-bottom: var(--header-border);
   backdrop-filter: blur(20px);
   color: var(--header-color);
-  z-index: 10;
+  z-index: 50;
 
   @media(max-width: 500px) {
     padding: 0 10px;
