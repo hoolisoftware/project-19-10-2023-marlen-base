@@ -114,7 +114,7 @@ const updateProfileData = async () => {
               {{ data?.data.user.first_name  }} {{ data?.data.user.last_name  }}
             </div>
             <div class="profile-mobile-side_info-balance">
-              <span style="font-size: 18px; font-weight: 400; padding-right: 5px;">{{ data?.data.user.balance }}</span> 
+              <animated-number :value="(extra_balance !== 0? balance+extra_balance : (get_balance(data?.data.user.balance)||balance))" style="font-size: 18px; font-weight: 400; padding-right: 5px; color: #A8A8A8; width: min-content;"/>
               <nuxt-img alt="moon" src="/img/mor.png" style="width: 14px; height: 14px;"/>
             </div>
           </div>
@@ -199,38 +199,7 @@ const updateProfileData = async () => {
           <div class="inventory-items-text">
             Выберите один или несколько предметов
           </div>
-          <div class="inventory-items-container" v-if="is_mobile()">
-            <div class="inventory-sections">
-              <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
-                Название
-              </div>
-              <div :style="`margin-left: ${relative_cost_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_cost_pos != 0">
-                Стоимость
-              </div>
-              <div :style="`margin-left: ${relative_status_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_status_pos != 0">
-                Статус
-              </div>
-            </div>
-            <div class="inventory-items">
-                <transition-group name="items">
-                  <new-inventory-item @updateInventory="updateInventory" v-for="(profile_item, index) in inventoryData?.data.items.filter((item) => (!item.is_ordered && activeTab === 0 && !item.is_sold) || (item.is_ordered && activeTab === 1 && !item.is_sold)).filter((item) => (!exclude_items.includes(item.id)))" 
-                    :image="SERVER_URL + profile_item.item.photo_url" 
-                    :title="profile_item.item.name" 
-                    :cost="`${profile_item.item.price}`"
-                    :id="`inv-item-${index}`"
-                    :status="profile_item.is_sold? 'Продано' : (profile_item.is_ordered? 'Выведено' : 'В инвентаре')"
-                    :item_id="Number(profile_item.id)"
-                    :on_click="() => {(!profile_item.is_sold && !profile_item.is_ordered)? select(profile_item.id) : null}"
-                    :selected="selected.includes(Number(profile_item.id))"
-                    :on_sell="sellSelected"
-                    :on_order="orderSelected"
-                    style="display: inline-block; transition: all 0.5s;"
-                    :key="`inv-item-container-${index}`"
-                  />
-                </transition-group>
-            </div>
-          </div>
-          <template v-else>
+          <div :class="`inventory-items${is_mobile()? '-mobile' : ''}-container`">
             <div class="inventory-sections">
               <div :style="`margin-left: ${relative_title_pos}px; transform: translate(-50%,0); position: absolute;`" v-show="relative_title_pos != 0">
                 Название
@@ -278,7 +247,7 @@ const updateProfileData = async () => {
                 />
               </div>
             </div>
-          </template>
+          </div>
         </div>
         <div class="profile-referral" v-if="!is_mobile()">
           <div class="profile-referral-left">
@@ -1027,6 +996,8 @@ $large: 1100px;
         color: var(--profile-name);
       }
       &-balance {
+        display: flex;
+        flex-direction: row;
         padding-top: 4px;
         color: #A8A8A8;
         font-weight: 400;
@@ -1368,6 +1339,7 @@ $medium: 660px;
     &-container {
       display: inline-block; 
       transition: all 0.5s;
+      width: 98%;
     }
   }
 
@@ -1616,8 +1588,8 @@ $medium: 660px;
       font-size: 12px;
       font-weight: 500;
     }
-
-    &-container {
+    
+    &-mobile-container {
       @extend .inventory;
       height: max-content;
       overflow: hidden;
@@ -1630,6 +1602,22 @@ $medium: 660px;
       padding-right: 10px;
       padding-top: 15px;  
       padding-bottom: 15px
+    }
+
+    &-container {
+      display: flex;
+      gap: 15px;
+      box-sizing: border-box;
+      overflow: hidden;
+      flex-direction: column;
+      height: max-content;
+      width: 100%;
+      border-width: 0px;
+      transition: 0.3s;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;  
+      padding-bottom: 0px
     }
   }
 }</style>

@@ -117,7 +117,7 @@ $small-buttons: "((max-width: $medium_large) and (min-width: $medium_small)) or 
   background-color: var(--profile-item-background);
   border: var(--profile-border);
   border-radius: 8px;
-  width: 98%;
+  width: 100%;
   transition: all 0.3s;
   @media ((max-width: $large) and (min-width: $medium_small)) or (max-width: $medium)  {
     min-width: 320px;
