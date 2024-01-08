@@ -314,6 +314,7 @@ import newInventoryItem from "@/components/cards/new-inventory-item.vue";
 import titleSection from "@/components/blocks/title-section.vue";
 import AnimatedNumber from "@/components/common/AnimatedNumber.vue"
 import { modalStore } from "~/store/modal";
+import { useMiscStore } from "~/store/misc";
 import Loader from "~/components/loaders/Loader.vue";
 
 definePageMeta({
@@ -341,6 +342,7 @@ export default {
     return {
       activeTab: 0,
       modals: modalStore(),
+      miscStore: useMiscStore(),
       relative_title_pos: 0,
       relative_cost_pos: 0,
       relative_status_pos: 0,
@@ -363,6 +365,8 @@ export default {
         return false
       }
       this.balance = balance
+      this.miscStore.balance = this.balance
+      this.miscStore.extra_balance = 0
       return false
     },
     get_inventory(items) {
@@ -391,12 +395,15 @@ export default {
         extra += item.item.price
       })
       this.extra_balance += extra
+      this.miscStore.extra_balance = this.extra_balance
       this.exclude_items = this.exclude_items.concat(ids)
       await new Promise(r => setTimeout(r, 600)).then(async () => {
         await update_profile_data()
         await this.$nextTick().then(() => {
           this.extra_balance -= extra
           this.balance += extra
+          this.miscStore.extra_balance = this.extra_balance
+          this.miscStore.balance = this.balance
         })
       })
       

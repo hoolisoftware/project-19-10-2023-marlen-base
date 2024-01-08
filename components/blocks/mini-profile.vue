@@ -1,16 +1,18 @@
 <script lang="ts" setup>
 import { useUserSelf } from "~/hooks/use-query/profile";
 import { modalStore } from "~/store/modal";
+import { useMiscStore } from "~/store/misc";
 
 const modals = modalStore()
 const { data, isLoading } = useUserSelf()
+const miscStore = useMiscStore()
 </script>
 
 <template>
   <div class="mini-profile">
     <div class="profile">
       <div class="profile-cash" v-on:click="modals.showModal('deposit')">
-        <animated-number class="profile-cash-text" :value="data?.data.user ? data?.data.user.balance : 0" font_size="16px"/>
+        <animated-number class="profile-cash-text" :value="miscStore.extra_balance != 0? (miscStore.balance + miscStore.extra_balance) : (data?.data.user ? data?.data.user.balance : 0)" font_size="16px"/>
         <nuxt-img alt="moon" src="/img/mor.png" />
       </div>
       <nuxt-link :to="{ name: 'profile' }">
@@ -24,6 +26,8 @@ const { data, isLoading } = useUserSelf()
 <script lang="ts">
 import MediumButton from "@/components/buttons/medium-button.vue";
 import AnimatedNumber from "@/components/common/AnimatedNumber.vue"
+
+
 export default {
   name: "mini-profile",
   components: { MediumButton, AnimatedNumber},
