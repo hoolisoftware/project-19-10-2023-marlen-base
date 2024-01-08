@@ -5,7 +5,7 @@ import { useAuthStore } from "~/store/authNew";
 
 export const apiInstance = axios.create({
     baseURL: SERVER_URL + '/api/',
-    timeout: 1000
+    timeout: 5000
 })
 
 export default function useBaseQuery<T>(keys: (string|number|null)[], url: string, onSuccess?: (data: any) => void) {
