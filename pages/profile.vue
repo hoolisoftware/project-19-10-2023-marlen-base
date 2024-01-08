@@ -532,6 +532,11 @@ export default {
 @import '../static/colors.scss';
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
+
+
+$very_small: 340px;
+$small: 500px;
+$medium: 660px;
 $medium_small: 850px;
 $medium_large: 950px;
 $large: 1100px;
@@ -541,12 +546,12 @@ $large: 1100px;
   max-width: 1300px;
 }
 
-.items-leave-to {
-  opacity: 0;
-}
+/* .items-leave-to {
+} */
 
 .items-leave-to {
   transform: translateX(100%);
+  opacity: 0;
 }
 
 .items-leave-active {
@@ -1288,10 +1293,6 @@ $large: 1100px;
   }
 }
 
-$very_small: 340px;
-$small: 500px;
-$medium: 660px;
-
 .inventory {
   display: flex;
   flex-direction: column;
@@ -1339,7 +1340,22 @@ $medium: 660px;
     &-container {
       display: inline-block; 
       transition: all 0.5s;
-      width: 98%;
+      width: 580px;
+      @media(max-width: $large) {
+        width: 443px;
+      }
+      @media(max-width: $medium_large) {
+        width: 355px;
+      }
+      @media(max-width: $medium_small) {
+        width: calc(100vw - 60px);
+      }
+      @media(max-width: $medium) {
+        width: calc(100vw - 60px);
+      }
+      @media(max-width: $small) {
+        width: calc(100vw - 60px);
+      }
     }
   }
 
